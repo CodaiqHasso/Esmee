@@ -755,9 +755,6 @@ function ScrollStory({ onSteamIntensity, heroFrom }) {
           />
         ))}
         <SteamCanvas getIntensity={getIntensity} />
-        <div className="phase-counter">
-          <span className="big">0{cue + 1}</span> &nbsp; — &nbsp; <span>{SCENES.length} {tr("Akte","acts","perde")}</span>
-        </div>
         {/* CRO: Hero buy-strip — highlights + price + ATC over the first scene */}
         <div className={"hero-buystrip " + (cue === 0 ? "in" : "")} aria-hidden={cue !== 0}>
           <div className="hb-row hb-row-top">
