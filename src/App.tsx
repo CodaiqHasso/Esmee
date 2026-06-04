@@ -128,7 +128,7 @@ function getBenefits() {
   { t: tr("Langsame Energie","Slow energy","Yavaş enerji"),          d: tr("Ein bedächtiger Aufguss Single-Origin-Arabica, ausbalanciert durch Mandelfett. Schwung, niemals Zittern.","A measured pour of single-origin arabica balanced by almond fat. Lift, never jitter.","Badem yağıyla dengelenmiş, ölçülü bir tek kaynak arabica. Canlılık, asla titreme."), g: "spark" },
   { t: tr("Nährstoffdichte","Nutrient density","Besin yoğunluğu"),     d: tr("Pistazie, Mandel und Dattel liefern Magnesium, Kalium und Ballaststoffe pro Tasse.","Pistachio, almond and date deliver magnesium, potassium and fibre per cup.","Fıstık, badem ve hurma her fincanda magnezyum, potasyum ve lif sağlar."), g: "drop" },
   { t: tr("Magenfreundlich","Gut-friendly","Mideye dost"),         d: tr("Milchfrei, vegan, säurearm. Magenschonender als Espresso.","Dairy-free, vegan, low-acid. Easier on the stomach than espresso.","Sütsüz, vegan, düşük asit. Espressodan mideye daha hafif."), g: "circle" },
-  { t: tr("In Dubai gemischt","Blended in Dubai","Dubai'de harmanlanır"),    d: tr("Von Hand in unserem Atelier gemischt. Eine Farm, eine Saison, eine Charge.","Hand-blended in our atelier. Single farm, single season, single batch.","Atölyemizde elde harmanlanır. Tek çiftlik, tek mevsim, tek parti."), g: "marker" },
+  { t: tr("Von Hand gemischt","Blended by hand","Elde harmanlanır"),    d: tr("In kleinen Chargen in unserem Atelier gemischt. Eine Farm, eine Saison, eine Charge.","Blended in small batches in our atelier. Single farm, single season, single batch.","Atölyemizde küçük partiler hâlinde harmanlanır. Tek çiftlik, tek mevsim, tek parti."), g: "marker" },
   { t: tr("In 90 Sekunden fertig","Ready in 90 seconds","90 saniyede hazır"),  d: tr("Ein Löffel, heißes Wasser oder Milch. Keine Mühle. Kein Aufwand.","One scoop, hot water or milk. No grinder. No fuss.","Bir ölçek, sıcak su ya da süt. Değirmen yok. Zahmet yok."), g: "clock" },
   ];
 }
@@ -158,7 +158,7 @@ function getFaqs() {
   { q: tr("Wie bereite ich es zu?","How do I prepare it?","Nasıl hazırlanır?"), a: tr("Ein gehäufter Löffel (7 g) pro kleine Tasse. 150 ml heißes — nicht kochendes — Wasser oder aufgeschäumte Milch dazugeben und zehn Sekunden rühren. Vor dem Trinken dreißig Sekunden ruhen lassen. Das ist das ganze Ritual.","One heaped spoon (7 g) per small cup. Add 150 ml of hot — not boiling — water or steamed milk and stir for ten seconds. Let it rest for thirty seconds before drinking. That's the entire ritual.","Her küçük fincan için bir tepeleme kaşık (7 g). 150 ml sıcak — kaynar değil — su ya da köpürtülmüş süt ekleyip on saniye karıştır. İçmeden önce otuz saniye dinlendir. Tüm ritüel bu kadar.") },
   { q: tr("Enthält es Koffein?","Does it contain caffeine?","Kafein içeriyor mu?"), a: tr("Original enthält etwa halb so viel Koffein wie ein normaler Espresso — sanft, anhaltend. Wir bieten auch eine koffeinfreie Edition mit natürlich entkoffeiniertem Arabica an.","Original contains about half the caffeine of a regular espresso — gentle, sustained. We also offer a caffeine-free edition using naturally decaffeinated arabica.","Original, normal bir espressonun yaklaşık yarısı kadar kafein içerir — yumuşak, sürekli. Ayrıca doğal olarak kafeini alınmış arabica ile kafeinsiz bir edisyon da sunuyoruz.") },
   { q: tr("Wie lange reicht ein Beutel?","How long does a pouch last?","Bir paket ne kadar yeter?"), a: tr("Ein 250-g-Beutel ergibt etwa 16 Tassen. Versiegelt an einem kühlen, dunklen Ort gelagert, bleibt er ab dem auf der Rückseite aufgedruckten Datum sechs Monate auf dem Höhepunkt.","A 250 g pouch makes roughly 16 cups. Stored sealed in a cool, dark place, it stays at peak for six months from the date stamped on the back.","250 g'lık bir paket yaklaşık 16 fincan yapar. Serin, karanlık bir yerde kapalı saklandığında, arkasında yazan tarihten itibaren altı ay boyunca en iyi durumda kalır.") },
-  { q: tr("Wohin liefert ihr?","Where do you ship?","Nereye gönderiyorsunuz?"), a: tr("In die GCC-Staaten, die EU und das Vereinigte Königreich. Kostenlose Lieferung ab €60. Bestellungen werden innerhalb von 48 Stunden aus unserem Atelier in Dubai versandt.","Across the GCC, the EU and the UK. Complimentary delivery on orders over €60. Orders ship within 48 hours from our atelier in Dubai.","GCC ülkelerine, AB'ye ve Birleşik Krallık'a. €60 üzeri siparişlerde ücretsiz teslimat. Siparişler Dubai'deki atölyemizden 48 saat içinde gönderilir.") },
+  { q: tr("Wohin liefert ihr?","Where do you ship?","Nereye gönderiyorsunuz?"), a: tr("In die EU und das Vereinigte Königreich. Kostenlose Lieferung ab €60. Bestellungen werden innerhalb von 48 Stunden aus unserem Atelier versandt.","Across the EU and the UK. Complimentary delivery on orders over €60. Orders ship within 48 hours from our atelier.","AB'ye ve Birleşik Krallık'a. €60 üzeri siparişlerde ücretsiz teslimat. Siparişler atölyemizden 48 saat içinde gönderilir.") },
   { q: tr("Kann ich es zurückgeben?","Can I return it?","İade edebilir miyim?"), a: tr("Ja. Wenn dir deine erste Tasse nicht gefällt, schick den Beutel innerhalb von 30 Tagen zurück und wir erstatten dir den vollen Betrag. Keine Fragen, keine Hürden.","Yes. If you don't love your first cup, send the pouch back within 30 days and we'll refund you in full. No questions, no friction.","Evet. İlk fincanını sevmezsen, paketi 30 gün içinde geri gönder, tutarın tamamını iade edelim. Soru yok, zorluk yok.") },
   ];
 }
@@ -657,8 +657,8 @@ function getScenes() {
   },
   {
     src: "/assets/scene-5.jpg",
-    kicker: tr("Die Herkunft", "Where it's made", "Nerede yapılır"),
-    title: tr("Von Hand gemischt\nin Dubai.", "Hand-blended\nin Dubai.", "Dubai'de\nelle harmanlandı."),
+    kicker: tr("Die Herstellung", "How it's made", "Nasıl yapılır"),
+    title: tr("Von Hand\ngemischt.", "Blended\nby hand.", "Elde\nharmanlandı."),
     body: tr("Eine Charge, ein Beutel,\nfrisch von Hand gemischt.", "One batch, one pouch,\nfreshly blended by hand.", "Tek parti, tek paket,\ntaze elde harmanlandı."),
     pos: "top",
   },
@@ -844,7 +844,7 @@ function ReviewsRibbon() {
       <div className="rr-quotes">
         <span>{tr("Mit Datteln gesüßt.","Sweetened with dates.","Hurmayla tatlandırılmış.")}</span>
         <span>{tr("Sechs Zutaten.","Six ingredients.","Altı malzeme.")}</span>
-        <span>{tr("Von Hand gemischt in Dubai.","Hand-blended in Dubai.","Dubai'de elle harmanlandı.")}</span>
+        <span>{tr("Von Hand gemischt.","Hand-blended.","Elde harmanlandı.")}</span>
       </div>
       <button className="rr-jump" type="button" onClick={jump}>{tr("Die Mischung entdecken","Discover the blend","Harmanı keşfet")} →</button>
     </section>
@@ -886,14 +886,14 @@ function StoryIntro() {
           <div className="stats reveal delay-3">
             <div className="stat"><strong><Counter to={6} duration={1100} /></strong><span>{tr("Zutaten","Ingredients","Malzeme")}</span></div>
             <div className="stat"><strong><Counter to={0} duration={1100} suffix="g" /></strong><span>{tr("Raffinierter Zucker","Refined sugar","Rafine şeker")}</span></div>
-            <div className="stat"><strong><Counter to={1} duration={1100} prefix="0" /></strong><span>{tr("Atelier · Dubai","Atelier · Dubai","Atölye · Dubai")}</span></div>
+            <div className="stat"><strong><Counter to={1} duration={1100} prefix="0" /></strong><span>{tr("Atelier","Atelier","Atölye")}</span></div>
           </div>
         </div>
         <div className="reveal delay-1">
           <div className="frame aspect-3x4 parallax" data-cur="img" data-cur-label={tr("Ansehen","View","Gör")}>
             <BlurImg src="/assets/scene-4.jpg" alt={tr("Eine stille Porzellantasse Manduraa, sanft dampfend.","A still porcelain cup of Manduraa, steaming softly.","Hafifçe tüten, durgun bir porselen Manduraa fincanı.")} />
             <span className="caption">{tr("Atelier — Mischung Nr. 04","Atelier — Blend no. 04","Atölye — Harman No. 04")}</span>
-            <span className="floating-tag"><span className="pulse"></span>{tr("Handgemischt · Dubai","Hand-blended · Dubai","Elde harmanlanmış · Dubai")}</span>
+            <span className="floating-tag"><span className="pulse"></span>{tr("Von Hand gemischt","Hand-blended","Elde harmanlanmış")}</span>
           </div>
         </div>
       </div>
@@ -1909,7 +1909,7 @@ function TasteProfile() {
 function TrustBand() {
   useLang();
   const items = [
-    { t: tr("Versand in 48 Stunden","48-hour shipping","48 saatte kargo"), d: tr("Aus unserem Dubai-Atelier in GCC, EU & UK.","From our Dubai atelier to GCC, EU & UK.","Dubai atölyemizden GCC, AB & İngiltere'ye."),
+    { t: tr("Versand in 48 Stunden","48-hour shipping","48 saatte kargo"), d: tr("Aus unserem Atelier in die EU & UK.","From our atelier to the EU & UK.","Atölyemizden AB & İngiltere'ye."),
       svg: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M3 13 V 7 H 14 V 17 H 3 Z"/><path d="M14 10 H 19 L 21 13 V 17 H 14 Z"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg> },
     { t: tr("Sichere Bezahlung","Secure payment","Güvenli ödeme"), d: "Apple Pay, Klarna, Visa, AmEx, SEPA.",
       svg: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 11 H 21"/></svg> },
@@ -2008,7 +2008,7 @@ function GuaranteeStrip() {
             <ul className="g-points">
               <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12l5 5L20 7"/></svg>{tr("30 Tage volle Rückerstattung","30-day full refund","30 gün tam iade")}</li>
               <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12l5 5L20 7"/></svg>{tr("Persönliche Antwort von Esmee","Personal reply from Esmee","Esmee'den kişisel yanıt")}</li>
-              <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12l5 5L20 7"/></svg>{tr("Versand in 48 h aus Dubai","Ships in 48 h from Dubai","Dubai'den 48 saatte kargo")}</li>
+              <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12l5 5L20 7"/></svg>{tr("Versand in 48 h","Ships in 48 h","48 saatte kargo")}</li>
             </ul>
           </div>
         </div>
@@ -2032,7 +2032,7 @@ function FinalCta({ onShop, onMagnetMove, price }) {
           <em className="italic"><SplitText text={tr("jeden Morgen.","every morning.","her sabah.")} delay={0.3} /></em>
         </h2>
         <p className="reveal delay-2">
-          {tr("Eine Mischung, sechs Zutaten, null raffinierter Zucker. Von Hand in Dubai gemischt und zu dir nach Hause geliefert.","One blend, six ingredients, zero refined sugar. Hand-blended in Dubai and delivered to your door.","Tek harman, altı malzeme, sıfır rafine şeker. Dubai'de elle harmanlanır ve kapına teslim edilir.")}
+          {tr("Eine Mischung, sechs Zutaten, null raffinierter Zucker. Von Hand gemischt und zu dir nach Hause geliefert.","One blend, six ingredients, zero refined sugar. Hand-blended and delivered to your door.","Tek harman, altı malzeme, sıfır rafine şeker. Elde harmanlanır ve kapına teslim edilir.")}
         </p>
         <div className="cta-row reveal delay-3">
           <button className="btn btn-primary" data-cur="btn" data-cur-label="Shop" onMouseMove={onMagnetMove} onClick={onShop}>{tr("Manduraa kaufen","Shop Manduraa","Manduraa al")} · €{price || 28}</button>
@@ -2082,7 +2082,7 @@ function getAddons() {
   {
     id: "cup",
     name: tr("Keramik-Becher · Edition № 01","Ceramic mug · Edition № 01","Seramik kupa · Edition № 01"),
-    sub: tr("Hand-glasiert · Dubai · Limitiert auf 200 Stück","Hand-glazed · Dubai · Limited to 200","Elde sırlanmış · Dubai · 200 adetle sınırlı"),
+    sub: tr("Hand-glasiert · Limitiert auf 200 Stück","Hand-glazed · Limited to 200","Elde sırlanmış · 200 adetle sınırlı"),
     price: 42,
     icon: (
       <svg viewBox="0 0 36 36" width="32" height="32" fill="none" stroke="#B07A52" strokeWidth="1.4" strokeLinecap="round">
@@ -2420,7 +2420,7 @@ function Unboxing() {
 
 /* ---------- Reviews v2 ---------- */
 const REVIEWS_V2 = [
-  { tag: "Most loved", q: "I've replaced my afternoon oat-milk latte completely. No crash, no sugar guilt, and the dates make it feel like dessert.", a: "Layla H.", c: "Curator · Dubai", s: 5, av: "/assets/scene-2.jpg" },
+  { tag: "Most loved", q: "I've replaced my afternoon oat-milk latte completely. No crash, no sugar guilt, and the dates make it feel like dessert.", a: "Layla H.", c: "Curator · Berlin", s: 5, av: "/assets/scene-2.jpg" },
   { tag: "First-cup",  q: "The packaging alone is worth it — feels like opening a perfume. But the taste is what made me reorder. Quietly addictive.", a: "Maya R.", c: "Architect · London", s: 5, av: "/assets/scene-3.jpg" },
   { tag: "Long-term",  q: "Bought the 5-pack to share. Three of my friends signed up the same week. It's become our 4pm ritual.", a: "Sophie K.", c: "Writer · Paris", s: 5, av: "/assets/scene-4.jpg" },
   { tag: "Critical",   q: "Smaller than I expected for the price. But the cup itself — yes, three weeks in, I'm a believer.", a: "Ines D.", c: "Buyer · Madrid", s: 4, av: "/assets/scene-5.jpg" },
@@ -2472,25 +2472,13 @@ function ReviewsV2() {
 
         <div className="hero-review reveal delay-1">
           <span className="open-q">"</span>
-          <blockquote>{tr("Mit Datteln gesüßt, nicht mit Zucker. Sechs Zutaten, von Hand gemischt in unserem Atelier in Dubai. Du gehörst zu den Ersten, die sie probieren.","Sweetened with dates, not sugar. Six ingredients, hand-blended in our Dubai atelier. You're among the first to taste it.","Şekerle değil, hurmayla tatlandırılmış. Altı malzeme, Dubai atölyemizde elle harmanlanmış. Onu tadan ilk kişilerdensin.")}</blockquote>
+          <blockquote>{tr("Mit Datteln gesüßt, nicht mit Zucker. Sechs Zutaten, von Hand gemischt in unserem Atelier. Du gehörst zu den Ersten, die sie probieren.","Sweetened with dates, not sugar. Six ingredients, hand-blended in our atelier. You're among the first to taste it.","Şekerle değil, hurmayla tatlandırılmış. Altı malzeme, atölyemizde elle harmanlanmış. Onu tadan ilk kişilerdensin.")}</blockquote>
           <div className="author-row">
             <div className="author-text">
               <strong>— Esmee</strong>
               <small>{tr("Gründerin · Esmee","Founder · Esmee","Kurucu · Esmee")}</small>
             </div>
           </div>
-        </div>
-
-        <div className="section-head" style={{ marginTop: "clamp(60px, 9vh, 100px)" }}>
-          <span className="eyebrow reveal">{tr("— Momente mit Manduraa","— Moments with Manduraa","— Manduraa ile anlar")}</span>
-        </div>
-        <div className="cust-mosaic reveal delay-1" style={{ marginTop: 32 }}>
-          {MOSAIC.map((c, i) => (
-            <div key={i} className={"cell " + c.cls} data-cur="img" data-cur-label={tr("Ansehen","View","Gör")}>
-              <BlurImg src={c.img} alt="" />
-              <span className="badge">{c.badge}</span>
-            </div>
-          ))}
         </div>
       </div>
     </section>
@@ -2701,7 +2689,7 @@ function SpecSheet() {
             </div>
             <div className="body">
               <h3>Manduraa <em className="italic">Original</em></h3>
-              <p>{tr("Eine Charge, eine Saison. Von Hand in unserem Dubai-Atelier gemischt und mit cremefarbenem Leinenband gebunden.","Single-batch, single-season. Hand-blended in our Dubai atelier and tied with cream linen ribbon.","Tek parti, tek mevsim. Dubai atölyemizde elle harmanlanmış ve krem keten kurdeleyle bağlanmış.")}</p>
+              <p>{tr("Eine Charge, eine Saison. Von Hand in unserem Atelier gemischt und mit cremefarbenem Leinenband gebunden.","Single-batch, single-season. Hand-blended in our atelier and tied with cream linen ribbon.","Tek parti, tek mevsim. Atölyemizde elle harmanlanmış ve krem keten kurdeleyle bağlanmış.")}</p>
               <div className="badges">
                 <span className="badge">Vegan</span>
                 <span className="badge">{tr("Glutenfrei","Gluten-free","Glutensiz")}</span>
@@ -2885,15 +2873,9 @@ function SugarTracker() {
 function FooterV2() {
   useLang();
   const [now, setNow] = useState(() => new Date());
-  const [city, setCity] = useState(0);
   const [email, setEmail] = useState("");
   const [sent, setSent] = useState(false);
   const wrapRef = useRef(null);
-  // City carousel
-  useEffect(() => {
-    const id = setInterval(() => setCity(c => (c + 1) % 3), 3200);
-    return () => clearInterval(id);
-  }, []);
   // Clock
   useEffect(() => {
     const id = setInterval(() => setNow(new Date()), 30000);
@@ -2920,11 +2902,10 @@ function FooterV2() {
     onScroll();
     return () => { window.removeEventListener("scroll", onScroll); cancelAnimationFrame(raf); };
   }, []);
-  const dubai = new Date(now.getTime() + (4 * 60 * 60 * 1000) - (now.getTimezoneOffset() * 60 * 1000));
-  const hh = String(dubai.getUTCHours()).padStart(2, "0");
-  const mm = String(dubai.getUTCMinutes()).padStart(2, "0");
+  const local = new Date(now.getTime() + (1 * 60 * 60 * 1000) - (now.getTimezoneOffset() * 60 * 1000));
+  const hh = String(local.getUTCHours()).padStart(2, "0");
+  const mm = String(local.getUTCMinutes()).padStart(2, "0");
   const onShift = +hh >= 8 && +hh < 18;
-  const cities = ["Dubai", "Beirut", "Antakya"];
   const submit = (e) => {
     e.preventDefault();
     if (!email.includes("@")) return;
@@ -2936,10 +2917,10 @@ function FooterV2() {
         <div className="clock-row">
           <span className="green">
             <span className="pulse"></span>
-            {onShift ? tr("Atelier im Dienst","Atelier on shift","Atölye vardiyada") : tr("Atelier schläft · zurück um 09:00 GST","Atelier sleeps · back at 09:00 GST","Atölye uyuyor · 09:00 GST'te döner")}
-            <span className="clock">{hh}:{mm} GST</span>
+            {onShift ? tr("Atelier im Dienst","Atelier on shift","Atölye vardiyada") : tr("Atelier schläft · zurück um 09:00 CET","Atelier sleeps · back at 09:00 CET","Atölye uyuyor · 09:00 CET'te döner")}
+            <span className="clock">{hh}:{mm} CET</span>
           </span>
-          <span>{tr("Gemischt in","Blended in","Hazırlandığı yer")} <span className="city" key={city}>{cities[city]}</span></span>
+          <span>{tr("In kleinen Chargen gemischt","Blended in small batches","Küçük partilerde harmanlanır")}</span>
         </div>
 
         <div className="signature-wrap">
@@ -2951,7 +2932,7 @@ function FooterV2() {
           <div className="nl-text">
             <span className="nl-kicker">{tr("— Post von Esmee","— Letters from Esmee","— Esmee'den mektup")}</span>
             <h3>{tr("Briefe aus dem Atelier.","Letters from the atelier.","Atölyeden mektuplar.")}</h3>
-            <p>{tr("Eine kurze Notiz einmal pro Saison: Geschichten von unseren Farmen und leise Einladungen zu Events in Dubai, London und Paris.","A short note once a season: stories from our farms and quiet invitations to events in Dubai, London and Paris.","Mevsimde bir kez kısa bir not: çiftliklerimizden hikâyeler ve Dubai, Londra ve Paris'teki etkinliklere sessiz davetler.")}</p>
+            <p>{tr("Eine kurze Notiz einmal pro Saison: Geschichten von unseren Farmen und leise Einladungen zu Events in London und Paris.","A short note once a season: stories from our farms and quiet invitations to events in London and Paris.","Mevsimde bir kez kısa bir not: çiftliklerimizden hikâyeler ve Londra ve Paris'teki etkinliklere sessiz davetler.")}</p>
           </div>
           {!sent ? (
             <form className="nl-form" onSubmit={submit}>
@@ -3009,7 +2990,7 @@ function FooterV2() {
         </div>
 
         <div className="bottom">
-          <span>{tr("© 2026 — Von Hand gemischt · Dubai · Beirut · Antakya","© 2026 — Hand-blended · Dubai · Beirut · Antakya","© 2026 — Elde harmanlandı · Dubai · Beyrut · Antakya")}</span>
+          <span>{tr("© 2026 — Von Hand gemischt · in Tradition von Beirut & Antakya","© 2026 — Hand-blended · in the tradition of Beirut & Antakya","© 2026 — Elde harmanlandı · Beyrut & Antakya geleneğinde")}</span>
           <span className="pay">
             {tr("Wir akzeptieren","We accept","Kabul ettiklerimiz")}
             <span>Apple Pay</span>
@@ -3219,10 +3200,8 @@ function App() {
         <StoryIntro />
         <IngredientUniverse />
         <Vs />
-        <SugarTracker />
         <Benefits />
         <Shop onAdd={addToCart} onMagnetMove={onMagnetMove} onTap={audio.playTap} liveVariants={liveVariants} sellingPlans={sellingPlans} />
-        <Unboxing />
         <SpecSheet />
         <Ritual />
         <TasteProfile />
