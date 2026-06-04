@@ -863,8 +863,8 @@ function StoryIntro() {
           <h2 className="reveal delay-1" key={tr("de","en","tr")}>
             <SplitText text={tr("Die Tasse, die unsere Großmütter","The cup our grandmothers","Büyükannelerimizin o fincanı")} />
             <br/>
-            <em className="italic"><SplitText text={tr("nie die Zeit hatten","never had time","yazmaya hiç")} delay={0.3} /></em>
-            <SplitText text={tr(", sie aufzuschreiben.","  to write down.","  vakitleri olmadı.")} delay={0.55} />
+            <em className="italic"><SplitText text={tr("nie die Zeit hatten,","never had time","yazmaya hiç")} delay={0.3} /></em>
+            <SplitText text={tr(" sie aufzuschreiben.","  to write down.","  vakitleri olmadı.")} delay={0.55} />
           </h2>
           <p className="reveal delay-2">
             {tr("Manduraa ist kein Kaffee und nicht ganz eine Schokolade. Es ist die stille Zeremonie, die wir Jahr für Jahr in Küchen von ","Manduraa is not a coffee, and not quite a chocolate. It is the quiet ceremony we kept watching, year after year, in kitchens from ","Manduraa ne bir kahve ne de tam bir çikolata. Yıllar boyu mutfaklarda izlediğimiz o sessiz tören: ")}
@@ -2790,7 +2790,7 @@ function ExitIntent({ onShop }) {
 function useTabAttention() {
   useEffect(() => {
     const original = document.title;
-    const tease = "↩ Manduraa is still waiting · Esmee";
+    const tease = tr("↩ Manduraa wartet noch · Esmee", "↩ Manduraa is still waiting · Esmee", "↩ Manduraa hâlâ bekliyor · Esmee");
     let int = 0;
     const onVis = () => {
       if (document.hidden) {
