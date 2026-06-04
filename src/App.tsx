@@ -605,7 +605,8 @@ function Nav({ onCart, cartCount, scrolled }) {
         <div className="right">
           <LangToggle />
           <button className="cart-btn" data-cur="btn" data-cur-label={tr("Tasche","Bag","Çanta")} onClick={onCart} aria-label={tr("Warenkorb öffnen","Open cart","Sepeti aç")}>
-            <span>{tr("Warenkorb","Cart","Sepet")}</span>
+            <svg className="cart-ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M6 8 H 18 L 17 20 H 7 Z"/><path d="M9 8 a 3 3 0 0 1 6 0"/></svg>
+            <span className="cart-label">{tr("Warenkorb","Cart","Sepet")}</span>
             <span className="cart-count">{cartCount}</span>
           </button>
         </div>
@@ -1033,8 +1034,11 @@ function IngredientUniverse() {
           <h2 className="reveal delay-1" key={tr("de","en","tr")}>
             <SplitText text={tr("Sechs Zutaten","Six ingredients","Altı malzeme")} /> <em className="italic"><SplitText text={tr("im Orbit.","in orbit.","yörüngede.")} delay={0.25} /></em>
           </h2>
-          <p className="reveal delay-2">
+          <p className="reveal delay-2 orbit-desc-d">
             {tr("Ziehe, um den Orbit zu drehen. Klicke auf eine Zutat, um die Farm, die Saison und das Gramm-Gewicht hinter einer einzigen Tasse Manduraa kennenzulernen.","Drag to rotate the orbit. Click any ingredient to meet the farm, the season, and the gram-count behind a single cup of Manduraa.","Yörüngeyi döndürmek için sürükle. Bir fincan Manduraa'nın ardındaki çiftliği, mevsimi ve gram miktarını görmek için herhangi bir malzemeye tıkla.")}
+          </p>
+          <p className="reveal delay-2 orbit-desc-m">
+            {tr("Tippe auf eine Zutat, um die Farm, die Saison und das Gramm-Gewicht hinter einer einzigen Tasse Manduraa kennenzulernen.","Tap any ingredient to meet the farm, the season, and the gram-count behind a single cup of Manduraa.","Bir fincan Manduraa'nın ardındaki çiftliği, mevsimi ve gram miktarını görmek için herhangi bir malzemeye dokun.")}
           </p>
         </div>
         <div className="orbit-wrap reveal delay-2" ref={wrapRef}>
@@ -1063,6 +1067,19 @@ function IngredientUniverse() {
             <BlurImg src="/assets/pack-flat-layout.jpeg" alt="Manduraa pouch" />
           </div>
           <span className="hint">{tr("ziehen zum Drehen · Chip antippen","drag to rotate · click any chip","döndürmek için sürükle · çipe tıkla")}</span>
+        </div>
+        {/* Mobile: a clean tappable grid replaces the cramped orbit (CSS-toggled). */}
+        <div className="orbit-grid-mobile">
+          {INGREDIENTS.map((ing, i) => (
+            <button key={i} type="button" className="om-card" onClick={() => setSelected(i)} aria-label={ing.name}>
+              <span className="om-sw" style={{ background: ing.color }} />
+              <span className="om-text">
+                <span className="om-name">{ing.name}</span>
+                <span className="om-note">{ing.note}</span>
+              </span>
+              <span className="om-arrow" aria-hidden="true">↗</span>
+            </button>
+          ))}
         </div>
       </div>
       <IngredientModal ingredient={selected != null ? INGREDIENTS[selected] : null} index={selected} onClose={() => setSelected(null)} />
@@ -2812,7 +2829,7 @@ function SugarTracker() {
         <div className="section-head">
           <span className="eyebrow reveal">{tr("— Vergleiche dich","— Compare yourself","— Kendini kıyasla")}</span>
           <h2 className="reveal delay-1" key={tr("de","en","tr")}>
-            <SplitText text={tr("Wie viel Zucker","How much sugar","Yılın ne kadar")} /> <em className="italic"><SplitText text={tr("steckt in deinem Jahr","does your year","şeker")} delay={0.3} /></em> <SplitText text={tr("?","hold?","tutuyor?")} delay={0.55} />
+            <SplitText text={tr("Wie viel","How much","Yılın ne")} /> <em className="italic"><SplitText text={tr("Zucker steckt","sugar does","kadar şeker")} delay={0.3} /></em> <SplitText text={tr("in deinem Jahr?","your year hold?","tutuyor?")} delay={0.55} />
           </h2>
           <p className="reveal delay-2">
             {tr("Bewege den Regler. Wir zeigen dir leise das Jahr an raffiniertem Zucker — und das Jahr ohne ihn.","Move the slider. We'll quietly show you the year of refined sugar — and the year without it.","Kaydırıcıyı hareket ettir. Sana sessizce rafine şekerli yılı — ve onsuz yılı gösterelim.")}

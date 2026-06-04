@@ -6344,6 +6344,12 @@ section.universe, section.story-intro, section.unbox, section.ritual {
 
 /* ---------- Language toggle (DE / EN / TR) ---------- */
 .nav .right { gap: 12px; }
+.cart-btn .cart-ico { flex: 0 0 auto; }
+@media (max-width: 920px) {
+  /* Compact cart on mobile: icon + count only, frees space for a balanced bar */
+  .cart-btn .cart-label { display: none; }
+  .cart-btn { padding: 10px 14px; gap: 8px; }
+}
 .lang-toggle {
   display: inline-flex;
   align-items: center;
@@ -6375,4 +6381,37 @@ section.universe, section.story-intro, section.unbox, section.ritual {
   .lang-toggle { padding: 2px; }
   .lang-toggle .lang-opt { padding: 5px 6px; font-size: 10px; letter-spacing: 0.08em; }
   .nav .right { gap: 8px; }
+}
+
+/* ---------- Ingredient universe — clean tappable grid on mobile (replaces the cramped orbit) ---------- */
+.orbit-grid-mobile { display: none; }
+.orbit-desc-m { display: none; }
+@media (max-width: 720px) {
+  .universe .orbit-wrap { display: none; }
+  .orbit-desc-d { display: none; }
+  .orbit-desc-m { display: block; }
+  .orbit-grid-mobile {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin: clamp(28px, 5vh, 44px) auto 0;
+    width: 100%;
+    max-width: 460px;
+  }
+  .orbit-grid-mobile .om-card {
+    display: flex; align-items: center; gap: 14px;
+    width: 100%; text-align: left;
+    padding: 14px 16px;
+    border-radius: var(--r-md);
+    background: rgba(255,251,245,.82);
+    border: 1px solid rgba(43,31,23,.10);
+    box-shadow: var(--sh-soft);
+    transition: transform .2s var(--ease), box-shadow .2s var(--ease);
+  }
+  .orbit-grid-mobile .om-card:active { transform: scale(.98); box-shadow: var(--sh-medium); }
+  .orbit-grid-mobile .om-sw { width: 26px; height: 26px; border-radius: 50%; flex: 0 0 auto; box-shadow: inset 0 1px 3px rgba(0,0,0,.25); }
+  .orbit-grid-mobile .om-text { display: flex; flex-direction: column; gap: 2px; flex: 1 1 auto; min-width: 0; }
+  .orbit-grid-mobile .om-name { font-family: var(--serif); font-size: 18px; font-weight: 500; color: var(--coffee); line-height: 1.05; }
+  .orbit-grid-mobile .om-note { font-size: 10.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--copper); }
+  .orbit-grid-mobile .om-arrow { color: var(--grain); font-size: 15px; opacity: .45; flex: 0 0 auto; }
 }
