@@ -801,19 +801,6 @@ function ScrollStory({ onSteamIntensity, heroFrom }) {
               </div>
             );
           })}
-          {SCENES.map((s, i) =>
-            s.tags && cue === i
-              ? s.tags.map((t, j) => (
-                  <span
-                    key={`${i}-${j}`}
-                    className={"ingredient-tag " + t.side + " in"}
-                    style={t.side === "l" ? { left: t.x, top: t.y } : { right: t.x, top: t.y }}
-                  >
-                    {t.label}
-                  </span>
-                ))
-              : null
-          )}
         </div>
         <div className="scroll-hint">
           <span>{tr("Scrolle, langsam","Scroll, slowly","Yavaşça kaydır")}</span>
