@@ -94,29 +94,29 @@ function getIngredients() {
     lede: tr("Die einzige Süße in der Tasse.","The only sweetness in the cup.","Fincandaki tek tatlılık."),
     body: tr("Sonnengetrocknet auf einer einzigen Farm im Jordantal von der Familie Al-Saadi. Wir verwenden die weiche Medjool-Sorte — von Hand zu einer Paste gepresst, die sich ohne jede Körnigkeit in der Mischung auflöst.","Sun-cured on a single farm in the Jordan Valley by the Al-Saadi family. We use the soft-grade Medjool — pressed by hand into a paste that dissolves into the blend without a trace of graininess.","Ürdün Vadisi'nde Al-Saadi ailesi tarafından tek bir çiftlikte güneşte kurutulur. Yumuşak Medjool çeşidini kullanırız — elle ezilerek, harmana hiç tanecik bırakmadan eriyen bir macun hâline getirilir.")
   },
-  { name: tr("Marcona-Mandel","Marcona Almond","Marcona Bademi"), note: tr("Butter, Körper","Butter, body","Tereyağı, gövde"), color: "#D9B988", angle: 80, r: 48,
+  { name: tr("Marcona-Mandel","Marcona Almond","Marcona Bademi"), note: tr("Cremig & nussig","Creamy & nutty","Kremsi ve fındıksı"), color: "#D9B988", angle: 80, r: 48,
     origin: tr("Alicante · Spanien","Alicante · Spain","Alicante · İspanya"), season: tr("Sommer '25","Summer '25","Yaz '25"), grams: tr("48 g / 250-g-Beutel","48 g / 250 g pouch","48 g / 250 g paket"), img: "/assets/scene-5.jpg",
-    lede: tr("Die spanische Butter-Mandel.","The Spanish butter-almond.","İspanyol tereyağı bademi."),
+    lede: tr("Macht die Tasse cremig.","Makes the cup creamy.","Fincanı kremsi yapar."),
     body: tr("Kalt vermahlen, bis das Öl freigesetzt wird. Marcona gibt der Tasse ihr Mundgefühl — den runden, milchigen Körper, der dich auf Milch ganz verzichten lässt.","Cold-stone milled until the oil releases. Marcona gives the cup its mouthfeel — the round, milky body that lets you skip the dairy entirely.","Yağı açığa çıkana dek soğuk taşla öğütülür. Marcona, fincana ağız dolusu hissini verir — sütü tamamen atlamanı sağlayan yuvarlak, sütlü gövde.")
   },
-  { name: tr("Antep-Pistazie","Antep Pistachio","Antep Fıstığı"), note: tr("Tiefe, Salzigkeit","Depth, salinity","Derinlik, tuzluluk"), color: "#7A8C4F", angle: 142, r: 45,
+  { name: tr("Antep-Pistazie","Antep Pistachio","Antep Fıstığı"), note: tr("Nussig & salzig","Nutty & salty","Fındıksı ve tuzlu"), color: "#7A8C4F", angle: 142, r: 45,
     origin: tr("Gaziantep · Türkei","Gaziantep · Türkiye","Gaziantep · Türkiye"), season: tr("Spätsommer '25","Late summer '25","Yaz sonu '25"), grams: tr("26 g / 250-g-Beutel","26 g / 250 g pouch","26 g / 250 g paket"), img: "/assets/scene-3.jpg",
-    lede: tr("Ein leises grünes Summen.","A low green hum.","Hafif yeşil bir uğultu."),
+    lede: tr("Nussig, leicht salzig.","Nutty, lightly salty.","Fındıksı, hafif tuzlu."),
     body: tr("Aus den Antep-Hainen außerhalb von Gaziantep. Von Hand geschält, kalt geröstet, gerade so weit gemahlen, dass ihre Salzigkeit erhalten bleibt. Die Salzkante, die die Datteln wie Dessert schmecken lässt.","From the Antep groves outside Gaziantep. Hand-shelled, cold-roasted, milled just enough to keep their salinity intact. The salt-edge that makes the dates taste like dessert.","Gaziantep dışındaki Antep bahçelerinden. Elle ayıklanır, soğuk kavrulur, tuzluluğunu koruyacak kadar öğütülür. Hurmaları tatlı gibi tatlandıran o tuz dokunuşu.")
   },
-  { name: tr("Single-Origin-Arabica","Single-origin Arabica","Tek Kaynak Arabica"), note: tr("Sanfter Schwung","Quiet lift","Sessiz canlılık"), color: "#3E2719", angle: 210, r: 47,
+  { name: tr("Single-Origin-Arabica","Single-origin Arabica","Tek Kaynak Arabica"), note: tr("Sanfter Koffein-Kick","Gentle caffeine lift","Hafif kafein"), color: "#3E2719", angle: 210, r: 47,
     origin: tr("Haraz · Jemen","Haraz · Yemen","Haraz · Yemen"), season: tr("Frühling '25","Spring '25","İlkbahar '25"), grams: tr("32 g / 250-g-Beutel","32 g / 250 g pouch","32 g / 250 g paket"), img: "/assets/scene-1.jpg",
-    lede: tr("Ein bedächtiger Aufguss.","A measured pour.","Ölçülü bir demleme."),
+    lede: tr("Nur ein Hauch Kaffee.","Just a hint of coffee.","Yalnızca bir tutam kahve."),
     body: tr("Von den Haraz-Bergfarmen, gewaschen und in der Höhe langsam getrocknet. Wir verwenden weniger als 15 % der Mischung an Kaffee — genug Schwung, um ihn zu spüren, nicht genug, um abzustürzen.","From the Haraz mountain farms, washed and slow-dried at altitude. We pull less than 15% of the blend in coffee — enough lift to notice, not enough to crash.","Haraz dağ çiftliklerinden, yıkanmış ve yükseklerde yavaşça kurutulmuş. Harmanın %15'inden azını kahve olarak alırız — fark edilecek kadar canlılık, çökertmeyecek kadar az.")
   },
   { name: tr("Grüner Kardamom","Green Cardamom","Yeşil Kakule"), note: tr("Aromatische Wärme","Aromatic warmth","Aromatik sıcaklık"), color: "#A48A53", angle: 272, r: 44,
     origin: tr("Kerala · Indien","Kerala · India","Kerala · Hindistan"), season: tr("Ganzjährig","Year-round","Yıl boyu"), grams: tr("4 g / 250-g-Beutel","4 g / 250 g pouch","4 g / 250 g paket"), img: "/assets/scene-2.jpg",
-    lede: tr("Die parfümierte Linie.","The perfumed line.","Parfümlü çizgi."),
+    lede: tr("Warm und aromatisch.","Warm and aromatic.","Sıcak ve aromatik."),
     body: tr("Ganze Kapseln, am Morgen des Mischens zerstoßen. Nur vier Gramm pro Beutel — präsent genug, um die Dattel zu heben, leise genug, um nie zu überwältigen.","Whole pods crushed the morning of blending. Just four grams per pouch — present enough to lift the date, quiet enough never to overwhelm.","Bütün kapsüller, harmanlama sabahı dövülür. Paket başına yalnızca dört gram — hurmayı yükseltecek kadar var, asla bastırmayacak kadar sessiz.")
   },
   { name: tr("Kakaonib","Cocoa Nib","Kakao Nibi"), note: tr("Bitterer Kontrast","Bitter contrast","Acı kontrast"), color: "#4E3322", angle: 330, r: 46,
     origin: tr("Tabasco · Mexiko","Tabasco · Mexico","Tabasco · Meksika"), season: tr("Winter '25","Winter '25","Kış '25"), grams: tr("18 g / 250-g-Beutel","18 g / 250 g pouch","18 g / 250 g paket"), img: "/assets/scene-4.jpg",
-    lede: tr("Das bittere Satzzeichen.","The bitter punctuation.","Acı noktalama."),
+    lede: tr("Ein bitterer Schoko-Ton.","A bitter chocolate note.","Acı bir çikolata notası."),
     body: tr("Kakaonibs aus einer einzigen Kooperative in Tabasco, leicht geröstet, um die Schokolade ohne Süße hervorzubringen. Die bittere Linie, die die Tasse zusammenhält.","Cocoa nibs from a single co-op in Tabasco, lightly toasted to draw out the chocolate without sweetness. The bitter line that holds the cup together.","Tabasco'da tek bir kooperatiften kakao nibleri, çikolatayı tatlılık olmadan ortaya çıkarmak için hafifçe kavrulur. Fincanı bir arada tutan acı çizgi.")
   },
   ];
@@ -128,7 +128,7 @@ function getBenefits() {
   { t: tr("Langsame Energie","Slow energy","Yavaş enerji"),          d: tr("Ein bedächtiger Aufguss Single-Origin-Arabica, ausbalanciert durch Mandelfett. Schwung, niemals Zittern.","A measured pour of single-origin arabica balanced by almond fat. Lift, never jitter.","Badem yağıyla dengelenmiş, ölçülü bir tek kaynak arabica. Canlılık, asla titreme."), g: "spark" },
   { t: tr("Nährstoffdichte","Nutrient density","Besin yoğunluğu"),     d: tr("Pistazie, Mandel und Dattel liefern Magnesium, Kalium und Ballaststoffe pro Tasse.","Pistachio, almond and date deliver magnesium, potassium and fibre per cup.","Fıstık, badem ve hurma her fincanda magnezyum, potasyum ve lif sağlar."), g: "drop" },
   { t: tr("Magenfreundlich","Gut-friendly","Mideye dost"),         d: tr("Milchfrei, vegan, säurearm. Magenschonender als Espresso.","Dairy-free, vegan, low-acid. Easier on the stomach than espresso.","Sütsüz, vegan, düşük asit. Espressodan mideye daha hafif."), g: "circle" },
-  { t: tr("In Dubai komponiert","Composed in Dubai","Dubai'de hazırlanır"),    d: tr("Handgemischt in unserem Atelier. Eine Farm, eine Saison, eine Charge.","Hand-blended in our atelier. Single farm, single season, single batch.","Atölyemizde elde harmanlanır. Tek çiftlik, tek mevsim, tek parti."), g: "marker" },
+  { t: tr("In Dubai gemischt","Blended in Dubai","Dubai'de harmanlanır"),    d: tr("Von Hand in unserem Atelier gemischt. Eine Farm, eine Saison, eine Charge.","Hand-blended in our atelier. Single farm, single season, single batch.","Atölyemizde elde harmanlanır. Tek çiftlik, tek mevsim, tek parti."), g: "marker" },
   { t: tr("In 90 Sekunden fertig","Ready in 90 seconds","90 saniyede hazır"),  d: tr("Ein Löffel, heißes Wasser oder Milch. Keine Mühle. Kein Aufwand.","One scoop, hot water or milk. No grinder. No fuss.","Bir ölçek, sıcak su ya da süt. Değirmen yok. Zahmet yok."), g: "clock" },
   ];
 }
@@ -450,12 +450,12 @@ function Preloader({ onDone }) {
       <div className="curtain top" />
       <div className="curtain bottom" />
       <div className="center">
-        <div className="tag">Esmee · Maison N° 01</div>
+        <div className="tag">Esmee · Edition N° 01</div>
         <div className="mark" aria-label="Esmee">
           {"ESMEE".split("").map((l, i) => (<span key={i} className="ltr">{l}</span>))}
         </div>
         <div className="progress-line">
-          <div className="step">{tr("komponiere deine Tasse …","composing your cup …","fincanın hazırlanıyor …")}</div>
+          <div className="step">{tr("deine Tasse wird gemischt …","blending your cup …","fincanın hazırlanıyor …")}</div>
           <div className="bar"><div className="fill" style={{ width: pct + "%" }} /></div>
           <div className="step">
             <span className="counter">{String(step).padStart(2, "0")}</span>
@@ -622,15 +622,15 @@ function getScenes() {
   return [
   {
     src: "/assets/scene-1.jpg",
-    kicker: "Esmee · Maison N° 01",
-    title: tr("Eine Komposition,\nschwebend.", "A composition,\nsuspended.", "Bir kompozisyon,\naskıda."),
-    body: tr("Datteln. Mandeln. Pistazie. Kaffee.\nVier Zutaten, einen Atemzug lang gehalten.", "Dates. Almonds. Pistachio. Coffee.\nFour ingredients, held for a breath.", "Hurma. Badem. Antep fıstığı. Kahve.\nDört malzeme, bir nefeslik tutuldu."),
-    pos: "top", sub: tr("Scrolle, langsam", "Scroll, slowly", "Yavaşça kaydır"),
+    kicker: "Esmee · Edition N° 01",
+    title: tr("Sechs Zutaten.\nEine Tasse.", "Six ingredients.\nOne cup.", "Altı malzeme.\nBir fincan."),
+    body: tr("Datteln, Mandeln, Pistazie und Kaffee.\nMit Datteln gesüßt, nicht mit Zucker.", "Dates, almonds, pistachio and coffee.\nSweetened with dates, not sugar.", "Hurma, badem, fıstık ve kahve.\nŞekerle değil, hurmayla tatlandırıldı."),
+    pos: "top", sub: tr("Zum Entdecken scrollen", "Scroll to explore", "Keşfetmek için kaydır"),
   },
   {
     src: "/assets/scene-2.jpg",
-    kicker: tr("Phase ii — Das Setzen", "Phase ii — The settling", "Aşama ii — Durulma"),
-    title: tr("Jede Zutat,\nzu ihrer Zeit.", "Each ingredient,\nin its turn.", "Her malzeme,\nsırasıyla."),
+    kicker: tr("Die Zutaten", "The ingredients", "Malzemeler"),
+    title: tr("Echte Zutaten,\nsonst nichts.", "Real ingredients,\nnothing else.", "Gerçek malzemeler,\nbaşka bir şey yok."),
     pos: "side-right",
     tags: [
       { side: "l", x: "6vw", y: "30vh", label: tr("Medjool-Dattel", "Medjool Date", "Medjool Hurması") },
@@ -640,7 +640,7 @@ function getScenes() {
   },
   {
     src: "/assets/scene-3.jpg",
-    kicker: tr("Phase iii — Komposition", "Phase iii — Composition", "Aşama iii — Kompozisyon"),
+    kicker: tr("Die Mischung", "The blend", "Harman"),
     title: tr("Dattel. Mandel.\nPistazie. Kaffee.", "Date. Almond.\nPistachio. Coffee.", "Hurma. Badem.\nFıstık. Kahve."),
     pos: "top",
     tags: [
@@ -650,16 +650,16 @@ function getScenes() {
   },
   {
     src: "/assets/scene-4.jpg",
-    kicker: tr("Phase iv — In Ruhe", "Phase iv — At rest", "Aşama iv — Dinlenmede"),
-    title: tr("Eine stille Tasse,\nim Licht gehalten.", "A still cup,\nheld in light.", "Durgun bir fincan,\nışıkta tutulmuş."),
-    body: tr("Das Drama legt sich. Was bleibt, ist die\nStille, der Dampf, das Warten.", "The drama settles. What is left is the\nquiet, the steam, the waiting.", "Drama yatışır. Geriye kalan\nsessizlik, buhar, bekleyiş."),
+    kicker: tr("Die Zubereitung", "How to make it", "Hazırlanışı"),
+    title: tr("Eine Tasse,\nin 90 Sekunden.", "One cup,\nin 90 seconds.", "Bir fincan,\n90 saniyede."),
+    body: tr("Ein Löffel, heißes Wasser oder Milch,\nkurz umrühren. Fertig.", "One scoop, hot water or milk,\na quick stir. Done.", "Bir ölçek, sıcak su ya da süt,\nkısa bir karıştırma. Hazır."),
     pos: "side-right",
   },
   {
     src: "/assets/scene-5.jpg",
-    kicker: tr("Phase v — Die Enthüllung", "Phase v — The reveal", "Aşama v — Açığa çıkış"),
-    title: tr("Vom Atelier\nin die Tasse.", "From the atelier\nto the cup.", "Atölyeden\nfincana."),
-    body: tr("Eine Mischung. Ein Beutel. Von Hand\nin Dubai komponiert.", "One blend. One pouch. Composed\nby hand in Dubai.", "Tek harman. Tek paket. Dubai'de\nelle hazırlandı."),
+    kicker: tr("Die Herkunft", "Where it's made", "Nerede yapılır"),
+    title: tr("Von Hand gemischt\nin Dubai.", "Hand-blended\nin Dubai.", "Dubai'de\nelle harmanlandı."),
+    body: tr("Eine Charge, ein Beutel,\nfrisch von Hand gemischt.", "One batch, one pouch,\nfreshly blended by hand.", "Tek parti, tek paket,\ntaze elde harmanlandı."),
     pos: "top",
   },
   {
@@ -831,6 +831,7 @@ function ScrollStory({ onSteamIntensity, heroFrom }) {
    CRO — REVIEWS RIBBON (early proof strip after the hero story)
    ============================================================ */
 function ReviewsRibbon() {
+  useLang();
   const jump = () => {
     const el = document.querySelector(".reviews-v2") || document.getElementById("reviews");
     if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 80, behavior: "smooth" });
@@ -838,14 +839,14 @@ function ReviewsRibbon() {
   return (
     <section className="reviews-ribbon" aria-label="Produktversprechen">
       <div className="rr-score">
-        <span className="num">0 g <em>Zucker</em></span>
+        <span className="num">0 g <em>{tr("Zucker","Sugar","Şeker")}</em></span>
       </div>
       <div className="rr-quotes">
-        <span>Mit Datteln gesüßt.</span>
-        <span>Sechs Zutaten.</span>
-        <span>Handkomponiert in Dubai.</span>
+        <span>{tr("Mit Datteln gesüßt.","Sweetened with dates.","Hurmayla tatlandırılmış.")}</span>
+        <span>{tr("Sechs Zutaten.","Six ingredients.","Altı malzeme.")}</span>
+        <span>{tr("Von Hand gemischt in Dubai.","Hand-blended in Dubai.","Dubai'de elle harmanlandı.")}</span>
       </div>
-      <button className="rr-jump" type="button" onClick={jump}>Die Komposition entdecken →</button>
+      <button className="rr-jump" type="button" onClick={jump}>{tr("Die Mischung entdecken","Discover the blend","Harmanı keşfet")} →</button>
     </section>
   );
 }
@@ -891,7 +892,7 @@ function StoryIntro() {
         <div className="reveal delay-1">
           <div className="frame aspect-3x4 parallax" data-cur="img" data-cur-label={tr("Ansehen","View","Gör")}>
             <BlurImg src="/assets/scene-4.jpg" alt={tr("Eine stille Porzellantasse Manduraa, sanft dampfend.","A still porcelain cup of Manduraa, steaming softly.","Hafifçe tüten, durgun bir porselen Manduraa fincanı.")} />
-            <span className="caption">{tr("Atelier — Komposition Nr. 04","Atelier — Composition no. 04","Atölye — Kompozisyon No. 04")}</span>
+            <span className="caption">{tr("Atelier — Mischung Nr. 04","Atelier — Blend no. 04","Atölye — Harman No. 04")}</span>
             <span className="floating-tag"><span className="pulse"></span>{tr("Handgemischt · Dubai","Hand-blended · Dubai","Elde harmanlanmış · Dubai")}</span>
           </div>
         </div>
@@ -992,7 +993,9 @@ function IngredientUniverse() {
   }, []);
 
   const placeChip = (ing, idx) => {
-    const rad = (ing.angle * Math.PI) / 180;
+    // Position the chip at its base angle plus the live rotation. The chip itself
+    // stays upright (no transform rotation) so labels never tilt or flip.
+    const rad = ((ing.angle + rot) * Math.PI) / 180;
     const left = 50 + Math.cos(rad) * ing.r;
     const top  = 50 + Math.sin(rad) * ing.r;
     return (
@@ -1018,9 +1021,9 @@ function IngredientUniverse() {
     );
   };
 
-  // connectors from each chip to the center
+  // connectors from each chip to the center — follow the same live rotation as the chips
   const connectors = INGREDIENTS.map((ing, i) => {
-    const rad = (ing.angle * Math.PI) / 180;
+    const rad = ((ing.angle + rot) * Math.PI) / 180;
     const x = 50 + Math.cos(rad) * ing.r;
     const y = 50 + Math.sin(rad) * ing.r;
     return <path key={i} d={`M50 50 L${x} ${y}`} />;
@@ -1053,15 +1056,9 @@ function IngredientUniverse() {
           </svg>
           <div className="orbit-ring outer" />
           <div className="orbit-ring inner" />
-          <div className="orbit-inner" ref={innerRef} style={{ transform: `rotate(${rot}deg)` }}>
-            {INGREDIENTS.map((ing, i) => (
-              <div key={i} style={{ position: "absolute", inset: 0, transform: `rotate(${-rot}deg)` }}>
-                {/* Counter-rotate each chip so labels stay upright. */}
-                <div style={{ position: "absolute", inset: 0, transform: `rotate(${rot}deg)` }}>
-                  {placeChip(ing, i)}
-                </div>
-              </div>
-            ))}
+          <div className="orbit-inner" ref={innerRef}>
+            {/* Chips are positioned by angle+rot (computed in placeChip) and kept upright. */}
+            {INGREDIENTS.map((ing, i) => placeChip(ing, i))}
           </div>
           <div className="orbit-core">
             <BlurImg src="/assets/pack-flat-layout.jpeg" alt="Manduraa pouch" />
@@ -1174,7 +1171,7 @@ function Vs() {
         <div className="section-head">
           <span className="eyebrow reveal">{tr("— Manduraa vs. der Rest","— Manduraa vs. the rest","— Manduraa vs. gerisi")}</span>
           <h2 className="reveal delay-1" key={tr("de","en","tr")}>
-            <SplitText text={tr("Eine Tasse, die dich nicht","A cup that doesn't","Öğleden sonranı")} /> <em className="italic"><SplitText text={tr("den Nachmittag","cost you","çalmayan")} delay={0.3} /></em> <SplitText text={tr("kostet.","the afternoon.","bir fincan.")} delay={0.45} />
+            <SplitText text={tr("Energie ohne","Energy without","Çöküş")} /> <em className="italic"><SplitText text={tr("den Absturz","the crash","yaşatmayan")} delay={0.3} /></em> <SplitText text={tr("am Nachmittag.","at 3pm.","enerji.")} delay={0.45} />
           </h2>
         </div>
         <div className="vs-grid reveal delay-2" ref={ref}>
@@ -1191,7 +1188,7 @@ function Vs() {
           </div>
           <div className="vs-col us">
             <span className="vs-label">Manduraa · Edition 01</span>
-            <h3>{tr("Die komponierte Tasse","The composed cup","Kompoze fincan")}</h3>
+            <h3>{tr("Die bessere Tasse","The better cup","Daha iyi fincan")}</h3>
             <ul>
               {usItems.map((t, i) => <li key={i}><Check />{t}</li>)}
             </ul>
@@ -1466,7 +1463,7 @@ function Shop({ onAdd, onMagnetMove, onTap, liveVariants, sellingPlans }) {
           <div className="stars">
             <span>{tr("Edition № 01 · 0 g raffinierter Zucker · Vegan · Glutenfrei","Edition № 01 · 0 g refined sugar · vegan · gluten-free","Edition № 01 · 0 g rafine şeker · vegan · glutensiz")}</span>
           </div>
-          <p className="lede">{tr("Eine komponierte Tasse — geröstete Mandeln, Medjool-Datteln, Pistazie und ein leiser Aufguss Arabica. Mit Datteln gesüßt, nicht mit Zucker.","A composed cup — roasted almonds, Medjool dates, pistachio and a quiet pour of arabica. Sweetened with dates, not sugar.","Kompoze bir fincan — kavrulmuş badem, Medjool hurması, fıstık ve sessiz bir arabica demlemesi. Şekerle değil, hurmayla tatlandırılmış.")}</p>
+          <p className="lede">{tr("Geröstete Mandeln, Medjool-Datteln, Pistazie und ein Hauch Arabica-Kaffee. Mit Datteln gesüßt, nicht mit Zucker.","Roasted almonds, Medjool dates, pistachio and a hint of arabica coffee. Sweetened with dates, not sugar.","Kavrulmuş badem, Medjool hurması, fıstık ve bir tutam arabica kahve. Şekerle değil, hurmayla tatlandırılmış.")}</p>
 
           <div className="price-row">
             <span className="price">€{m(unitPrice)}</span>
@@ -1478,8 +1475,8 @@ function Shop({ onAdd, onMagnetMove, onTap, liveVariants, sellingPlans }) {
           {/* CRO T-03: Subscription / one-time plan toggle */}
           <div className="option-block">
             <div className="option-label">
-              <span>{tr("Lieferung — Einmalig oder Abo","Delivery — One-time or subscription","Teslimat — Tek seferlik veya abonelik")}</span>
-              <em>{plan === "once" ? tr("Einmal kaufen","One-time","Tek seferlik") : (plan === "30" ? tr("Alle 30 Tage","Every 30 days","Her 30 günde") : tr("Alle 60 Tage","Every 60 days","Her 60 günde"))}</em>
+              <span>{tr("Lieferung wählen","Choose your delivery","Teslimatını seç")}</span>
+              <em>{plan === "once" ? tr("Einmalkauf","One-time","Tek seferlik") : (plan === "30" ? tr("Abo · alle 30 Tage","Subscription · every 30 days","Abonelik · her 30 günde") : tr("Abo · alle 60 Tage","Subscription · every 60 days","Abonelik · her 60 günde"))}</em>
             </div>
             <div className="plan-row">
               <button
@@ -1491,8 +1488,8 @@ function Shop({ onAdd, onMagnetMove, onTap, liveVariants, sellingPlans }) {
               >
                 <span className="plan-radio"></span>
                 <span className="plan-body">
-                  <span className="plan-name">{tr("Einmal kaufen","One-time","Tek seferlik")}</span>
-                  <span className="plan-sub">{tr("Keine Verpflichtung · Lieferung in 48 h","No commitment · ships in 48 h","Taahhüt yok · 48 saatte kargo")}</span>
+                  <span className="plan-name">{tr("Einmalkauf","One-time","Tek seferlik")}</span>
+                  <span className="plan-sub">{tr("Keine Bindung · Versand in 48 Stunden","No commitment · ships in 48 hours","Taahhüt yok · 48 saatte kargo")}</span>
                 </span>
                 <span className="plan-price">€{m(baseUnit)}<small>{tr("/Packung","/pack","/paket")}</small></span>
               </button>
@@ -1507,7 +1504,7 @@ function Shop({ onAdd, onMagnetMove, onTap, liveVariants, sellingPlans }) {
                 <span className="plan-radio"></span>
                 <span className="plan-body">
                   <span className="plan-name">{tr("Abo · alle 30 Tage","Subscription · every 30 days","Abonelik · her 30 günde")}</span>
-                  <span className="plan-sub">{tr("Jederzeit pausieren oder kündigen — in einem Tap.","Pause or cancel anytime — in one tap.","İstediğin zaman duraklat veya iptal et — tek dokunuşla.")}</span>
+                  <span className="plan-sub">{tr("15 % Rabatt auf jede Lieferung. Jederzeit pausieren oder kündigen.","15% off every delivery. Pause or cancel anytime.","Her teslimatta %15 indirim. İstediğin zaman duraklat ya da iptal et.")}</span>
                 </span>
                 <span className="plan-price">€{m(unit30)}<small>{tr("/Packung","/pack","/paket")}</small></span>
               </button>
@@ -1521,16 +1518,16 @@ function Shop({ onAdd, onMagnetMove, onTap, liveVariants, sellingPlans }) {
                 <span className="plan-radio"></span>
                 <span className="plan-body">
                   <span className="plan-name">{tr("Abo · alle 60 Tage","Subscription · every 60 days","Abonelik · her 60 günde")}</span>
-                  <span className="plan-sub">{tr("Für gelegentliche Tassen — gleicher Rabatt.","For occasional cups — same discount.","Ara sıra içenler için — aynı indirim.")}</span>
+                  <span className="plan-sub">{tr("Gleicher Rabatt, längerer Abstand — für ein bis zwei Tassen am Tag.","Same discount, more time between — for one or two cups a day.","Aynı indirim, daha uzun aralık — günde bir iki fincan için.")}</span>
                 </span>
                 <span className="plan-price">€{m(unit60)}<small>{tr("/Packung","/pack","/paket")}</small></span>
               </button>
             </div>
             {subActive && (
               <div className="plan-perks">
-                <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12l5 5L20 7"/></svg>{tr("Erste Lieferung mit hand­signiertem Brief von Esmee","First delivery with a hand-signed letter from Esmee","İlk teslimatta Esmee'den el imzalı bir mektup")}</span>
-                <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12l5 5L20 7"/></svg>{tr("Pause & Kündigung jederzeit per Mail oder Login","Pause & cancel anytime by email or login","İstediğin zaman e-posta veya girişle duraklat & iptal")}</span>
-                <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12l5 5L20 7"/></svg>{tr("Komplimentärer Versand auf jede Lieferung","Complimentary shipping on every delivery","Her teslimatta ücretsiz kargo")}</span>
+                <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12l5 5L20 7"/></svg>{tr("15 % Rabatt auf jede Lieferung — automatisch","15% off every delivery — automatically","Her teslimatta otomatik %15 indirim")}</span>
+                <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12l5 5L20 7"/></svg>{tr("Jederzeit pausieren, ändern oder kündigen","Pause, change or cancel anytime","İstediğin zaman duraklat, değiştir ya da iptal et")}</span>
+                <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12l5 5L20 7"/></svg>{tr("Kostenloser Versand bei jeder Lieferung","Free shipping on every delivery","Her teslimatta ücretsiz kargo")}</span>
               </div>
             )}
           </div>
@@ -1853,14 +1850,14 @@ function TasteProfile() {
         <div className="section-head">
           <span className="eyebrow reveal">{tr("— Geschmacksprofil","— Taste profile","— Tat profili")}</span>
           <h2 className="reveal delay-1" key={tr("de","en","tr")}>
-            <SplitText text={tr("Eine Geschmackskarte,","A flavor map,","Bir tat haritası,")} /> <em className="italic"><SplitText text={tr("ehrlich gezeichnet.","honestly drawn.","dürüstçe çizilmiş.")} delay={0.3} /></em>
+            <SplitText text={tr("So schmeckt","This is how","İşte")} /> <em className="italic"><SplitText text={tr("Manduraa.","Manduraa tastes.","Manduraa'nın tadı.")} delay={0.3} /></em>
           </h2>
-          <p className="reveal delay-2">{tr("Sechs Dimensionen, von unserem Atelier bewertet, als wir Edition № 01 komponierten.","Six dimensions, scored by our atelier as we composed Edition № 01.","Edition № 01'i hazırlarken atölyemizin puanladığı altı boyut.")}</p>
+          <p className="reveal delay-2">{tr("Sechs Eigenschaften, ehrlich bewertet — damit du genau weißt, was dich erwartet.","Six characteristics, honestly rated — so you know exactly what to expect.","Altı özellik, dürüstçe değerlendirildi — seni neyin beklediğini tam olarak bil.")}</p>
         </div>
         <div className="taste-grid">
           <div className="reveal">
             <div className="frame aspect-1x1 parallax" data-cur="img" data-cur-label={tr("Ansehen","View","Gör")}>
-              <BlurImg src="/assets/scene-2.jpg" alt={tr("Ein Löffel Manduraa, Zutaten komponiert.","A spoon of Manduraa, ingredients composed.","Bir kaşık Manduraa, malzemeler bir araya gelmiş.")} />
+              <BlurImg src="/assets/scene-2.jpg" alt={tr("Ein Löffel Manduraa mit den gemischten Zutaten.","A spoon of Manduraa with the blended ingredients.","Harmanlanmış malzemelerle bir kaşık Manduraa.")} />
             </div>
           </div>
           <div className="radar-wrap reveal delay-1" ref={ref}>
@@ -1950,7 +1947,7 @@ function Faq() {
       <div className="container">
         <div className="section-head">
           <span className="eyebrow reveal">{tr("— FAQ","— FAQ","— SSS")}</span>
-          <h2 className="reveal delay-1" key={tr("de","en","tr")}><SplitText text={tr("Stille Antworten.","Quiet answers.","Sessiz cevaplar.")} /></h2>
+          <h2 className="reveal delay-1" key={tr("de","en","tr")}><SplitText text={tr("Häufige Fragen.","Common questions.","Sık sorulan sorular.")} /></h2>
         </div>
         <div className="faq-list">
           {FAQS.map((f, i) => (
@@ -2006,7 +2003,7 @@ function GuaranteeStrip() {
           <div className="g-meta">
             <div className="g-sig">
               <span className="sig-script">Esmee</span>
-              <span className="sig-line">{tr("— Esmee · Komponistin, Maison N° 01","— Esmee · Composer, Maison N° 01","— Esmee · Kompozitör, Maison N° 01")}</span>
+              <span className="sig-line">{tr("— Esmee · Gründerin","— Esmee · Founder","— Esmee · Kurucu")}</span>
             </div>
             <ul className="g-points">
               <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12l5 5L20 7"/></svg>{tr("30 Tage volle Rückerstattung","30-day full refund","30 gün tam iade")}</li>
@@ -2030,12 +2027,12 @@ function FinalCta({ onShop, onMagnetMove, price }) {
       <div className="inner">
         <span className="eyebrow reveal" style={{ color: "var(--copper-soft)" }}>{tr("— Beginne das Ritual","— Begin the ritual","— Ritüele başla")}</span>
         <h2 className="reveal delay-1" key={tr("de","en","tr")}>
-          <SplitText text={tr("Tradition, destilliert.","Tradition, distilled.","Gelenek, damıtılmış.")} />
+          <SplitText text={tr("Eine bessere Tasse,","A better cup,","Daha iyi bir fincan,")} />
           <br/>
-          <em className="italic"><SplitText text={tr("In deiner Tasse gehalten.","Held in your cup.","Fincanında tutulmuş.")} delay={0.3} /></em>
+          <em className="italic"><SplitText text={tr("jeden Morgen.","every morning.","her sabah.")} delay={0.3} /></em>
         </h2>
         <p className="reveal delay-2">
-          {tr("Eine Mischung, sechs Zutaten, null raffinierter Zucker. Von Hand in unserem Dubai-Atelier komponiert und überallhin versandt, wo du Ruhe suchst.","One blend, six ingredients, zero refined sugar. Composed by hand in our Dubai atelier and shipped wherever you call quiet.","Tek harman, altı malzeme, sıfır rafine şeker. Dubai atölyemizde elle hazırlanır ve huzur aradığın her yere gönderilir.")}
+          {tr("Eine Mischung, sechs Zutaten, null raffinierter Zucker. Von Hand in Dubai gemischt und zu dir nach Hause geliefert.","One blend, six ingredients, zero refined sugar. Hand-blended in Dubai and delivered to your door.","Tek harman, altı malzeme, sıfır rafine şeker. Dubai'de elle harmanlanır ve kapına teslim edilir.")}
         </p>
         <div className="cta-row reveal delay-3">
           <button className="btn btn-primary" data-cur="btn" data-cur-label="Shop" onMouseMove={onMagnetMove} onClick={onShop}>{tr("Manduraa kaufen","Shop Manduraa","Manduraa al")} · €{price || 28}</button>
@@ -2333,14 +2330,14 @@ function getUnboxSteps() {
   {
     kicker: tr("Schritt 03 — Der innere Brief","Step 03 — The inner letter","Adım 03 — İçteki mektup"),
     title: tr("Cremefarbenes Seidenpapier,\nvon Hand gefaltet.","Cream tissue,\nfolded by hand.","Krem ipek kâğıt,\nelle katlanmış."),
-    body: tr("Ein einzelnes Blatt säurefreies cremefarbenes Papier, gefaltet und mit Kupfer mit dem Maison-Zeichen gestempelt. Darunter eine Karte des Komponisten.","A single sheet of acid-free cream paper, folded and stamped in copper with the maison mark. Underneath, a card from the composer.","Tek bir asitsiz krem kâğıt yaprağı, katlanmış ve maison mührüyle bakır damgalı. Altında, kompozitörden bir kart."),
+    body: tr("Ein einzelnes Blatt säurefreies cremefarbenes Papier, gefaltet und in Kupfer mit dem Esmee-Zeichen gestempelt. Darunter eine handgeschriebene Karte von Esmee.","A single sheet of acid-free cream paper, folded and stamped in copper with the Esmee mark. Underneath, a handwritten card from Esmee.","Tek bir asitsiz krem kâğıt yaprağı, katlanmış ve Esmee mührüyle bakır damgalı. Altında, Esmee'den el yazısı bir kart."),
     meta: [[tr("Papier","Paper","Kâğıt"), tr("Baumwolllumpen, säurefrei","Cotton-rag, acid-free","Pamuk lifli, asitsiz")], [tr("Stempel","Stamp","Damga"), tr("Kupferfolie · handgepresst","Copper foil · hand-pressed","Bakır folyo · elle baskı")], [tr("Gefertigt von","Made by","Yapan"), tr("Ein Paar Hände","One pair of hands","Bir çift el")]],
   },
   {
     kicker: tr("Schritt 04 — Die Enthüllung","Step 04 — The reveal","Adım 04 — Açığa çıkış"),
     title: tr("Der Beutel,\nin seinem Bett.","The pouch,\nin its bed.","Paket,\nyatağında."),
     body: tr("Gebettet in weiche, rosa getönte Wolle. Von Hand mit einem einzigen cremefarbenen Leinenband gebunden. Der Beutel ist schwerer, als die Schachtel vermuten ließ.","Laid in soft rose-tone wool. Hand-tied with a single cream linen ribbon. The pouch is heavier than the box suggested.","Yumuşak, pembe tonlu yüne yatırılmış. Tek bir krem keten kurdeleyle elle bağlanmış. Paket, kutunun ima ettiğinden daha ağır."),
-    meta: [[tr("Beutel","Pouch","Paket"), tr("250 g · wiederverschließbar","250 g · resealable","250 g · yeniden kapanabilir")], [tr("Bett","Bed","Yatak"), tr("Recycelte Wolle, Rosé","Recycled wool, rose","Geri dönüşüm yün, pembe")], [tr("Gebunden von","Tied by","Bağlayan"), tr("Der Komponist · immer","The composer · always","Kompozitör · her zaman")]],
+    meta: [[tr("Beutel","Pouch","Paket"), tr("250 g · wiederverschließbar","250 g · resealable","250 g · yeniden kapanabilir")], [tr("Bett","Bed","Yatak"), tr("Recycelte Wolle, Rosé","Recycled wool, rose","Geri dönüşüm yün, pembe")], [tr("Gebunden von","Tied by","Bağlayan"), tr("Esmee · immer","Esmee · always","Esmee · her zaman")]],
   },
   {
     kicker: tr("Schritt 05 — Die Karte","Step 05 — The card","Adım 05 — Kart"),
@@ -2398,12 +2395,12 @@ function Unboxing() {
               <div className="face body" />
               <div className="face lid"><span className="emboss">Esmee</span></div>
               <div className="paper">
-                <span className="foil">Maison N° 01<small>— Esmee · Manduraa</small></span>
+                <span className="foil">Edition N° 01<small>— Esmee · Manduraa</small></span>
               </div>
               <div className="pouch" style={{ backgroundImage: "url(/assets/scene-6.jpg)" }} />
               <div className="card">
-                {tr("Willkommen in der Maison.","Welcome to the maison.","Maison'a hoş geldin.")}<br/>
-                {tr("Deine erste Tasse ist eine stille.","Your first cup is a quiet one.","İlk fincanın sakin olanı.")}
+                {tr("Willkommen bei Esmee.","Welcome to Esmee.","Esmee'ye hoş geldin.")}<br/>
+                {tr("Genieße deine erste Tasse.","Enjoy your first cup.","İlk fincanının tadını çıkar.")}
                 <small>— E</small>
               </div>
             </div>
@@ -2475,11 +2472,11 @@ function ReviewsV2() {
 
         <div className="hero-review reveal delay-1">
           <span className="open-q">"</span>
-          <blockquote>{tr("Eine ruhige Zeremonie — mit Datteln gesüßt, nicht mit Zucker. Sechs Zutaten, von Hand komponiert in unserem Atelier in Dubai. Du gehörst zu den Ersten, die sie probieren.","A quiet ceremony — sweetened with dates, not sugar. Six ingredients, composed by hand in our Dubai atelier. You're among the first to taste it.","Sessiz bir tören — şekerle değil, hurmayla tatlandırılmış. Altı malzeme, Dubai atölyemizde elle hazırlanmış. Onu tadan ilk kişilerdensin.")}</blockquote>
+          <blockquote>{tr("Mit Datteln gesüßt, nicht mit Zucker. Sechs Zutaten, von Hand gemischt in unserem Atelier in Dubai. Du gehörst zu den Ersten, die sie probieren.","Sweetened with dates, not sugar. Six ingredients, hand-blended in our Dubai atelier. You're among the first to taste it.","Şekerle değil, hurmayla tatlandırılmış. Altı malzeme, Dubai atölyemizde elle harmanlanmış. Onu tadan ilk kişilerdensin.")}</blockquote>
           <div className="author-row">
             <div className="author-text">
               <strong>— Esmee</strong>
-              <small>{tr("Komponistin · Maison N° 01","Composer · Maison N° 01","Kompozitör · Maison N° 01")}</small>
+              <small>{tr("Gründerin · Esmee","Founder · Esmee","Kurucu · Esmee")}</small>
             </div>
           </div>
         </div>
@@ -2687,12 +2684,12 @@ function SpecSheet() {
     <section className="spec">
       <div className="container">
         <div className="section-head">
-          <span className="eyebrow reveal">{tr("— Wie komponiert","— As composed","— Tarif edildiği gibi")}</span>
+          <span className="eyebrow reveal">{tr("— Die volle Rezeptur","— The full recipe","— Tam tarif")}</span>
           <h2 className="display reveal delay-1" key={tr("de","en","tr")} style={{ fontSize: "clamp(40px, 5.6vw, 80px)", margin: "14px auto 0" }}>
             <SplitText text={tr("Das ganze Rezept,","The full recipe,","Tüm tarif,")} /> <em className="italic"><SplitText text={tr("aufgeschrieben.","written down.","yazıya dökülmüş.")} delay={0.3} /></em>
           </h2>
           <p className="reveal delay-2" style={{ margin: "22px auto 0", maxWidth: "52ch", fontSize: 15, lineHeight: 1.75, color: "var(--grain)" }}>
-            {tr("Wir veröffentlichen, was die meisten nicht tun. Die volle Komposition pro Gramm, jede Zahl pro Tasse. Edition № 01 · Manduraa Original · 250-g-Beutel.","We publish what most won't. The full composition by gram, every number per cup. Edition № 01 · Manduraa Original · 250 g pouch.","Çoğunun yapmadığını yayımlıyoruz. Gram gram tüm kompozisyon, fincan başına her sayı. Edition № 01 · Manduraa Original · 250 g paket.")}
+            {tr("Wir zeigen, was die meisten verschweigen: die volle Rezeptur pro Gramm, jede Zahl pro Tasse. Edition № 01 · Manduraa Original · 250-g-Beutel.","We show what most hide: the full recipe by gram, every number per cup. Edition № 01 · Manduraa Original · 250 g pouch.","Çoğunun gizlediğini gösteriyoruz: gram gram tüm tarif, fincan başına her sayı. Edition № 01 · Manduraa Original · 250 g paket.")}
           </p>
         </div>
 
@@ -2704,7 +2701,7 @@ function SpecSheet() {
             </div>
             <div className="body">
               <h3>Manduraa <em className="italic">Original</em></h3>
-              <p>{tr("Eine Charge, eine Saison. Von Hand in unserem Dubai-Atelier komponiert und mit cremefarbenem Leinenband gebunden.","Single-batch, single-season. Composed by hand in our Dubai atelier and tied with cream linen ribbon.","Tek parti, tek mevsim. Dubai atölyemizde elle hazırlanmış ve krem keten kurdeleyle bağlanmış.")}</p>
+              <p>{tr("Eine Charge, eine Saison. Von Hand in unserem Dubai-Atelier gemischt und mit cremefarbenem Leinenband gebunden.","Single-batch, single-season. Hand-blended in our Dubai atelier and tied with cream linen ribbon.","Tek parti, tek mevsim. Dubai atölyemizde elle harmanlanmış ve krem keten kurdeleyle bağlanmış.")}</p>
               <div className="badges">
                 <span className="badge">Vegan</span>
                 <span className="badge">{tr("Glutenfrei","Gluten-free","Glutensiz")}</span>
@@ -2715,7 +2712,7 @@ function SpecSheet() {
             </div>
           </div>
           <div className="table-wrap reveal delay-1" ref={ref}>
-            <h3>{tr("Komposition · 250-g-Beutel","Composition · 250 g pouch","Kompozisyon · 250 g paket")}</h3>
+            <h3>{tr("Zutaten · 250-g-Beutel","Ingredients · 250 g pouch","İçindekiler · 250 g paket")}</h3>
             <span className="sub">{tr("— Edition N° 01 · Charge 124","— Edition N° 01 · Batch 124","— Edition N° 01 · Parti 124")}</span>
             <div className="ing-table">
               {SPEC.map((s, i) => (
@@ -2832,7 +2829,7 @@ function SugarTracker() {
             <SplitText text={tr("Wie viel","How much","Yılın ne")} /> <em className="italic"><SplitText text={tr("Zucker steckt","sugar does","kadar şeker")} delay={0.3} /></em> <SplitText text={tr("in deinem Jahr?","your year hold?","tutuyor?")} delay={0.55} />
           </h2>
           <p className="reveal delay-2">
-            {tr("Bewege den Regler. Wir zeigen dir leise das Jahr an raffiniertem Zucker — und das Jahr ohne ihn.","Move the slider. We'll quietly show you the year of refined sugar — and the year without it.","Kaydırıcıyı hareket ettir. Sana sessizce rafine şekerli yılı — ve onsuz yılı gösterelim.")}
+            {tr("Bewege den Regler. Wir zeigen dir, wie viel raffinierten Zucker du im Jahr trinkst — und wie viel du dir mit Manduraa sparst.","Move the slider. We'll show you how much refined sugar you drink in a year — and how much Manduraa saves you.","Kaydırıcıyı hareket ettir. Bir yılda ne kadar rafine şeker içtiğini — ve Manduraa ile ne kadarını azalttığını gösterelim.")}
           </p>
         </div>
         <div className="grid">
@@ -2942,19 +2939,19 @@ function FooterV2() {
             {onShift ? tr("Atelier im Dienst","Atelier on shift","Atölye vardiyada") : tr("Atelier schläft · zurück um 09:00 GST","Atelier sleeps · back at 09:00 GST","Atölye uyuyor · 09:00 GST'te döner")}
             <span className="clock">{hh}:{mm} GST</span>
           </span>
-          <span>{tr("Komponiert in","Composed in","Hazırlandığı yer")} <span className="city" key={city}>{cities[city]}</span></span>
+          <span>{tr("Gemischt in","Blended in","Hazırlandığı yer")} <span className="city" key={city}>{cities[city]}</span></span>
         </div>
 
         <div className="signature-wrap">
           <span className="outline">Esmee</span>
-          <span className="tag">{tr("— Maison N° 01 · gegründet 2024","— Maison N° 01 · founded 2024","— Maison N° 01 · kuruluş 2024")}</span>
+          <span className="tag">{tr("— Esmee · gegründet 2024","— Esmee · founded 2024","— Esmee · kuruluş 2024")}</span>
         </div>
 
         <div className="nl-card">
           <div className="nl-text">
-            <span className="nl-kicker">{tr("— Maison-Korrespondenz","— Maison correspondence","— Maison yazışmaları")}</span>
+            <span className="nl-kicker">{tr("— Post von Esmee","— Letters from Esmee","— Esmee'den mektup")}</span>
             <h3>{tr("Briefe aus dem Atelier.","Letters from the atelier.","Atölyeden mektuplar.")}</h3>
-            <p>{tr("Eine kurze, langsame Notiz einmal pro Saison. Kompositionstagebücher, Single-Farm-Geschichten und leise Einladungen zu Events in Dubai, London und Paris.","A short, slow note once a season. Composition diaries, single-farm stories, and quiet invitations to events in Dubai, London and Paris.","Mevsimde bir kez kısa, sakin bir not. Kompozisyon günlükleri, tek çiftlik hikâyeleri ve Dubai, Londra ve Paris'teki etkinliklere sessiz davetler.")}</p>
+            <p>{tr("Eine kurze Notiz einmal pro Saison: Geschichten von unseren Farmen und leise Einladungen zu Events in Dubai, London und Paris.","A short note once a season: stories from our farms and quiet invitations to events in Dubai, London and Paris.","Mevsimde bir kez kısa bir not: çiftliklerimizden hikâyeler ve Dubai, Londra ve Paris'teki etkinliklere sessiz davetler.")}</p>
           </div>
           {!sent ? (
             <form className="nl-form" onSubmit={submit}>
@@ -2967,7 +2964,7 @@ function FooterV2() {
           ) : (
             <div>
               <p className="nl-thanks">{tr("Danke. Ein erster Brief ist unterwegs.","Thank you. A first letter is on its way.","Teşekkürler. İlk mektup yola çıktı.")}</p>
-              <span className="micro">{tr("Du gehörst zu den Ersten, die der Maison folgen.","You're among the first to follow the maison.","Maison'u takip eden ilk kişilerdensin.")}</span>
+              <span className="micro">{tr("Du gehörst zu den Ersten, die Esmee folgen.","You're among the first to follow Esmee.","Esmee'yi takip eden ilk kişilerdensin.")}</span>
             </div>
           )}
         </div>
@@ -2983,9 +2980,9 @@ function FooterV2() {
             </ul>
           </div>
           <div>
-            <h4>Maison</h4>
+            <h4>{tr("Über uns","About","Hakkımızda")}</h4>
             <ul>
-              <li><a href="#story-intro">{tr("Die Komponistin","The composer","Kompozitör")}<span className="arr">↗</span></a></li>
+              <li><a href="#story-intro">{tr("Die Gründerin","The founder","Kurucu")}<span className="arr">↗</span></a></li>
               <li><a href="#story-intro">{tr("Unsere Geschichte","Our story","Hikâyemiz")}<span className="arr">↗</span></a></li>
               <li><a href="#universe">{tr("Zutaten","Ingredients","İçindekiler")}<span className="arr">↗</span></a></li>
               <li><a href="#reviews">{tr("Wo es lebt","Where it lives","Nerede yaşar")}<span className="arr">↗</span></a></li>
@@ -3012,7 +3009,7 @@ function FooterV2() {
         </div>
 
         <div className="bottom">
-          <span>{tr("© 2026 — Langsam komponiert · Dubai · Beirut · Antakya","© 2026 — Composed slowly · Dubai · Beirut · Antakya","© 2026 — Yavaşça hazırlandı · Dubai · Beyrut · Antakya")}</span>
+          <span>{tr("© 2026 — Von Hand gemischt · Dubai · Beirut · Antakya","© 2026 — Hand-blended · Dubai · Beirut · Antakya","© 2026 — Elde harmanlandı · Dubai · Beyrut · Antakya")}</span>
           <span className="pay">
             {tr("Wir akzeptieren","We accept","Kabul ettiklerimiz")}
             <span>Apple Pay</span>
