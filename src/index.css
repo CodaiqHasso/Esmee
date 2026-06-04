@@ -2173,14 +2173,56 @@ body.pre-locked { overflow: hidden; }
 .ritual.horizontal .h-vis {
   position: relative; z-index: 2;
   width: 100%;
-  aspect-ratio: 3/4;
+  aspect-ratio: 4/5;
   border-radius: var(--r-xl);
-  background: var(--paper);
-  box-shadow: var(--sh-deep);
+  background:
+    radial-gradient(130% 110% at 50% 8%, #fffdf8 0%, var(--paper) 58%, #efe6d7 100%);
+  box-shadow: var(--sh-deep), inset 0 1px 0 rgba(255,255,255,.75);
+  border: 1px solid rgba(43,31,23,.06);
   display: grid; place-items: center;
   overflow: hidden;
 }
-.ritual.horizontal .h-vis svg { width: 78%; height: 78%; }
+/* soft copper spotlight behind the illustration for depth */
+.ritual.horizontal .h-vis::before {
+  content: "";
+  position: absolute; inset: 0;
+  background: radial-gradient(46% 40% at 50% 44%, rgba(176,122,82,.16), transparent 70%);
+  pointer-events: none;
+}
+.ritual.horizontal .h-vis svg { width: 78%; height: 78%; position: relative; z-index: 1; }
+.ritual.horizontal .h-vis svg.rit-ill { width: 84%; height: 84%; }
+
+/* Ritual line-illustrations */
+.rit-ill .obj {
+  fill: none;
+  stroke: var(--coffee);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+.rit-ill .fillsoft { fill: rgba(255,255,255,.5); }
+.rit-ill .hair { stroke: rgba(43,31,23,.32); stroke-width: 1.2; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+.rit-ill .ground { fill: rgba(43,31,23,.07); }
+.rit-ill .accent {
+  fill: none;
+  stroke: var(--copper);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+.rit-ill .liquid { fill: rgba(176,122,82,.45); stroke: var(--copper); stroke-width: 1.4; vector-effect: non-scaling-stroke; }
+.rit-ill .grain { fill: var(--copper); stroke: none; animation: ritGrain 3.4s ease-in-out infinite; }
+.rit-ill .grain.g2 { animation-delay: .5s; }
+.rit-ill .grain.g3 { animation-delay: 1s; }
+.rit-ill .spoon-fill { fill: var(--copper); opacity: 0; transform-origin: center bottom; animation: spoonFill 3.4s ease-in-out infinite; }
+.rit-ill .pour-stream { stroke-dasharray: 5 7; animation: pourFlow 1.6s linear infinite; }
+.rit-ill .steam { stroke-dasharray: 8 6; opacity: .5; animation: steamRise 4s ease-in-out infinite; }
+@keyframes ritGrain {
+  0%, 100% { opacity: 0; transform: translateY(-6px); }
+  45%, 65% { opacity: 1; transform: translateY(0); }
+}
 .ritual.horizontal .h-progress {
   position: absolute; left: 50%; bottom: 36px;
   transform: translateX(-50%);

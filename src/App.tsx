@@ -1696,49 +1696,64 @@ function Shop({ onAdd, onMagnetMove, onTap, liveVariants, sellingPlans }) {
    ============================================================ */
 /* Ritual illustration SVGs */
 function RitualIll({ step }) {
-  useLang();
   if (step === 0) {
-    // Measure — spoon being filled
+    // Dosieren — a pouch and a measuring spoon with a mound of blend
     return (
-      <svg viewBox="0 0 220 120" preserveAspectRatio="xMidYMid meet">
+      <svg viewBox="0 0 200 230" preserveAspectRatio="xMidYMid meet" className="rit-ill">
+        <ellipse cx="94" cy="208" rx="78" ry="10" className="ground" />
         {/* Pouch */}
-        <path d="M30 84 Q 30 50, 60 50 L 80 50 Q 95 50, 95 64 L 95 100 Q 95 110, 85 110 L 40 110 Q 30 110, 30 100 Z" />
-        <path d="M55 50 Q 60 38, 75 38 Q 88 38, 88 50" />
+        <path className="obj fillsoft" d="M50 94 Q50 74 70 72 L120 72 Q140 74 140 94 L135 188 Q134 200 121 200 L69 200 Q56 200 55 188 Z" />
+        <path className="obj" d="M68 72 L74 56 Q95 49 116 56 L122 72" />
+        <line className="obj" x1="68" y1="72" x2="122" y2="72" />
+        <line className="hair" x1="68" y1="120" x2="122" y2="120" />
+        <line className="hair" x1="80" y1="136" x2="110" y2="136" />
         {/* Spoon */}
-        <ellipse cx="155" cy="78" rx="22" ry="14" />
-        <line x1="172" y1="73" x2="208" y2="48" />
-        {/* Fill animation */}
-        <ellipse cx="155" cy="78" rx="20" ry="12" className="spoon-fill" />
-        <text x="110" y="20" className="timer">{tr("7 g · ein gehäufter Löffel","7 g · one heaped spoon","7 g · bir tepeleme kaşık")}</text>
+        <path className="obj" d="M158 170 L192 140" />
+        <ellipse className="obj" cx="152" cy="174" rx="26" ry="15" />
+        <path className="spoon-fill" d="M128 174 Q152 156 176 174 Z" />
+        {/* falling grains */}
+        <circle className="accent grain g1" cx="112" cy="150" r="2.4" />
+        <circle className="accent grain g2" cx="122" cy="162" r="1.9" />
+        <circle className="accent grain g3" cx="104" cy="164" r="1.7" />
       </svg>
     );
   }
   if (step === 1) {
-    // Pour — water arc with motion dash
+    // Aufgießen — a tilted carafe pouring a stream into a cup, steam rising
     return (
-      <svg viewBox="0 0 220 120" preserveAspectRatio="xMidYMid meet">
+      <svg viewBox="0 0 200 230" preserveAspectRatio="xMidYMid meet" className="rit-ill">
+        <ellipse cx="100" cy="208" rx="78" ry="10" className="ground" />
         {/* Carafe */}
-        <path d="M40 40 L 40 70 Q 40 95, 60 95 L 80 95 Q 100 95, 100 70 L 100 40 Z" />
-        <line x1="40" y1="48" x2="100" y2="48" />
+        <path className="obj fillsoft" d="M38 52 L92 52 L86 104 Q84 118 70 118 L60 118 Q46 118 44 104 Z" />
+        <line className="obj" x1="42" y1="68" x2="88" y2="68" />
+        <path className="obj" d="M92 60 Q106 62 107 74" />
+        {/* Stream */}
+        <path className="accent pour-stream" d="M106 76 Q122 104 124 134" />
         {/* Cup */}
-        <path d="M140 70 L 200 70 L 195 110 Q 192 116, 185 116 L 155 116 Q 148 116, 145 110 Z" />
-        <ellipse cx="170" cy="70" rx="30" ry="6" />
-        {/* Stream — animated dashes */}
-        <path d="M102 56 Q 122 60, 142 78" className="accent pour-stream" />
-        <text x="80" y="20" className="timer">{tr("78° · langsam aufgießen","78° · pour slow","78° · yavaşça dök")}</text>
+        <path className="obj fillsoft" d="M92 152 L170 152 L162 198 Q159 206 150 206 L112 206 Q103 206 100 198 Z" />
+        <ellipse className="obj" cx="131" cy="152" rx="39" ry="7" />
+        <path className="obj" d="M170 162 Q188 162 188 178 Q188 194 170 194" />
+        {/* steam */}
+        <path className="accent steam" d="M120 144 Q116 132 124 120" />
+        <path className="accent steam" style={{ animationDelay: "0.8s" }} d="M140 144 Q136 132 144 120" />
       </svg>
     );
   }
-  // Rest — cup with rising steam
+  // Ruhen — a calm cup on a saucer with rising steam
   return (
-    <svg viewBox="0 0 220 120" preserveAspectRatio="xMidYMid meet">
-      <path d="M50 75 L 150 75 L 144 112 Q 142 118, 134 118 L 66 118 Q 58 118, 56 112 Z" />
-      <ellipse cx="100" cy="75" rx="50" ry="8" />
-      <path d="M150 80 Q 175 80, 175 92 Q 175 104, 150 104" />
-      <path d="M84 60 Q 80 50, 88 38" className="accent steam" />
-      <path d="M100 58 Q 95 46, 104 32" className="accent steam" style={{ animationDelay: "0.7s" }} />
-      <path d="M116 60 Q 112 50, 120 38" className="accent steam" style={{ animationDelay: "1.3s" }} />
-      <text x="74" y="20" className="timer">{tr("30 s · setzen lassen","30 s · let it settle","30 sn · dinlenmeye bırak")}</text>
+    <svg viewBox="0 0 200 230" preserveAspectRatio="xMidYMid meet" className="rit-ill">
+      <ellipse cx="100" cy="202" rx="80" ry="11" className="ground" />
+      {/* Saucer */}
+      <ellipse className="obj" cx="100" cy="184" rx="68" ry="13" />
+      {/* Cup */}
+      <path className="obj fillsoft" d="M58 118 L142 118 L133 168 Q130 179 118 179 L82 179 Q70 179 67 168 Z" />
+      <ellipse className="obj" cx="100" cy="118" rx="42" ry="8" />
+      <ellipse className="liquid" cx="100" cy="119" rx="35" ry="6" />
+      <path className="obj" d="M142 130 Q166 130 166 151 Q166 172 142 172" />
+      {/* steam */}
+      <path className="accent steam" d="M82 102 Q77 86 86 70" />
+      <path className="accent steam" style={{ animationDelay: "0.7s" }} d="M100 100 Q95 82 104 64" />
+      <path className="accent steam" style={{ animationDelay: "1.3s" }} d="M118 102 Q113 86 122 70" />
     </svg>
   );
 }
