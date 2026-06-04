@@ -6383,6 +6383,33 @@ section.universe, section.story-intro, section.unbox, section.ritual {
   .nav .right { gap: 8px; }
 }
 
+/* ---------- Cart drawer — mobile layout fix ----------
+   Live Shopify add-on descriptions are long and bloated the fixed foot-bar so
+   it clipped the checkout button and hid the cart items. On mobile: keep the
+   items list visible (min-height), let the foot-bar scroll internally, keep the
+   checkout button sticky, and drop the long add-on descriptions. */
+@media (max-width: 720px) {
+  .cart-drawer { right: 0; left: 0; bottom: 0; top: auto; width: 100%;
+    max-height: 90vh; border-radius: var(--r-xl) var(--r-xl) 0 0;
+    transform: translateY(calc(100% + 24px)); }
+  .cart-drawer.open { transform: translateY(0); }
+  .cart-drawer .items { min-height: 22vh; padding: 10px 18px; }
+  .cart-drawer .foot-bar { padding: 14px 18px 16px; max-height: 60vh; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+  .cart-addons { margin-bottom: 10px; padding: 11px 12px; }
+  .cart-addons .addon-label { margin-bottom: 8px; }
+  .cart-addons .addon-card { padding: 9px 11px; gap: 10px; grid-template-columns: 26px 1fr auto; }
+  .cart-addons .addon-icon { width: 26px; height: 26px; }
+  .cart-addons .addon-sub { display: none; }
+  .cart-drawer .sub-row .r { font-size: 24px; }
+  .cart-drawer .ship-note { margin: 6px 0 12px; }
+  .cart-drawer .checkout { position: sticky; bottom: 0; }
+}
+/* Keep long (live Shopify) add-on descriptions to one tidy line in the cart line */
+.cart-drawer .addon-line .vmeta {
+  display: -webkit-box; -webkit-line-clamp: 1; line-clamp: 1;
+  -webkit-box-orient: vertical; overflow: hidden;
+}
+
 /* ---------- Ingredient universe — clean tappable grid on mobile (replaces the cramped orbit) ---------- */
 .orbit-grid-mobile { display: none; }
 .orbit-desc-m { display: none; }
