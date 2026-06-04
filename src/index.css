@@ -6341,3 +6341,38 @@ section.universe, section.story-intro, section.unbox, section.ritual {
   .brandmark-logo{ height: 44px; }
 }
 .nav-shell.scrolled .brandmark-logo{ height: 54px; }
+
+/* ---------- Language toggle (DE / EN / TR) ---------- */
+.nav .right { gap: 12px; }
+.lang-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  border-radius: var(--r-pill);
+  background: rgba(43,31,23,.06);
+  border: 1px solid rgba(43,31,23,.10);
+}
+.lang-toggle .lang-opt {
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  font-weight: 500;
+  padding: 6px 9px;
+  border-radius: var(--r-pill);
+  color: var(--coffee);
+  opacity: .5;
+  transition: background .25s var(--ease), color .25s var(--ease), opacity .25s var(--ease);
+  line-height: 1;
+}
+.lang-toggle .lang-opt:hover { opacity: .85; }
+.lang-toggle .lang-opt.active {
+  background: var(--coffee);
+  color: var(--cream);
+  opacity: 1;
+}
+@media (max-width: 920px) {
+  .lang-toggle { padding: 2px; }
+  .lang-toggle .lang-opt { padding: 5px 6px; font-size: 10px; letter-spacing: 0.08em; }
+  .nav .right { gap: 8px; }
+}

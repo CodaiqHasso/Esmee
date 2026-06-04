@@ -5,6 +5,29 @@
    imperative, DOM-driven prototype; runtime behaviour is the source of truth. */
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { isShopifyConfigured, createCheckout, fetchVariants, fetchAddons, fetchSellingPlans } from "./lib/shopify";
+import { tr, useLang, LANGS, LANG_LABEL } from "./i18n";
+
+/* Language toggler — DE / EN / TR. German is the default. */
+function LangToggle({ compact }) {
+  const { lang, setLang } = useLang();
+  return (
+    <div className={"lang-toggle " + (compact ? "compact" : "")} role="group" aria-label="Sprache / Language">
+      {LANGS.map((l) => (
+        <button
+          key={l}
+          type="button"
+          className={"lang-opt " + (lang === l ? "active" : "")}
+          aria-pressed={lang === l}
+          data-cur="btn"
+          data-cur-label={LANG_LABEL[l]}
+          onClick={() => setLang(l)}
+        >
+          {LANG_LABEL[l]}
+        </button>
+      ))}
+    </div>
+  );
+}
 
 // Map the cart's chosen pack tier (+ subscription) to its Shopify discount code.
 // Codes (ESMEE-3/5/10 one-time, ESMEE-1/3/5/10-ABO subscription) are created by
@@ -55,78 +78,90 @@ const VARIANTS = [
 ];
 
 // Bulk packs — single purchase only (no subscriptions)
-const PACKS = [
-  { id: "1",  count: 1,  unit: 32, save: 0,  label: "1 Packung",     sub: "250 g · ≈ 16 cups",          badge: null },
-  { id: "3",  count: 3,  unit: 28, save: 12, label: "3 Packungen",   sub: "750 g · ≈ 48 cups",          badge: "Most Loved",        badgeStyle: "copper", mostLoved: true },
-  { id: "5",  count: 5,  unit: 25, save: 22, label: "5 Packungen",   sub: "1.25 kg · ≈ 80 cups",        badge: "Bester Wert",       badgeStyle: "dark" },
-  { id: "10", count: 10, unit: 22, save: 31, label: "10+ Packungen", sub: "2.5 kg · ≈ 160 cups",        badge: "Maximale Ersparnis", badgeStyle: "copper" },
-];
+function getPacks() {
+  return [
+  { id: "1",  count: 1,  unit: 32, save: 0,  label: tr("1 Packung","1 pack","1 paket"),     sub: tr("250 g · ≈ 16 Tassen","250 g · ≈ 16 cups","250 g · ≈ 16 fincan"),          badge: null },
+  { id: "3",  count: 3,  unit: 28, save: 12, label: tr("3 Packungen","3 packs","3 paket"),   sub: tr("750 g · ≈ 48 Tassen","750 g · ≈ 48 cups","750 g · ≈ 48 fincan"),          badge: tr("Am beliebtesten","Most Loved","En sevilen"),        badgeStyle: "copper", mostLoved: true },
+  { id: "5",  count: 5,  unit: 25, save: 22, label: tr("5 Packungen","5 packs","5 paket"),   sub: tr("1,25 kg · ≈ 80 Tassen","1.25 kg · ≈ 80 cups","1,25 kg · ≈ 80 fincan"),        badge: tr("Bester Wert","Best value","En iyi değer"),       badgeStyle: "dark" },
+  { id: "10", count: 10, unit: 22, save: 31, label: tr("10+ Packungen","10+ packs","10+ paket"), sub: tr("2,5 kg · ≈ 160 Tassen","2.5 kg · ≈ 160 cups","2,5 kg · ≈ 160 fincan"),        badge: tr("Maximale Ersparnis","Max savings","Maks. tasarruf"), badgeStyle: "copper" },
+  ];
+}
 
-const INGREDIENTS = [
-  { name: "Medjool Date", note: "Natural sweetness", color: "#7A4A2B", angle: 18, r: 46,
-    origin: "Jordan Valley · Jordan", season: "Autumn '25", grams: "62 g / 250 g pouch", img: "/assets/scene-6.jpg",
-    lede: "The only sweetness in the cup.",
-    body: "Sun-cured on a single farm in the Jordan Valley by the Al-Saadi family. We use the soft-grade Medjool — pressed by hand into a paste that dissolves into the blend without a trace of graininess."
+function getIngredients() {
+  return [
+  { name: tr("Medjool-Dattel","Medjool Date","Medjool Hurması"), note: tr("Natürliche Süße","Natural sweetness","Doğal tatlılık"), color: "#7A4A2B", angle: 18, r: 46,
+    origin: tr("Jordantal · Jordanien","Jordan Valley · Jordan","Ürdün Vadisi · Ürdün"), season: tr("Herbst '25","Autumn '25","Sonbahar '25"), grams: tr("62 g / 250-g-Beutel","62 g / 250 g pouch","62 g / 250 g paket"), img: "/assets/scene-6.jpg",
+    lede: tr("Die einzige Süße in der Tasse.","The only sweetness in the cup.","Fincandaki tek tatlılık."),
+    body: tr("Sonnengetrocknet auf einer einzigen Farm im Jordantal von der Familie Al-Saadi. Wir verwenden die weiche Medjool-Sorte — von Hand zu einer Paste gepresst, die sich ohne jede Körnigkeit in der Mischung auflöst.","Sun-cured on a single farm in the Jordan Valley by the Al-Saadi family. We use the soft-grade Medjool — pressed by hand into a paste that dissolves into the blend without a trace of graininess.","Ürdün Vadisi'nde Al-Saadi ailesi tarafından tek bir çiftlikte güneşte kurutulur. Yumuşak Medjool çeşidini kullanırız — elle ezilerek, harmana hiç tanecik bırakmadan eriyen bir macun hâline getirilir.")
   },
-  { name: "Marcona Almond", note: "Butter, body", color: "#D9B988", angle: 80, r: 48,
-    origin: "Alicante · Spain", season: "Summer '25", grams: "48 g / 250 g pouch", img: "/assets/scene-5.jpg",
-    lede: "The Spanish butter-almond.",
-    body: "Cold-stone milled until the oil releases. Marcona gives the cup its mouthfeel — the round, milky body that lets you skip the dairy entirely."
+  { name: tr("Marcona-Mandel","Marcona Almond","Marcona Bademi"), note: tr("Butter, Körper","Butter, body","Tereyağı, gövde"), color: "#D9B988", angle: 80, r: 48,
+    origin: tr("Alicante · Spanien","Alicante · Spain","Alicante · İspanya"), season: tr("Sommer '25","Summer '25","Yaz '25"), grams: tr("48 g / 250-g-Beutel","48 g / 250 g pouch","48 g / 250 g paket"), img: "/assets/scene-5.jpg",
+    lede: tr("Die spanische Butter-Mandel.","The Spanish butter-almond.","İspanyol tereyağı bademi."),
+    body: tr("Kalt vermahlen, bis das Öl freigesetzt wird. Marcona gibt der Tasse ihr Mundgefühl — den runden, milchigen Körper, der dich auf Milch ganz verzichten lässt.","Cold-stone milled until the oil releases. Marcona gives the cup its mouthfeel — the round, milky body that lets you skip the dairy entirely.","Yağı açığa çıkana dek soğuk taşla öğütülür. Marcona, fincana ağız dolusu hissini verir — sütü tamamen atlamanı sağlayan yuvarlak, sütlü gövde.")
   },
-  { name: "Antep Pistachio", note: "Depth, salinity", color: "#7A8C4F", angle: 142, r: 45,
-    origin: "Gaziantep · Türkiye", season: "Late summer '25", grams: "26 g / 250 g pouch", img: "/assets/scene-3.jpg",
-    lede: "A low green hum.",
-    body: "From the Antep groves outside Gaziantep. Hand-shelled, cold-roasted, milled just enough to keep their salinity intact. The salt-edge that makes the dates taste like dessert."
+  { name: tr("Antep-Pistazie","Antep Pistachio","Antep Fıstığı"), note: tr("Tiefe, Salzigkeit","Depth, salinity","Derinlik, tuzluluk"), color: "#7A8C4F", angle: 142, r: 45,
+    origin: tr("Gaziantep · Türkei","Gaziantep · Türkiye","Gaziantep · Türkiye"), season: tr("Spätsommer '25","Late summer '25","Yaz sonu '25"), grams: tr("26 g / 250-g-Beutel","26 g / 250 g pouch","26 g / 250 g paket"), img: "/assets/scene-3.jpg",
+    lede: tr("Ein leises grünes Summen.","A low green hum.","Hafif yeşil bir uğultu."),
+    body: tr("Aus den Antep-Hainen außerhalb von Gaziantep. Von Hand geschält, kalt geröstet, gerade so weit gemahlen, dass ihre Salzigkeit erhalten bleibt. Die Salzkante, die die Datteln wie Dessert schmecken lässt.","From the Antep groves outside Gaziantep. Hand-shelled, cold-roasted, milled just enough to keep their salinity intact. The salt-edge that makes the dates taste like dessert.","Gaziantep dışındaki Antep bahçelerinden. Elle ayıklanır, soğuk kavrulur, tuzluluğunu koruyacak kadar öğütülür. Hurmaları tatlı gibi tatlandıran o tuz dokunuşu.")
   },
-  { name: "Single-origin Arabica", note: "Quiet lift", color: "#3E2719", angle: 210, r: 47,
-    origin: "Haraz · Yemen", season: "Spring '25", grams: "32 g / 250 g pouch", img: "/assets/scene-1.jpg",
-    lede: "A measured pour.",
-    body: "From the Haraz mountain farms, washed and slow-dried at altitude. We pull less than 15% of the blend in coffee — enough lift to notice, not enough to crash."
+  { name: tr("Single-Origin-Arabica","Single-origin Arabica","Tek Kaynak Arabica"), note: tr("Sanfter Schwung","Quiet lift","Sessiz canlılık"), color: "#3E2719", angle: 210, r: 47,
+    origin: tr("Haraz · Jemen","Haraz · Yemen","Haraz · Yemen"), season: tr("Frühling '25","Spring '25","İlkbahar '25"), grams: tr("32 g / 250-g-Beutel","32 g / 250 g pouch","32 g / 250 g paket"), img: "/assets/scene-1.jpg",
+    lede: tr("Ein bedächtiger Aufguss.","A measured pour.","Ölçülü bir demleme."),
+    body: tr("Von den Haraz-Bergfarmen, gewaschen und in der Höhe langsam getrocknet. Wir verwenden weniger als 15 % der Mischung an Kaffee — genug Schwung, um ihn zu spüren, nicht genug, um abzustürzen.","From the Haraz mountain farms, washed and slow-dried at altitude. We pull less than 15% of the blend in coffee — enough lift to notice, not enough to crash.","Haraz dağ çiftliklerinden, yıkanmış ve yükseklerde yavaşça kurutulmuş. Harmanın %15'inden azını kahve olarak alırız — fark edilecek kadar canlılık, çökertmeyecek kadar az.")
   },
-  { name: "Green Cardamom", note: "Aromatic warmth", color: "#A48A53", angle: 272, r: 44,
-    origin: "Kerala · India", season: "Year-round", grams: "4 g / 250 g pouch", img: "/assets/scene-2.jpg",
-    lede: "The perfumed line.",
-    body: "Whole pods crushed the morning of blending. Just four grams per pouch — present enough to lift the date, quiet enough never to overwhelm."
+  { name: tr("Grüner Kardamom","Green Cardamom","Yeşil Kakule"), note: tr("Aromatische Wärme","Aromatic warmth","Aromatik sıcaklık"), color: "#A48A53", angle: 272, r: 44,
+    origin: tr("Kerala · Indien","Kerala · India","Kerala · Hindistan"), season: tr("Ganzjährig","Year-round","Yıl boyu"), grams: tr("4 g / 250-g-Beutel","4 g / 250 g pouch","4 g / 250 g paket"), img: "/assets/scene-2.jpg",
+    lede: tr("Die parfümierte Linie.","The perfumed line.","Parfümlü çizgi."),
+    body: tr("Ganze Kapseln, am Morgen des Mischens zerstoßen. Nur vier Gramm pro Beutel — präsent genug, um die Dattel zu heben, leise genug, um nie zu überwältigen.","Whole pods crushed the morning of blending. Just four grams per pouch — present enough to lift the date, quiet enough never to overwhelm.","Bütün kapsüller, harmanlama sabahı dövülür. Paket başına yalnızca dört gram — hurmayı yükseltecek kadar var, asla bastırmayacak kadar sessiz.")
   },
-  { name: "Cocoa Nib", note: "Bitter contrast", color: "#4E3322", angle: 330, r: 46,
-    origin: "Tabasco · Mexico", season: "Winter '25", grams: "18 g / 250 g pouch", img: "/assets/scene-4.jpg",
-    lede: "The bitter punctuation.",
-    body: "Cocoa nibs from a single co-op in Tabasco, lightly toasted to draw out the chocolate without sweetness. The bitter line that holds the cup together."
+  { name: tr("Kakaonib","Cocoa Nib","Kakao Nibi"), note: tr("Bitterer Kontrast","Bitter contrast","Acı kontrast"), color: "#4E3322", angle: 330, r: 46,
+    origin: tr("Tabasco · Mexiko","Tabasco · Mexico","Tabasco · Meksika"), season: tr("Winter '25","Winter '25","Kış '25"), grams: tr("18 g / 250-g-Beutel","18 g / 250 g pouch","18 g / 250 g paket"), img: "/assets/scene-4.jpg",
+    lede: tr("Das bittere Satzzeichen.","The bitter punctuation.","Acı noktalama."),
+    body: tr("Kakaonibs aus einer einzigen Kooperative in Tabasco, leicht geröstet, um die Schokolade ohne Süße hervorzubringen. Die bittere Linie, die die Tasse zusammenhält.","Cocoa nibs from a single co-op in Tabasco, lightly toasted to draw out the chocolate without sweetness. The bitter line that holds the cup together.","Tabasco'da tek bir kooperatiften kakao nibleri, çikolatayı tatlılık olmadan ortaya çıkarmak için hafifçe kavrulur. Fincanı bir arada tutan acı çizgi.")
   },
-];
+  ];
+}
 
-const BENEFITS = [
-  { t: "Zero refined sugar",   d: "Sweetened only by Medjool dates — no glucose spikes, no crash.", g: "leaf" },
-  { t: "Slow energy",          d: "A measured pour of single-origin arabica balanced by almond fat. Lift, never jitter.", g: "spark" },
-  { t: "Nutrient density",     d: "Pistachio, almond and date deliver magnesium, potassium and fibre per cup.", g: "drop" },
-  { t: "Gut-friendly",         d: "Dairy-free, vegan, low-acid. Easier on the stomach than espresso.", g: "circle" },
-  { t: "Composed in Dubai",    d: "Hand-blended in our atelier. Single farm, single season, single batch.", g: "marker" },
-  { t: "Ready in 90 seconds",  d: "One scoop, hot water or milk. No grinder. No fuss.", g: "clock" },
-];
+function getBenefits() {
+  return [
+  { t: tr("Null raffinierter Zucker","Zero refined sugar","Sıfır rafine şeker"),   d: tr("Nur mit Medjool-Datteln gesüßt — keine Glukosespitzen, kein Absturz.","Sweetened only by Medjool dates — no glucose spikes, no crash.","Yalnızca Medjool hurmasıyla tatlandırılır — glikoz zirvesi yok, çöküş yok."), g: "leaf" },
+  { t: tr("Langsame Energie","Slow energy","Yavaş enerji"),          d: tr("Ein bedächtiger Aufguss Single-Origin-Arabica, ausbalanciert durch Mandelfett. Schwung, niemals Zittern.","A measured pour of single-origin arabica balanced by almond fat. Lift, never jitter.","Badem yağıyla dengelenmiş, ölçülü bir tek kaynak arabica. Canlılık, asla titreme."), g: "spark" },
+  { t: tr("Nährstoffdichte","Nutrient density","Besin yoğunluğu"),     d: tr("Pistazie, Mandel und Dattel liefern Magnesium, Kalium und Ballaststoffe pro Tasse.","Pistachio, almond and date deliver magnesium, potassium and fibre per cup.","Fıstık, badem ve hurma her fincanda magnezyum, potasyum ve lif sağlar."), g: "drop" },
+  { t: tr("Magenfreundlich","Gut-friendly","Mideye dost"),         d: tr("Milchfrei, vegan, säurearm. Magenschonender als Espresso.","Dairy-free, vegan, low-acid. Easier on the stomach than espresso.","Sütsüz, vegan, düşük asit. Espressodan mideye daha hafif."), g: "circle" },
+  { t: tr("In Dubai komponiert","Composed in Dubai","Dubai'de hazırlanır"),    d: tr("Handgemischt in unserem Atelier. Eine Farm, eine Saison, eine Charge.","Hand-blended in our atelier. Single farm, single season, single batch.","Atölyemizde elde harmanlanır. Tek çiftlik, tek mevsim, tek parti."), g: "marker" },
+  { t: tr("In 90 Sekunden fertig","Ready in 90 seconds","90 saniyede hazır"),  d: tr("Ein Löffel, heißes Wasser oder Milch. Keine Mühle. Kein Aufwand.","One scoop, hot water or milk. No grinder. No fuss.","Bir ölçek, sıcak su ya da süt. Değirmen yok. Zahmet yok."), g: "clock" },
+  ];
+}
 
-const RITUAL = [
-  { n: "I",  t: "Measure",  c: "One heaped spoon of Manduraa for every small cup. We use 7 grams.", img: "/assets/scene-6.jpg" },
-  { n: "II", t: "Pour",     c: "Steam — never boil — your milk or water to 78°. Pour over slowly.", img: "/assets/scene-3.jpg" },
-  { n: "III",t: "Rest",     c: "Wait a breath. Let the dates settle. The first sip should feel found.", img: "/assets/scene-4.jpg" },
-];
+function getRitual() {
+  return [
+  { n: "I",  t: tr("Dosieren","Measure","Ölç"),  c: tr("Ein gehäufter Löffel Manduraa für jede kleine Tasse. Wir nehmen 7 Gramm.","One heaped spoon of Manduraa for every small cup. We use 7 grams.","Her küçük fincan için bir tepeleme kaşık Manduraa. Biz 7 gram kullanırız."), img: "/assets/scene-6.jpg" },
+  { n: "II", t: tr("Aufgießen","Pour","Dök"),     c: tr("Milch oder Wasser auf 78° erhitzen — niemals kochen. Langsam aufgießen.","Steam — never boil — your milk or water to 78°. Pour over slowly.","Sütü ya da suyu 78°'ye ısıt — asla kaynatma. Yavaşça üzerine dök."), img: "/assets/scene-3.jpg" },
+  { n: "III",t: tr("Ruhen","Rest","Dinlendir"),     c: tr("Einen Atemzug warten. Die Datteln setzen lassen. Der erste Schluck soll sich gefunden anfühlen.","Wait a breath. Let the dates settle. The first sip should feel found.","Bir nefes bekle. Hurmaların dibe çökmesini bekle. İlk yudum bir keşif gibi hissettirmeli."), img: "/assets/scene-4.jpg" },
+  ];
+}
 
-const TASTE = [
-  { name: "Sweetness", val: 7 },
-  { name: "Body",      val: 8 },
-  { name: "Roast",     val: 5 },
-  { name: "Acidity",   val: 2 },
-  { name: "Aromatic",  val: 6 },
-  { name: "Caffeine",  val: 4 },
-];
+function getTaste() {
+  return [
+  { name: tr("Süße","Sweetness","Tatlılık"), val: 7 },
+  { name: tr("Körper","Body","Gövde"),      val: 8 },
+  { name: tr("Röstung","Roast","Kavurma"),     val: 5 },
+  { name: tr("Säure","Acidity","Asit"),   val: 2 },
+  { name: tr("Aromatik","Aromatic","Aromatik"),  val: 6 },
+  { name: tr("Koffein","Caffeine","Kafein"),  val: 4 },
+  ];
+}
 
-const FAQS = [
-  { q: "What's actually in Manduraa?", a: "Six ingredients, nothing else: Medjool dates, Marcona almonds, Antep pistachios, single-origin arabica coffee, green cardamom and cocoa nibs. No refined sugar, no syrups, no flavourings, no preservatives. Vegan and gluten-free." },
-  { q: "How do I prepare it?", a: "One heaped spoon (7 g) per small cup. Add 150 ml of hot — not boiling — water or steamed milk and stir for ten seconds. Let it rest for thirty seconds before drinking. That's the entire ritual." },
-  { q: "Does it contain caffeine?", a: "Original contains about half the caffeine of a regular espresso — gentle, sustained. We also offer a caffeine-free edition using naturally decaffeinated arabica." },
-  { q: "How long does a pouch last?", a: "A 250 g pouch makes roughly 16 cups. Stored sealed in a cool, dark place, it stays at peak for six months from the date stamped on the back." },
-  { q: "Where do you ship?", a: "Across the GCC, the EU and the UK. Complimentary delivery on orders over €60. Orders ship within 48 hours from our atelier in Dubai." },
-  { q: "Can I return it?", a: "Yes. If you don't love your first cup, send the pouch back within 30 days and we'll refund you in full. No questions, no friction." },
-];
+function getFaqs() {
+  return [
+  { q: tr("Was steckt eigentlich in Manduraa?","What's actually in Manduraa?","Manduraa'da aslında ne var?"), a: tr("Sechs Zutaten, mehr nicht: Medjool-Datteln, Marcona-Mandeln, Antep-Pistazien, Single-Origin-Arabica-Kaffee, grüner Kardamom und Kakaonibs. Kein raffinierter Zucker, keine Sirupe, keine Aromen, keine Konservierungsstoffe. Vegan und glutenfrei.","Six ingredients, nothing else: Medjool dates, Marcona almonds, Antep pistachios, single-origin arabica coffee, green cardamom and cocoa nibs. No refined sugar, no syrups, no flavourings, no preservatives. Vegan and gluten-free.","Altı malzeme, başka hiçbir şey: Medjool hurması, Marcona bademi, Antep fıstığı, tek kaynak arabica kahve, yeşil kakule ve kakao nibleri. Rafine şeker yok, şurup yok, aroma yok, koruyucu yok. Vegan ve glutensiz.") },
+  { q: tr("Wie bereite ich es zu?","How do I prepare it?","Nasıl hazırlanır?"), a: tr("Ein gehäufter Löffel (7 g) pro kleine Tasse. 150 ml heißes — nicht kochendes — Wasser oder aufgeschäumte Milch dazugeben und zehn Sekunden rühren. Vor dem Trinken dreißig Sekunden ruhen lassen. Das ist das ganze Ritual.","One heaped spoon (7 g) per small cup. Add 150 ml of hot — not boiling — water or steamed milk and stir for ten seconds. Let it rest for thirty seconds before drinking. That's the entire ritual.","Her küçük fincan için bir tepeleme kaşık (7 g). 150 ml sıcak — kaynar değil — su ya da köpürtülmüş süt ekleyip on saniye karıştır. İçmeden önce otuz saniye dinlendir. Tüm ritüel bu kadar.") },
+  { q: tr("Enthält es Koffein?","Does it contain caffeine?","Kafein içeriyor mu?"), a: tr("Original enthält etwa halb so viel Koffein wie ein normaler Espresso — sanft, anhaltend. Wir bieten auch eine koffeinfreie Edition mit natürlich entkoffeiniertem Arabica an.","Original contains about half the caffeine of a regular espresso — gentle, sustained. We also offer a caffeine-free edition using naturally decaffeinated arabica.","Original, normal bir espressonun yaklaşık yarısı kadar kafein içerir — yumuşak, sürekli. Ayrıca doğal olarak kafeini alınmış arabica ile kafeinsiz bir edisyon da sunuyoruz.") },
+  { q: tr("Wie lange reicht ein Beutel?","How long does a pouch last?","Bir paket ne kadar yeter?"), a: tr("Ein 250-g-Beutel ergibt etwa 16 Tassen. Versiegelt an einem kühlen, dunklen Ort gelagert, bleibt er ab dem auf der Rückseite aufgedruckten Datum sechs Monate auf dem Höhepunkt.","A 250 g pouch makes roughly 16 cups. Stored sealed in a cool, dark place, it stays at peak for six months from the date stamped on the back.","250 g'lık bir paket yaklaşık 16 fincan yapar. Serin, karanlık bir yerde kapalı saklandığında, arkasında yazan tarihten itibaren altı ay boyunca en iyi durumda kalır.") },
+  { q: tr("Wohin liefert ihr?","Where do you ship?","Nereye gönderiyorsunuz?"), a: tr("In die GCC-Staaten, die EU und das Vereinigte Königreich. Kostenlose Lieferung ab €60. Bestellungen werden innerhalb von 48 Stunden aus unserem Atelier in Dubai versandt.","Across the GCC, the EU and the UK. Complimentary delivery on orders over €60. Orders ship within 48 hours from our atelier in Dubai.","GCC ülkelerine, AB'ye ve Birleşik Krallık'a. €60 üzeri siparişlerde ücretsiz teslimat. Siparişler Dubai'deki atölyemizden 48 saat içinde gönderilir.") },
+  { q: tr("Kann ich es zurückgeben?","Can I return it?","İade edebilir miyim?"), a: tr("Ja. Wenn dir deine erste Tasse nicht gefällt, schick den Beutel innerhalb von 30 Tagen zurück und wir erstatten dir den vollen Betrag. Keine Fragen, keine Hürden.","Yes. If you don't love your first cup, send the pouch back within 30 days and we'll refund you in full. No questions, no friction.","Evet. İlk fincanını sevmezsen, paketi 30 gün içinde geri gönder, tutarın tamamını iade edelim. Soru yok, zorluk yok.") },
+  ];
+}
 
 /* ---------- HOOKS ---------- */
 function useScrollY() {
@@ -351,6 +386,7 @@ function burstConfetti(x, y, opts = {}) {
 
 /* Preloader — shows scene-counter while preloading hero images */
 function Preloader({ onDone }) {
+  const SCENES = getScenes();
   const [step, setStep] = useState(1);
   const total = SCENES.length;
   const [done, setDone] = useState(false);
@@ -419,7 +455,7 @@ function Preloader({ onDone }) {
           {"ESMEE".split("").map((l, i) => (<span key={i} className="ltr">{l}</span>))}
         </div>
         <div className="progress-line">
-          <div className="step">composing your cup …</div>
+          <div className="step">{tr("komponiere deine Tasse …","composing your cup …","fincanın hazırlanıyor …")}</div>
           <div className="bar"><div className="fill" style={{ width: pct + "%" }} /></div>
           <div className="step">
             <span className="counter">{String(step).padStart(2, "0")}</span>
@@ -551,23 +587,25 @@ function flyToCart(imageUrl) {
 }
 
 function Nav({ onCart, cartCount, scrolled }) {
+  useLang();
   return (
     <div className={"nav-shell " + (scrolled ? "scrolled" : "")}>
       <nav className="nav">
         <div className="left">
           <div className="links">
-            <a className="link" data-cur="btn" data-cur-label="Read" href="#story-intro">Manduraa</a>
-            <a className="link" data-cur="btn" data-cur-label="Open" href="#universe">Ingredients</a>
-            <a className="link" data-cur="btn" data-cur-label="Shop" href="#shop">Shop</a>
-            <a className="link" data-cur="btn" data-cur-label="FAQ" href="#faq">FAQ</a>
+            <a className="link" data-cur="btn" data-cur-label={tr("Lesen","Read","Oku")} href="#story-intro">Manduraa</a>
+            <a className="link" data-cur="btn" data-cur-label={tr("Öffnen","Open","Aç")} href="#universe">{tr("Zutaten","Ingredients","İçindekiler")}</a>
+            <a className="link" data-cur="btn" data-cur-label="Shop" href="#shop">{tr("Shop","Shop","Mağaza")}</a>
+            <a className="link" data-cur="btn" data-cur-label="FAQ" href="#faq">{tr("FAQ","FAQ","SSS")}</a>
           </div>
         </div>
         <a href="#top" className="brandmark brandmark-logo" data-cur="btn" data-cur-label="Top" aria-label="Esmee">
           <img src="/assets/logo-esmee.png" alt="Esmee" />
         </a>
         <div className="right">
-          <button className="cart-btn" data-cur="btn" data-cur-label="Bag" onClick={onCart} aria-label="Open cart">
-            <span>Cart</span>
+          <LangToggle />
+          <button className="cart-btn" data-cur="btn" data-cur-label={tr("Tasche","Bag","Çanta")} onClick={onCart} aria-label={tr("Warenkorb öffnen","Open cart","Sepeti aç")}>
+            <span>{tr("Warenkorb","Cart","Sepet")}</span>
             <span className="cart-count">{cartCount}</span>
           </button>
         </div>
@@ -579,59 +617,63 @@ function Nav({ onCart, cartCount, scrolled }) {
 /* ============================================================
    CINEMATIC SCROLL STORY — 6 scenes
    ============================================================ */
-const SCENES = [
+function getScenes() {
+  return [
   {
     src: "/assets/scene-1.jpg",
     kicker: "Esmee · Maison N° 01",
-    title: "A composition,\nsuspended.",
-    body: "Dates. Almonds. Pistachio. Coffee.\nFour ingredients, held for a breath.",
-    pos: "top", sub: "Scroll, slowly",
+    title: tr("Eine Komposition,\nschwebend.", "A composition,\nsuspended.", "Bir kompozisyon,\naskıda."),
+    body: tr("Datteln. Mandeln. Pistazie. Kaffee.\nVier Zutaten, einen Atemzug lang gehalten.", "Dates. Almonds. Pistachio. Coffee.\nFour ingredients, held for a breath.", "Hurma. Badem. Antep fıstığı. Kahve.\nDört malzeme, bir nefeslik tutuldu."),
+    pos: "top", sub: tr("Scrolle, langsam", "Scroll, slowly", "Yavaşça kaydır"),
   },
   {
     src: "/assets/scene-2.jpg",
-    kicker: "Phase ii — The settling",
-    title: "Each ingredient,\nin its turn.",
+    kicker: tr("Phase ii — Das Setzen", "Phase ii — The settling", "Aşama ii — Durulma"),
+    title: tr("Jede Zutat,\nzu ihrer Zeit.", "Each ingredient,\nin its turn.", "Her malzeme,\nsırasıyla."),
     pos: "side-right",
     tags: [
-      { side: "l", x: "6vw", y: "30vh", label: "Medjool Date" },
-      { side: "r", x: "8vw", y: "36vh", label: "Cocoa Nib" },
-      { side: "l", x: "9vw", y: "52vh", label: "Single-origin Arabica" },
+      { side: "l", x: "6vw", y: "30vh", label: tr("Medjool-Dattel", "Medjool Date", "Medjool Hurması") },
+      { side: "r", x: "8vw", y: "36vh", label: tr("Kakaonib", "Cocoa Nib", "Kakao Nibi") },
+      { side: "l", x: "9vw", y: "52vh", label: tr("Single-Origin-Arabica", "Single-origin Arabica", "Tek Kaynak Arabica") },
     ],
   },
   {
     src: "/assets/scene-3.jpg",
-    kicker: "Phase iii — Composition",
-    title: "Date. Almond.\nPistachio. Coffee.",
+    kicker: tr("Phase iii — Komposition", "Phase iii — Composition", "Aşama iii — Kompozisyon"),
+    title: tr("Dattel. Mandel.\nPistazie. Kaffee.", "Date. Almond.\nPistachio. Coffee.", "Hurma. Badem.\nFıstık. Kahve."),
     pos: "top",
     tags: [
-      { side: "l", x: "8vw", y: "34vh", label: "Marcona Almond" },
-      { side: "r", x: "10vw", y: "44vh", label: "Antep Pistachio" },
+      { side: "l", x: "8vw", y: "34vh", label: tr("Marcona-Mandel", "Marcona Almond", "Marcona Bademi") },
+      { side: "r", x: "10vw", y: "44vh", label: tr("Antep-Pistazie", "Antep Pistachio", "Antep Fıstığı") },
     ],
   },
   {
     src: "/assets/scene-4.jpg",
-    kicker: "Phase iv — At rest",
-    title: "A still cup,\nheld in light.",
-    body: "The drama settles. What is left is the\nquiet, the steam, the waiting.",
+    kicker: tr("Phase iv — In Ruhe", "Phase iv — At rest", "Aşama iv — Dinlenmede"),
+    title: tr("Eine stille Tasse,\nim Licht gehalten.", "A still cup,\nheld in light.", "Durgun bir fincan,\nışıkta tutulmuş."),
+    body: tr("Das Drama legt sich. Was bleibt, ist die\nStille, der Dampf, das Warten.", "The drama settles. What is left is the\nquiet, the steam, the waiting.", "Drama yatışır. Geriye kalan\nsessizlik, buhar, bekleyiş."),
     pos: "side-right",
   },
   {
     src: "/assets/scene-5.jpg",
-    kicker: "Phase v — The reveal",
-    title: "From the atelier\nto the cup.",
-    body: "One blend. One pouch. Composed\nby hand in Dubai.",
+    kicker: tr("Phase v — Die Enthüllung", "Phase v — The reveal", "Aşama v — Açığa çıkış"),
+    title: tr("Vom Atelier\nin die Tasse.", "From the atelier\nto the cup.", "Atölyeden\nfincana."),
+    body: tr("Eine Mischung. Ein Beutel. Von Hand\nin Dubai komponiert.", "One blend. One pouch. Composed\nby hand in Dubai.", "Tek harman. Tek paket. Dubai'de\nelle hazırlandı."),
     pos: "top",
   },
   {
     src: "/assets/scene-6.jpg",
     kicker: "Edition № 01",
     title: "Manduraa.",
-    body: "Sweetened with dates, not sugar.\n250 g · 6 ingredients · 0 sugar added.",
+    body: tr("Mit Datteln gesüßt, nicht mit Zucker.\n250 g · 6 Zutaten · 0 g zugesetzter Zucker.", "Sweetened with dates, not sugar.\n250 g · 6 ingredients · 0 sugar added.", "Şekerle değil, hurmayla tatlandırıldı.\n250 g · 6 malzeme · 0 g ilave şeker."),
     pos: "bottom", cta: true,
   },
-];
+  ];
+}
 
 function ScrollStory({ onSteamIntensity, heroFrom }) {
+  useLang();
+  const SCENES = getScenes();
   const stageRef = useRef(null);
   const sceneRefs = useRef([]);
   const intensityRef = useRef(0);
@@ -713,33 +755,33 @@ function ScrollStory({ onSteamIntensity, heroFrom }) {
         ))}
         <SteamCanvas getIntensity={getIntensity} />
         <div className="phase-counter">
-          <span className="big">0{cue + 1}</span> &nbsp; — &nbsp; <span>{SCENES.length} acts</span>
+          <span className="big">0{cue + 1}</span> &nbsp; — &nbsp; <span>{SCENES.length} {tr("Akte","acts","perde")}</span>
         </div>
-        {/* CRO: Hero buy-strip — stars + price + ATC over the first scene */}
+        {/* CRO: Hero buy-strip — highlights + price + ATC over the first scene */}
         <div className={"hero-buystrip " + (cue === 0 ? "in" : "")} aria-hidden={cue !== 0}>
           <div className="hb-row hb-row-top">
-            <span className="hb-stars" aria-label="Produkt-Highlights">
-              <span className="hb-rate">0 g raffinierter Zucker · 6 Zutaten · Vegan</span>
+            <span className="hb-stars" aria-label={tr("Produkt-Highlights","Product highlights","Ürün öne çıkanları")}>
+              <span className="hb-rate">{tr("0 g raffinierter Zucker · 6 Zutaten · Vegan","0 g refined sugar · 6 ingredients · vegan","0 g rafine şeker · 6 malzeme · vegan")}</span>
             </span>
             <span className="hb-trust">
-              <span>30 Tage Geld-zurück</span>
+              <span>{tr("30 Tage Geld-zurück","30-day money-back","30 gün iade")}</span>
               <span className="hb-dot"></span>
-              <span>Versand in 48 h</span>
+              <span>{tr("Versand in 48 h","Ships in 48 h","48 saatte kargo")}</span>
               <span className="hb-dot"></span>
-              <span>Gratis ab €60</span>
+              <span>{tr("Gratis ab €60","Free over €60","€60 üzeri ücretsiz")}</span>
             </span>
           </div>
           <div className="hb-row hb-row-bot">
             <div className="hb-meta">
               <span className="hb-edition">Esmee · Edition № 01</span>
-              <span className="hb-name">Manduraa · ab <em>€{heroFrom || 22}</em>/Pouch</span>
+              <span className="hb-name">Manduraa · {tr("ab","from","şu fiyattan")} <em>€{heroFrom || 22}</em>/{tr("Beutel","pouch","paket")}</span>
             </div>
             <div className="hb-cta-wrap">
               <button className="hb-cta" data-cur="btn" data-cur-label="Shop" onClick={scrollToShop}>
-                In den Warenkorb <span className="hb-cta-arrow">→</span>
+                {tr("In den Warenkorb","Add to cart","Sepete ekle")} <span className="hb-cta-arrow">→</span>
               </button>
               <button className="hb-cta-ghost" onClick={() => { const el = document.getElementById("story-intro"); if (el) window.scrollTo({ top: el.offsetTop - 80, behavior: "smooth" }); }}>
-                Story ansehen
+                {tr("Story ansehen","Watch the story","Hikâyeyi izle")}
               </button>
             </div>
           </div>
@@ -755,7 +797,7 @@ function ScrollStory({ onSteamIntensity, heroFrom }) {
                 {s.sub && <div className="sub">{s.sub}</div>}
                 {s.cta && (
                   <button className="reveal-cta" data-cur="btn" data-cur-label="Shop" onClick={scrollToShop}>
-                    Discover Manduraa →
+                    {tr("Manduraa entdecken","Discover Manduraa","Manduraa'yı keşfet")} →
                   </button>
                 )}
               </div>
@@ -776,7 +818,7 @@ function ScrollStory({ onSteamIntensity, heroFrom }) {
           )}
         </div>
         <div className="scroll-hint">
-          <span>Scroll, slowly</span>
+          <span>{tr("Scrolle, langsam","Scroll, slowly","Yavaşça kaydır")}</span>
           <span className="bar"></span>
         </div>
       </div>
@@ -811,46 +853,45 @@ function ReviewsRibbon() {
    INTRO STORY
    ============================================================ */
 function StoryIntro() {
+  useLang();
   return (
     <section id="story-intro" className="block story-intro">
       <div className="container grid">
         <div>
-          <span className="eyebrow reveal">— A note from the atelier</span>
-          <h2 className="reveal delay-1">
-            <SplitText text="The cup our grandmothers" />
+          <span className="eyebrow reveal">{tr("— Eine Notiz aus dem Atelier","— A note from the atelier","— Atölyeden bir not")}</span>
+          <h2 className="reveal delay-1" key={tr("de","en","tr")}>
+            <SplitText text={tr("Die Tasse, die unsere Großmütter","The cup our grandmothers","Büyükannelerimizin o fincanı")} />
             <br/>
-            <em className="italic"><SplitText text="never had time" delay={0.3} /></em>
-            <SplitText text=" to write down." delay={0.55} />
+            <em className="italic"><SplitText text={tr("nie die Zeit hatten","never had time","yazmaya hiç")} delay={0.3} /></em>
+            <SplitText text={tr(", sie aufzuschreiben.","  to write down.","  vakitleri olmadı.")} delay={0.55} />
           </h2>
           <p className="reveal delay-2">
-            Manduraa is not a coffee, and not quite a chocolate. It is the quiet
-            ceremony we kept watching, year after year, in kitchens from{" "}
-            <HoverWord word="Beirut" label="Beirut · Lebanon" text="Where the date-syrup tradition still lives in copper saucepans." img="/assets/scene-2.jpg" />{" "}
-            to{" "}
-            <HoverWord word="Antakya" label="Antakya · Türkiye" text="The pistachio belt — Antep cousins of the cup." img="/assets/scene-3.jpg" />: the women who turned dates into syrup with their hands,
-            who ground{" "}
-            <HoverWord word="almonds" label="Marcona Almond" text="The buttery Spanish almond. Cold-stone milled into the blend." img="/assets/scene-5.jpg" />{" "}
-            patiently because sugar was for guests.
+            {tr("Manduraa ist kein Kaffee und nicht ganz eine Schokolade. Es ist die stille Zeremonie, die wir Jahr für Jahr in Küchen von ","Manduraa is not a coffee, and not quite a chocolate. It is the quiet ceremony we kept watching, year after year, in kitchens from ","Manduraa ne bir kahve ne de tam bir çikolata. Yıllar boyu mutfaklarda izlediğimiz o sessiz tören: ")}
+            <HoverWord word={tr("Beirut","Beirut","Beyrut")} label={tr("Beirut · Libanon","Beirut · Lebanon","Beyrut · Lübnan")} text={tr("Wo die Dattelsirup-Tradition noch in kupfernen Töpfen lebt.","Where the date-syrup tradition still lives in copper saucepans.","Hurma pekmezi geleneğinin hâlâ bakır tencerelerde yaşadığı yer.")} img="/assets/scene-2.jpg" />
+            {tr(" bis "," to "," — ")}
+            <HoverWord word="Antakya" label={tr("Antakya · Türkei","Antakya · Türkiye","Antakya · Türkiye")} text={tr("Der Pistazien-Gürtel — Antep-Verwandte der Tasse.","The pistachio belt — Antep cousins of the cup.","Antep fıstığı kuşağı — fincanın Antep akrabaları.")} img="/assets/scene-3.jpg" />
+            {tr(": die Frauen, die Datteln mit ihren Händen zu Sirup verwandelten, die geduldig ",": the women who turned dates into syrup with their hands, who ground "," datilleri elleriyle pekmeze çeviren, şeker misafirlere ayrıldığı için sabırla ")}
+            <HoverWord word={tr("Mandeln","almonds","bademleri")} label={tr("Marcona-Mandel","Marcona Almond","Marcona Bademi")} text={tr("Die butterige spanische Mandel. Kalt vermahlen in die Mischung.","The buttery Spanish almond. Cold-stone milled into the blend.","Tereyağsı İspanyol bademi. Soğuk taşla harmana öğütülür.")} img="/assets/scene-5.jpg" />
+            {tr(" mahlten, weil Zucker für die Gäste war."," patiently because sugar was for guests."," öğüten kadınlar.")}
           </p>
           <p className="reveal delay-3">
-            We bottled the gesture. Six ingredients, nothing else. The blend is
-            sweetened only by{" "}
-            <HoverWord word="Jordan Valley dates" label="Medjool Date" text="Sun-cured on a single farm in the Jordan Valley." img="/assets/scene-6.jpg" />.{" "}
-            The body comes from cold-stone Marcona. The lift, when you want it,
-            is single-origin{" "}
-            <HoverWord word="arabica" label="Arabica · Yemen" text="A measured pour from the Haraz mountain farms." img="/assets/scene-1.jpg" />.
+            {tr("Wir haben die Geste eingefangen. Sechs Zutaten, nichts weiter. Die Mischung wird allein durch ","We bottled the gesture. Six ingredients, nothing else. The blend is sweetened only by ","Bu jesti şişeye koyduk. Altı malzeme, başka hiçbir şey. Harman yalnızca ")}
+            <HoverWord word={tr("Datteln aus dem Jordantal","Jordan Valley dates","Ürdün Vadisi hurmaları")} label={tr("Medjool-Dattel","Medjool Date","Medjool Hurması")} text={tr("Sonnengetrocknet auf einer einzigen Farm im Jordantal.","Sun-cured on a single farm in the Jordan Valley.","Ürdün Vadisi'nde tek bir çiftlikte güneşte kurutulmuş.")} img="/assets/scene-6.jpg" />
+            {tr(" gesüßt. Der Körper kommt von kalt vermahlener Marcona. Der Schwung, wenn du ihn willst, ist Single-Origin-",". The body comes from cold-stone Marcona. The lift, when you want it, is single-origin "," ile tatlandırılır. Gövde, soğuk taşla öğütülmüş Marcona'dan gelir. İstediğinde gelen canlılık ise tek kaynak ")}
+            <HoverWord word={tr("Arabica","arabica","arabica")} label={tr("Arabica · Jemen","Arabica · Yemen","Arabica · Yemen")} text={tr("Ein bedächtiger Aufguss von den Haraz-Bergfarmen.","A measured pour from the Haraz mountain farms.","Haraz dağ çiftliklerinden ölçülü bir demleme.")} img="/assets/scene-1.jpg" />
+            {tr(".",".",".")}
           </p>
           <div className="stats reveal delay-3">
-            <div className="stat"><strong><Counter to={6} duration={1100} /></strong><span>Ingredients</span></div>
-            <div className="stat"><strong><Counter to={0} duration={1100} suffix="g" /></strong><span>Refined sugar</span></div>
-            <div className="stat"><strong><Counter to={1} duration={1100} prefix="0" /></strong><span>Atelier · Dubai</span></div>
+            <div className="stat"><strong><Counter to={6} duration={1100} /></strong><span>{tr("Zutaten","Ingredients","Malzeme")}</span></div>
+            <div className="stat"><strong><Counter to={0} duration={1100} suffix="g" /></strong><span>{tr("Raffinierter Zucker","Refined sugar","Rafine şeker")}</span></div>
+            <div className="stat"><strong><Counter to={1} duration={1100} prefix="0" /></strong><span>{tr("Atelier · Dubai","Atelier · Dubai","Atölye · Dubai")}</span></div>
           </div>
         </div>
         <div className="reveal delay-1">
-          <div className="frame aspect-3x4 parallax" data-cur="img" data-cur-label="View">
-            <BlurImg src="/assets/scene-4.jpg" alt="A still porcelain cup of Manduraa, steaming softly." />
-            <span className="caption">Atelier — Composition no. 04</span>
-            <span className="floating-tag"><span className="pulse"></span>Hand-blended · Dubai</span>
+          <div className="frame aspect-3x4 parallax" data-cur="img" data-cur-label={tr("Ansehen","View","Gör")}>
+            <BlurImg src="/assets/scene-4.jpg" alt={tr("Eine stille Porzellantasse Manduraa, sanft dampfend.","A still porcelain cup of Manduraa, steaming softly.","Hafifçe tüten, durgun bir porselen Manduraa fincanı.")} />
+            <span className="caption">{tr("Atelier — Komposition Nr. 04","Atelier — Composition no. 04","Atölye — Kompozisyon No. 04")}</span>
+            <span className="floating-tag"><span className="pulse"></span>{tr("Handgemischt · Dubai","Hand-blended · Dubai","Elde harmanlanmış · Dubai")}</span>
           </div>
         </div>
       </div>
@@ -871,7 +912,9 @@ function IngredientUniverse() {
   const lastDelta = useRef(0);
   const inertia = useRef(0);
   const auto = useRef(0);
-  const [selected, setSelected] = useState(null); // ingredient or null
+  useLang();
+  const INGREDIENTS = getIngredients();
+  const [selected, setSelected] = useState(null); // selected ingredient INDEX or null
 
   // auto-rotate slowly when idle
   useEffect(() => {
@@ -953,17 +996,17 @@ function IngredientUniverse() {
     const top  = 50 + Math.sin(rad) * ing.r;
     return (
       <div
-        key={ing.name}
+        key={idx}
         className="ing-chip"
         data-cur="btn"
-        data-cur-label="Open"
+        data-cur-label={tr("Öffnen","Open","Aç")}
         style={{
           left: `${left}%`,
           top: `${top}%`,
           transform: "translate(-50%, -50%)",
           position: "absolute",
         }}
-        onClick={(e) => { e.stopPropagation(); setSelected(ing); }}
+        onClick={(e) => { e.stopPropagation(); setSelected(idx); }}
       >
         <span className="swatch" style={{ background: ing.color }} />
         <div>
@@ -986,13 +1029,12 @@ function IngredientUniverse() {
     <section id="universe" className="block universe">
       <div className="container">
         <div className="section-head">
-          <span className="eyebrow reveal">— Ingredient universe</span>
-          <h2 className="reveal delay-1">
-            <SplitText text="Six ingredients" /> <em className="italic"><SplitText text="in orbit." delay={0.25} /></em>
+          <span className="eyebrow reveal">{tr("— Zutaten-Universum","— Ingredient universe","— Malzeme evreni")}</span>
+          <h2 className="reveal delay-1" key={tr("de","en","tr")}>
+            <SplitText text={tr("Sechs Zutaten","Six ingredients","Altı malzeme")} /> <em className="italic"><SplitText text={tr("im Orbit.","in orbit.","yörüngede.")} delay={0.25} /></em>
           </h2>
           <p className="reveal delay-2">
-            Drag to rotate the orbit. Click any ingredient to meet the farm,
-            the season, and the gram-count behind a single cup of Manduraa.
+            {tr("Ziehe, um den Orbit zu drehen. Klicke auf eine Zutat, um die Farm, die Saison und das Gramm-Gewicht hinter einer einzigen Tasse Manduraa kennenzulernen.","Drag to rotate the orbit. Click any ingredient to meet the farm, the season, and the gram-count behind a single cup of Manduraa.","Yörüngeyi döndürmek için sürükle. Bir fincan Manduraa'nın ardındaki çiftliği, mevsimi ve gram miktarını görmek için herhangi bir malzemeye tıkla.")}
           </p>
         </div>
         <div className="orbit-wrap reveal delay-2" ref={wrapRef}>
@@ -1009,7 +1051,7 @@ function IngredientUniverse() {
           <div className="orbit-ring inner" />
           <div className="orbit-inner" ref={innerRef} style={{ transform: `rotate(${rot}deg)` }}>
             {INGREDIENTS.map((ing, i) => (
-              <div key={ing.name} style={{ position: "absolute", inset: 0, transform: `rotate(${-rot}deg)` }}>
+              <div key={i} style={{ position: "absolute", inset: 0, transform: `rotate(${-rot}deg)` }}>
                 {/* Counter-rotate each chip so labels stay upright. */}
                 <div style={{ position: "absolute", inset: 0, transform: `rotate(${rot}deg)` }}>
                   {placeChip(ing, i)}
@@ -1020,15 +1062,16 @@ function IngredientUniverse() {
           <div className="orbit-core">
             <BlurImg src="/assets/pack-flat-layout.jpeg" alt="Manduraa pouch" />
           </div>
-          <span className="hint">drag to rotate · click any chip</span>
+          <span className="hint">{tr("ziehen zum Drehen · Chip antippen","drag to rotate · click any chip","döndürmek için sürükle · çipe tıkla")}</span>
         </div>
       </div>
-      <IngredientModal ingredient={selected} onClose={() => setSelected(null)} />
+      <IngredientModal ingredient={selected != null ? INGREDIENTS[selected] : null} index={selected} onClose={() => setSelected(null)} />
     </section>
   );
 }
 
-function IngredientModal({ ingredient, onClose }) {
+function IngredientModal({ ingredient, index, onClose }) {
+  useLang();
   const open = !!ingredient;
   useEffect(() => {
     if (!open) return;
@@ -1043,20 +1086,20 @@ function IngredientModal({ ingredient, onClose }) {
         {ingredient && (
           <>
             <div className="ing-hero" style={{ backgroundImage: `url(${ingredient.img})` }}>
-              <div className="stamp">N° {String(INGREDIENTS.indexOf(ingredient) + 1).padStart(2, "0")}</div>
+              <div className="stamp">N° {String((index ?? 0) + 1).padStart(2, "0")}</div>
             </div>
             <div className="ing-body">
               <span className="ing-eyebrow">{ingredient.note}</span>
               <h3>{ingredient.name}</h3>
               <p className="lede">"{ingredient.lede}"</p>
               <div className="facts">
-                <div className="fact"><span>Origin</span><strong>{ingredient.origin}</strong></div>
-                <div className="fact"><span>Season</span><strong>{ingredient.season}</strong></div>
-                <div className="fact"><span>Per pouch</span><strong>{ingredient.grams}</strong></div>
-                <div className="fact"><span>Sourcing</span><strong>Single-farm</strong></div>
+                <div className="fact"><span>{tr("Herkunft","Origin","Köken")}</span><strong>{ingredient.origin}</strong></div>
+                <div className="fact"><span>{tr("Saison","Season","Mevsim")}</span><strong>{ingredient.season}</strong></div>
+                <div className="fact"><span>{tr("Pro Beutel","Per pouch","Paket başına")}</span><strong>{ingredient.grams}</strong></div>
+                <div className="fact"><span>{tr("Bezug","Sourcing","Tedarik")}</span><strong>{tr("Eine Farm","Single-farm","Tek çiftlik")}</strong></div>
               </div>
               <p className="body">{ingredient.body}</p>
-              <button className="back" data-cur="btn" data-cur-label="Close" onClick={onClose}>← Back to orbit</button>
+              <button className="back" data-cur="btn" data-cur-label={tr("Schließen","Close","Kapat")} onClick={onClose}>← {tr("Zurück zum Orbit","Back to orbit","Yörüngeye dön")}</button>
             </div>
           </>
         )}
@@ -1078,21 +1121,22 @@ function Vs() {
     io.observe(el);
     return () => io.disconnect();
   }, []);
+  useLang();
   const themItems = [
-    "10–20 g refined sugar or syrup added",
-    "Sharp caffeine spike, 3pm crash",
-    "Acidic; harsh on an empty stomach",
-    "Empty calories, no nutrient density",
-    "Industrial roasts, anonymous origin",
-    "Sugar guilt by 4pm",
+    tr("10–20 g raffinierter Zucker oder Sirup zugesetzt","10–20 g refined sugar or syrup added","10–20 g rafine şeker veya şurup ilave"),
+    tr("Scharfer Koffein-Peak, Absturz um 15 Uhr","Sharp caffeine spike, 3pm crash","Sert kafein zirvesi, 15:00 çöküşü"),
+    tr("Säurehaltig; hart auf nüchternen Magen","Acidic; harsh on an empty stomach","Asitli; aç mideye sert"),
+    tr("Leere Kalorien, keine Nährstoffdichte","Empty calories, no nutrient density","Boş kalori, besin yoğunluğu yok"),
+    tr("Industrielle Röstungen, anonyme Herkunft","Industrial roasts, anonymous origin","Endüstriyel kavurmalar, anonim köken"),
+    tr("Zuckerschuld bis 16 Uhr","Sugar guilt by 4pm","16:00'da şeker pişmanlığı"),
   ];
   const usItems = [
-    "0 g refined sugar — sweetened by Medjool dates",
-    "Sustained, balanced energy from almond fat",
-    "Low-acid, gentle on the stomach",
-    "Fibre, magnesium and potassium per cup",
-    "Single-farm, single-batch, single-season",
-    "A ritual you can repeat without flinching",
+    tr("0 g raffinierter Zucker — mit Medjool-Datteln gesüßt","0 g refined sugar — sweetened by Medjool dates","0 g rafine şeker — Medjool hurmasıyla tatlandırılmış"),
+    tr("Anhaltende, ausgewogene Energie aus Mandelfett","Sustained, balanced energy from almond fat","Badem yağından sürekli, dengeli enerji"),
+    tr("Säurearm, magenschonend","Low-acid, gentle on the stomach","Düşük asit, mideye nazik"),
+    tr("Ballaststoffe, Magnesium und Kalium pro Tasse","Fibre, magnesium and potassium per cup","Her fincanda lif, magnezyum ve potasyum"),
+    tr("Eine Farm, eine Charge, eine Saison","Single-farm, single-batch, single-season","Tek çiftlik, tek parti, tek mevsim"),
+    tr("Ein Ritual, das du ohne Reue wiederholen kannst","A ritual you can repeat without flinching","Hiç çekinmeden tekrarlayabileceğin bir ritüel"),
   ];
   // Dash icon (—) for them, check (✓) drawn for us
   const Dash = () => (
@@ -1111,31 +1155,31 @@ function Vs() {
     <section className="block vs">
       <div className="container tight">
         <div className="section-head">
-          <span className="eyebrow reveal">— Manduraa vs. the rest</span>
-          <h2 className="reveal delay-1">
-            <SplitText text="A cup that doesn't" /> <em className="italic"><SplitText text="cost you" delay={0.3} /></em> <SplitText text="the afternoon." delay={0.45} />
+          <span className="eyebrow reveal">{tr("— Manduraa vs. der Rest","— Manduraa vs. the rest","— Manduraa vs. gerisi")}</span>
+          <h2 className="reveal delay-1" key={tr("de","en","tr")}>
+            <SplitText text={tr("Eine Tasse, die dich nicht","A cup that doesn't","Öğleden sonranı")} /> <em className="italic"><SplitText text={tr("den Nachmittag","cost you","çalmayan")} delay={0.3} /></em> <SplitText text={tr("kostet.","the afternoon.","bir fincan.")} delay={0.45} />
           </h2>
         </div>
         <div className="vs-grid reveal delay-2" ref={ref}>
           <div className="vs-col them">
-            <span className="vs-label">Coffee · Latte · Energy drink</span>
-            <h3>The usual cup</h3>
+            <span className="vs-label">{tr("Kaffee · Latte · Energydrink","Coffee · Latte · Energy drink","Kahve · Latte · Enerji içeceği")}</span>
+            <h3>{tr("Die übliche Tasse","The usual cup","Alışıldık fincan")}</h3>
             <ul>
               {themItems.map((t, i) => <li key={i}><Dash />{t}</li>)}
             </ul>
             <div className="sugar-bar">
-              <div className="sb-label"><span>Refined sugar / cup</span><em>~18 g</em></div>
+              <div className="sb-label"><span>{tr("Raffinierter Zucker / Tasse","Refined sugar / cup","Rafine şeker / fincan")}</span><em>~18 g</em></div>
               <div className="bar"><div className="fill" /></div>
             </div>
           </div>
           <div className="vs-col us">
             <span className="vs-label">Manduraa · Edition 01</span>
-            <h3>The composed cup</h3>
+            <h3>{tr("Die komponierte Tasse","The composed cup","Kompoze fincan")}</h3>
             <ul>
               {usItems.map((t, i) => <li key={i}><Check />{t}</li>)}
             </ul>
             <div className="sugar-bar">
-              <div className="sb-label"><span>Refined sugar / cup</span><em>0 g</em></div>
+              <div className="sb-label"><span>{tr("Raffinierter Zucker / Tasse","Refined sugar / cup","Rafine şeker / fincan")}</span><em>0 g</em></div>
               <div className="bar"><div className="fill" /></div>
             </div>
           </div>
@@ -1160,11 +1204,13 @@ function BenefitGlyph({ kind }) {
   return null;
 }
 function Benefits() {
+  useLang();
+  const BENEFITS = getBenefits();
   const [active, setActive] = useState(0);
   const pausedRef = useRef(false);
   useEffect(() => {
     const id = setInterval(() => {
-      if (!pausedRef.current) setActive(a => (a + 1) % BENEFITS.length);
+      if (!pausedRef.current) setActive(a => (a + 1) % 6);
     }, 3500);
     return () => clearInterval(id);
   }, []);
@@ -1172,11 +1218,11 @@ function Benefits() {
     <section className="block benefits">
       <div className="container">
         <div className="section-head">
-          <span className="eyebrow reveal">— Why Manduraa</span>
-          <h2 className="reveal delay-1">
-            <SplitText text="A cup that" /> <em className="italic"><SplitText text="gives back." delay={0.25} /></em>
+          <span className="eyebrow reveal">{tr("— Warum Manduraa","— Why Manduraa","— Neden Manduraa")}</span>
+          <h2 className="reveal delay-1" key={tr("de","en","tr")}>
+            <SplitText text={tr("Eine Tasse, die","A cup that","Geri veren")} /> <em className="italic"><SplitText text={tr("zurückgibt.","gives back.","bir fincan.")} delay={0.25} /></em>
           </h2>
-          <p className="reveal delay-2">Six reasons our customers reorder. None of them are sugar.</p>
+          <p className="reveal delay-2">{tr("Sechs Gründe, warum unsere Kundinnen nachbestellen. Keiner davon ist Zucker.","Six reasons our customers reorder. None of them are sugar.","Müşterilerimizin yeniden sipariş vermesinin altı nedeni. Hiçbiri şeker değil.")}</p>
         </div>
         <div
           className="benefit-grid"
@@ -1185,7 +1231,7 @@ function Benefits() {
         >
           {BENEFITS.map((b, i) => (
             <div
-              key={b.t}
+              key={i}
               className={"b-card delay-" + ((i % 4) + 1) + (active === i ? " active" : "")}
               onMouseEnter={() => setActive(i)}
             >
@@ -1205,6 +1251,7 @@ function Benefits() {
    SHOP — sticky split, bulk packs, magnetic ATC
    ============================================================ */
 function Shop({ onAdd, onMagnetMove, onTap, liveVariants, sellingPlans }) {
+  useLang();
   // Live Shopify catalog drives the display; demo VARIANTS are the offline fallback.
   const variants = (liveVariants && liveVariants.length) ? liveVariants : VARIANTS;
   const singleVariant = variants.length === 1;
@@ -1212,7 +1259,9 @@ function Shop({ onAdd, onMagnetMove, onTap, liveVariants, sellingPlans }) {
   useEffect(() => {
     if (liveVariants && liveVariants.length) setVariant(liveVariants[0]);
   }, [liveVariants]);
-  const [pack, setPack] = useState(PACKS[1]);
+  const PACKS = getPacks();
+  const [packId, setPackId] = useState("3");
+  const pack = PACKS.find(p => p.id === packId) || PACKS[1];
   const [qty, setQty] = useState(1);
   const [bump, setBump] = useState(false);
   // CRO T-03: subscription plan toggle
@@ -1327,7 +1376,7 @@ function Shop({ onAdd, onMagnetMove, onTap, liveVariants, sellingPlans }) {
 
   const chooseVariant = (v) => { setVariant(v); setBurstKey(k => k + 1); onTap && onTap(); };
   const choosePack = (p, e) => {
-    setPack(p);
+    setPackId(p.id);
     onTap && onTap();
     if (p.id === "10" && pack.id !== "10") {
       const r = e.currentTarget.getBoundingClientRect();
@@ -1375,7 +1424,7 @@ function Shop({ onAdd, onMagnetMove, onTap, liveVariants, sellingPlans }) {
             ))}
           </div>
           {burst}
-          <span className="floating-tag"><span className="pulse"></span>In stock · Ships in 48 h</span>
+          <span className="floating-tag"><span className="pulse"></span>{tr("Auf Lager · Versand in 48 h","In stock · Ships in 48 h","Stokta · 48 saatte kargo")}</span>
           {!singleVariant && (
             <div className="swatch-row">
               {variants.map(v => (
@@ -1385,7 +1434,7 @@ function Shop({ onAdd, onMagnetMove, onTap, liveVariants, sellingPlans }) {
                   style={{ background: v.swatch }}
                   onClick={() => chooseVariant(v)}
                   data-cur="btn"
-                  data-cur-label="Pick"
+                  data-cur-label={tr("Wählen","Pick","Seç")}
                   aria-label={v.name}
                   title={v.name}
                 />
@@ -1398,22 +1447,22 @@ function Shop({ onAdd, onMagnetMove, onTap, liveVariants, sellingPlans }) {
           <span className="by">Esmee · Edition № 01</span>
           <h2>Manduraa<em>{variant.name}</em></h2>
           <div className="stars">
-            <span>Edition № 01 · 0 g raffinierter Zucker · Vegan · Glutenfrei</span>
+            <span>{tr("Edition № 01 · 0 g raffinierter Zucker · Vegan · Glutenfrei","Edition № 01 · 0 g refined sugar · vegan · gluten-free","Edition № 01 · 0 g rafine şeker · vegan · glutensiz")}</span>
           </div>
-          <p className="lede">{variant.note}</p>
+          <p className="lede">{tr("Eine komponierte Tasse — geröstete Mandeln, Medjool-Datteln, Pistazie und ein leiser Aufguss Arabica. Mit Datteln gesüßt, nicht mit Zucker.","A composed cup — roasted almonds, Medjool dates, pistachio and a quiet pour of arabica. Sweetened with dates, not sugar.","Kompoze bir fincan — kavrulmuş badem, Medjool hurması, fıstık ve sessiz bir arabica demlemesi. Şekerle değil, hurmayla tatlandırılmış.")}</p>
 
           <div className="price-row">
             <span className="price">€{m(unitPrice)}</span>
             <span className="price-was">€{m(wasUnit)}</span>
-            {!subActive && pack.save > 0 && <span className="price-save">Du sparst {pack.save}%</span>}
-            {subActive && <span className="price-save sub-tag">Abo · −{Math.round(subPct*100)}%</span>}
+            {!subActive && pack.save > 0 && <span className="price-save">{tr("Du sparst","You save","Tasarruf")} {pack.save}%</span>}
+            {subActive && <span className="price-save sub-tag">{tr("Abo","Subscription","Abonelik")} · −{Math.round(subPct*100)}%</span>}
           </div>
 
           {/* CRO T-03: Subscription / one-time plan toggle */}
           <div className="option-block">
             <div className="option-label">
-              <span>Lieferung — Einmalig oder Abo</span>
-              <em>{plan === "once" ? "Einmal kaufen" : (plan === "30" ? "Alle 30 Tage" : "Alle 60 Tage")}</em>
+              <span>{tr("Lieferung — Einmalig oder Abo","Delivery — One-time or subscription","Teslimat — Tek seferlik veya abonelik")}</span>
+              <em>{plan === "once" ? tr("Einmal kaufen","One-time","Tek seferlik") : (plan === "30" ? tr("Alle 30 Tage","Every 30 days","Her 30 günde") : tr("Alle 60 Tage","Every 60 days","Her 60 günde"))}</em>
             </div>
             <div className="plan-row">
               <button
@@ -1425,46 +1474,46 @@ function Shop({ onAdd, onMagnetMove, onTap, liveVariants, sellingPlans }) {
               >
                 <span className="plan-radio"></span>
                 <span className="plan-body">
-                  <span className="plan-name">Einmal kaufen</span>
-                  <span className="plan-sub">Keine Verpflichtung · Lieferung in 48 h</span>
+                  <span className="plan-name">{tr("Einmal kaufen","One-time","Tek seferlik")}</span>
+                  <span className="plan-sub">{tr("Keine Verpflichtung · Lieferung in 48 h","No commitment · ships in 48 h","Taahhüt yok · 48 saatte kargo")}</span>
                 </span>
-                <span className="plan-price">€{m(baseUnit)}<small>/Packung</small></span>
+                <span className="plan-price">€{m(baseUnit)}<small>{tr("/Packung","/pack","/paket")}</small></span>
               </button>
               <button
                 type="button"
                 className={"plan-card with-save " + (plan === "30" ? "active" : "")}
                 onClick={() => { setPlan("30"); onTap && onTap(); }}
                 data-cur="btn"
-                data-cur-label="Pick"
+                data-cur-label={tr("Wählen","Pick","Seç")}
               >
-                <span className="plan-badge">Spare {Math.round(pct30 * 100)} %</span>
+                <span className="plan-badge">{tr("Spare","Save","Tasarruf")} {Math.round(pct30 * 100)} %</span>
                 <span className="plan-radio"></span>
                 <span className="plan-body">
-                  <span className="plan-name">Abo · alle 30 Tage</span>
-                  <span className="plan-sub">Jederzeit pausieren oder kündigen — in einem Tap.</span>
+                  <span className="plan-name">{tr("Abo · alle 30 Tage","Subscription · every 30 days","Abonelik · her 30 günde")}</span>
+                  <span className="plan-sub">{tr("Jederzeit pausieren oder kündigen — in einem Tap.","Pause or cancel anytime — in one tap.","İstediğin zaman duraklat veya iptal et — tek dokunuşla.")}</span>
                 </span>
-                <span className="plan-price">€{m(unit30)}<small>/Packung</small></span>
+                <span className="plan-price">€{m(unit30)}<small>{tr("/Packung","/pack","/paket")}</small></span>
               </button>
               <button
                 type="button"
                 className={"plan-card " + (plan === "60" ? "active" : "")}
                 onClick={() => { setPlan("60"); onTap && onTap(); }}
                 data-cur="btn"
-                data-cur-label="Pick"
+                data-cur-label={tr("Wählen","Pick","Seç")}
               >
                 <span className="plan-radio"></span>
                 <span className="plan-body">
-                  <span className="plan-name">Abo · alle 60 Tage</span>
-                  <span className="plan-sub">Für gelegentliche Tassen — gleicher Rabatt.</span>
+                  <span className="plan-name">{tr("Abo · alle 60 Tage","Subscription · every 60 days","Abonelik · her 60 günde")}</span>
+                  <span className="plan-sub">{tr("Für gelegentliche Tassen — gleicher Rabatt.","For occasional cups — same discount.","Ara sıra içenler için — aynı indirim.")}</span>
                 </span>
-                <span className="plan-price">€{m(unit60)}<small>/Packung</small></span>
+                <span className="plan-price">€{m(unit60)}<small>{tr("/Packung","/pack","/paket")}</small></span>
               </button>
             </div>
             {subActive && (
               <div className="plan-perks">
-                <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12l5 5L20 7"/></svg>Erste Lieferung mit hand­signiertem Brief von Esmee</span>
-                <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12l5 5L20 7"/></svg>Pause &amp; Kündigung jederzeit per Mail oder Login</span>
-                <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12l5 5L20 7"/></svg>Komplimentärer Versand auf jede Lieferung</span>
+                <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12l5 5L20 7"/></svg>{tr("Erste Lieferung mit hand­signiertem Brief von Esmee","First delivery with a hand-signed letter from Esmee","İlk teslimatta Esmee'den el imzalı bir mektup")}</span>
+                <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12l5 5L20 7"/></svg>{tr("Pause & Kündigung jederzeit per Mail oder Login","Pause & cancel anytime by email or login","İstediğin zaman e-posta veya girişle duraklat & iptal")}</span>
+                <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12l5 5L20 7"/></svg>{tr("Komplimentärer Versand auf jede Lieferung","Complimentary shipping on every delivery","Her teslimatta ücretsiz kargo")}</span>
               </div>
             )}
           </div>
@@ -1487,35 +1536,35 @@ function Shop({ onAdd, onMagnetMove, onTap, liveVariants, sellingPlans }) {
                 </svg>
               </span>
               <span className="gift-text">
-                <span className="gift-name">Als Geschenk verschicken</span>
-                <span className="gift-sub">Handgeschriebene Karte · Geschenk-Verpackung · +€{GIFT_FEE}</span>
+                <span className="gift-name">{tr("Als Geschenk verschicken","Send as a gift","Hediye olarak gönder")}</span>
+                <span className="gift-sub">{tr("Handgeschriebene Karte · Geschenk-Verpackung · +€","Handwritten card · gift wrap · +€","El yazısı kart · hediye paketi · +€")}{GIFT_FEE}</span>
               </span>
               <span className="gift-switch" aria-hidden="true"><span className="knob"></span></span>
             </button>
             {gift && (
               <div className="gift-form">
                 <label className="gift-field">
-                  <span className="lbl">An (E-Mail oder Name)</span>
+                  <span className="lbl">{tr("An (E-Mail oder Name)","To (email or name)","Kime (e-posta veya isim)")}</span>
                   <input
                     type="text"
-                    placeholder="z. B. Maya Rahimi"
+                    placeholder={tr("z. B. Maya Rahimi","e.g. Maya Rahimi","örn. Maya Rahimi")}
                     value={giftTo}
                     onChange={e => setGiftTo(e.target.value)}
                     maxLength={60}
                   />
                 </label>
                 <label className="gift-field">
-                  <span className="lbl">Botschaft <small>({160 - giftMsg.length})</small></span>
+                  <span className="lbl">{tr("Botschaft","Message","Mesaj")} <small>({160 - giftMsg.length})</small></span>
                   <textarea
-                    placeholder="Eine kurze, ruhige Botschaft. Wir schreiben sie auf Bauwoll-Karton mit Wachssiegel."
+                    placeholder={tr("Eine kurze, ruhige Botschaft. Wir schreiben sie auf Bauwoll-Karton mit Wachssiegel.","A short, quiet message. We write it on cotton card with a wax seal.","Kısa, sakin bir mesaj. Onu mühür mumlu pamuk kartona yazarız.")}
                     value={giftMsg}
                     onChange={e => setGiftMsg(e.target.value.slice(0, 160))}
                     rows={2}
                   />
                 </label>
                 <div className="gift-meta">
-                  <span>✓ Geschenk-Quittung statt Rechnung</span>
-                  <span>✓ Versand an deine oder Empfänger-Adresse</span>
+                  <span>{tr("✓ Geschenk-Quittung statt Rechnung","✓ Gift receipt instead of invoice","✓ Fatura yerine hediye fişi")}</span>
+                  <span>{tr("✓ Versand an deine oder Empfänger-Adresse","✓ Ship to your or the recipient's address","✓ Senin veya alıcının adresine kargo")}</span>
                 </div>
               </div>
             )}
@@ -1523,10 +1572,10 @@ function Shop({ onAdd, onMagnetMove, onTap, liveVariants, sellingPlans }) {
 
           {!singleVariant && (
             <div className="option-block">
-              <div className="option-label"><span>Edition</span><em>{variant.name}</em></div>
+              <div className="option-label"><span>{tr("Edition","Edition","Edisyon")}</span><em>{variant.name}</em></div>
               <div className="variant-row">
                 {variants.map(v => (
-                  <button key={v.id} className={"v-chip " + (v.id === variant.id ? "active" : "")} data-cur="btn" data-cur-label="Pick" onClick={() => chooseVariant(v)}>
+                  <button key={v.id} className={"v-chip " + (v.id === variant.id ? "active" : "")} data-cur="btn" data-cur-label={tr("Wählen","Pick","Seç")} onClick={() => chooseVariant(v)}>
                     <span className="v-name">{v.name}</span>
                     <span className="v-sub">{v.sub}</span>
                   </button>
@@ -1536,14 +1585,14 @@ function Shop({ onAdd, onMagnetMove, onTap, liveVariants, sellingPlans }) {
           )}
 
           <div className="option-block">
-            <div className="option-label"><span>Menge — Bulk discount</span><em>{pack.label}</em></div>
+            <div className="option-label"><span>{tr("Menge — Mengenrabatt","Quantity — bulk discount","Miktar — toplu indirim")}</span><em>{pack.label}</em></div>
             <div className="pack-grid">
               {PACKS.map(p => (
                 <button
                   key={p.id}
                   className={"pack " + (p.id === pack.id ? "active" : "")}
                   data-cur="btn"
-                  data-cur-label="Pick"
+                  data-cur-label={tr("Wählen","Pick","Seç")}
                   data-most-loved={p.mostLoved ? "1" : undefined}
                   onClick={(e) => choosePack(p, e)}
                 >
@@ -1557,7 +1606,7 @@ function Shop({ onAdd, onMagnetMove, onTap, liveVariants, sellingPlans }) {
                   </div>
                   <div>
                     <div className="pack-price">€{m(packUnit(p) * p.count)}</div>
-                    <div className="pack-per">€{m(packUnit(p))} / Packung{p.save ? " · −" + p.save + "%" : ""}</div>
+                    <div className="pack-per">€{m(packUnit(p))}{tr(" / Packung"," / pack"," / paket")}{p.save ? " · −" + p.save + "%" : ""}</div>
                   </div>
                 </button>
               ))}
@@ -1566,25 +1615,25 @@ function Shop({ onAdd, onMagnetMove, onTap, liveVariants, sellingPlans }) {
 
           <div className="atc-row">
             <div className="qty">
-              <button onClick={() => setQtyBump(Math.max(1, qty - 1))} aria-label="Decrease">—</button>
+              <button onClick={() => setQtyBump(Math.max(1, qty - 1))} aria-label={tr("Verringern","Decrease","Azalt")}>—</button>
               <span className={"v " + (bump ? "bump" : "")}>{qty}</span>
-              <button onClick={() => setQtyBump(qty + 1)} aria-label="Increase">+</button>
+              <button onClick={() => setQtyBump(qty + 1)} aria-label={tr("Erhöhen","Increase","Artır")}>+</button>
             </div>
             <button
               className="btn-add"
               data-cur="btn"
-              data-cur-label="Add"
+              data-cur-label={tr("Hinzufügen","Add","Ekle")}
               onMouseMove={onMagnetMove}
               onClick={add}
             >
-              <span>{subActive ? "Abo starten" : "In den Warenkorb"}</span>
+              <span>{subActive ? tr("Abo starten","Start subscription","Aboneliği başlat") : tr("In den Warenkorb","Add to cart","Sepete ekle")}</span>
               <span className="price-tag"><Counter to={total} duration={500} key={total} prefix="€" decimals={dec} /></span>
             </button>
           </div>
 
           {/* CRO T-05: Express-Pay row right below the ATC */}
-          <div className="express-pay" aria-label="Schnellzahlung">
-            <span className="ex-label">— oder direkt zahlen mit</span>
+          <div className="express-pay" aria-label={tr("Schnellzahlung","Express checkout","Hızlı ödeme")}>
+            <span className="ex-label">{tr("— oder direkt zahlen mit","— or pay directly with","— ya da doğrudan öde")}</span>
             <div className="ex-buttons">
               <button type="button" className="ex-btn ex-apple" onClick={add} aria-label="Apple Pay">
                 <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="currentColor">
@@ -1618,9 +1667,9 @@ function Shop({ onAdd, onMagnetMove, onTap, liveVariants, sellingPlans }) {
           </div>
 
           <div className="trust-row">
-            <span className="t-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M3 8 L 12 3 L 21 8 V 16 L 12 21 L 3 16 Z"/></svg>Komplimentärer Versand ab €60</span>
-            <span className="t-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><circle cx="12" cy="12" r="9"/><path d="M9 12 L 11 14 L 15 10"/></svg>30 Tage Geld-zurück</span>
-            <span className="t-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><rect x="4" y="6" width="16" height="12" rx="2"/><path d="M4 11 H 20"/></svg>Sichere Bezahlung</span>
+            <span className="t-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M3 8 L 12 3 L 21 8 V 16 L 12 21 L 3 16 Z"/></svg>{tr("Komplimentärer Versand ab €60","Complimentary shipping over €60","€60 üzeri ücretsiz kargo")}</span>
+            <span className="t-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><circle cx="12" cy="12" r="9"/><path d="M9 12 L 11 14 L 15 10"/></svg>{tr("30 Tage Geld-zurück","30-day money-back","30 gün para iade")}</span>
+            <span className="t-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><rect x="4" y="6" width="16" height="12" rx="2"/><path d="M4 11 H 20"/></svg>{tr("Sichere Bezahlung","Secure payment","Güvenli ödeme")}</span>
           </div>
         </div>
       </div>
@@ -1633,6 +1682,7 @@ function Shop({ onAdd, onMagnetMove, onTap, liveVariants, sellingPlans }) {
    ============================================================ */
 /* Ritual illustration SVGs */
 function RitualIll({ step }) {
+  useLang();
   if (step === 0) {
     // Measure — spoon being filled
     return (
@@ -1645,7 +1695,7 @@ function RitualIll({ step }) {
         <line x1="172" y1="73" x2="208" y2="48" />
         {/* Fill animation */}
         <ellipse cx="155" cy="78" rx="20" ry="12" className="spoon-fill" />
-        <text x="110" y="20" className="timer">7 g · one heaped spoon</text>
+        <text x="110" y="20" className="timer">{tr("7 g · ein gehäufter Löffel","7 g · one heaped spoon","7 g · bir tepeleme kaşık")}</text>
       </svg>
     );
   }
@@ -1661,7 +1711,7 @@ function RitualIll({ step }) {
         <ellipse cx="170" cy="70" rx="30" ry="6" />
         {/* Stream — animated dashes */}
         <path d="M102 56 Q 122 60, 142 78" className="accent pour-stream" />
-        <text x="80" y="20" className="timer">78° · pour slow</text>
+        <text x="80" y="20" className="timer">{tr("78° · langsam aufgießen","78° · pour slow","78° · yavaşça dök")}</text>
       </svg>
     );
   }
@@ -1674,12 +1724,14 @@ function RitualIll({ step }) {
       <path d="M84 60 Q 80 50, 88 38" className="accent steam" />
       <path d="M100 58 Q 95 46, 104 32" className="accent steam" style={{ animationDelay: "0.7s" }} />
       <path d="M116 60 Q 112 50, 120 38" className="accent steam" style={{ animationDelay: "1.3s" }} />
-      <text x="74" y="20" className="timer">30 s · let it settle</text>
+      <text x="74" y="20" className="timer">{tr("30 s · setzen lassen","30 s · let it settle","30 sn · dinlenmeye bırak")}</text>
     </svg>
   );
 }
 
 function Ritual() {
+  useLang();
+  const RITUAL = getRitual();
   const wrapRef = useRef(null);
   const trackRef = useRef(null);
   const [active, setActive] = useState(0);
@@ -1707,9 +1759,9 @@ function Ritual() {
   }, []);
 
   const meta = [
-    { left: "Pour", leftV: "7 g", right: "Volume", rightV: "150 ml" },
-    { left: "Temp", leftV: "78°", right: "Pace", rightV: "Slow" },
-    { left: "Rest", leftV: "30 s", right: "Cup",  rightV: "Small" },
+    { left: tr("Menge","Pour","Miktar"), leftV: "7 g", right: tr("Volumen","Volume","Hacim"), rightV: "150 ml" },
+    { left: tr("Temp.","Temp","Sıcaklık"), leftV: "78°", right: tr("Tempo","Pace","Tempo"), rightV: tr("Langsam","Slow","Yavaş") },
+    { left: tr("Ruhe","Rest","Dinlenme"), leftV: "30 s", right: tr("Tasse","Cup","Fincan"),  rightV: tr("Klein","Small","Küçük") },
   ];
   return (
     <section id="ritual" className="ritual horizontal">
@@ -1720,7 +1772,7 @@ function Ritual() {
               <div className="h-panel" key={r.n}>
                 <span className="big-num">{r.n}</span>
                 <div className="h-text">
-                  <span className="step-kicker">— Phase {String(i + 1).padStart(2, "0")} of 03</span>
+                  <span className="step-kicker">— {tr("Phase","Phase","Aşama")} {String(i + 1).padStart(2, "0")} {tr("von","of","/")} 03</span>
                   <h3>{r.t}.</h3>
                   <p>{r.c}</p>
                   <div className="micro-meta">
@@ -1761,6 +1813,8 @@ function TasteProfile() {
     io.observe(el);
     return () => io.disconnect();
   }, []);
+  useLang();
+  const TASTE = getTaste();
   // SVG radar geometry
   const cx = 200, cy = 200, R = 140;
   const N = TASTE.length;
@@ -1780,16 +1834,16 @@ function TasteProfile() {
     <section className="block taste">
       <div className="container">
         <div className="section-head">
-          <span className="eyebrow reveal">— Taste profile</span>
-          <h2 className="reveal delay-1">
-            <SplitText text="A flavor map," /> <em className="italic"><SplitText text="honestly drawn." delay={0.3} /></em>
+          <span className="eyebrow reveal">{tr("— Geschmacksprofil","— Taste profile","— Tat profili")}</span>
+          <h2 className="reveal delay-1" key={tr("de","en","tr")}>
+            <SplitText text={tr("Eine Geschmackskarte,","A flavor map,","Bir tat haritası,")} /> <em className="italic"><SplitText text={tr("ehrlich gezeichnet.","honestly drawn.","dürüstçe çizilmiş.")} delay={0.3} /></em>
           </h2>
-          <p className="reveal delay-2">Six dimensions, scored by our atelier as we composed Edition № 01.</p>
+          <p className="reveal delay-2">{tr("Sechs Dimensionen, von unserem Atelier bewertet, als wir Edition № 01 komponierten.","Six dimensions, scored by our atelier as we composed Edition № 01.","Edition № 01'i hazırlarken atölyemizin puanladığı altı boyut.")}</p>
         </div>
         <div className="taste-grid">
           <div className="reveal">
-            <div className="frame aspect-1x1 parallax" data-cur="img" data-cur-label="View">
-              <BlurImg src="/assets/scene-2.jpg" alt="A spoon of Manduraa, ingredients composed." />
+            <div className="frame aspect-1x1 parallax" data-cur="img" data-cur-label={tr("Ansehen","View","Gör")}>
+              <BlurImg src="/assets/scene-2.jpg" alt={tr("Ein Löffel Manduraa, Zutaten komponiert.","A spoon of Manduraa, ingredients composed.","Bir kaşık Manduraa, malzemeler bir araya gelmiş.")} />
             </div>
           </div>
           <div className="radar-wrap reveal delay-1" ref={ref}>
@@ -1839,14 +1893,15 @@ function TasteProfile() {
    TRUST BAND
    ============================================================ */
 function TrustBand() {
+  useLang();
   const items = [
-    { t: "48-hour shipping", d: "From our Dubai atelier to GCC, EU & UK.",
+    { t: tr("Versand in 48 Stunden","48-hour shipping","48 saatte kargo"), d: tr("Aus unserem Dubai-Atelier in GCC, EU & UK.","From our Dubai atelier to GCC, EU & UK.","Dubai atölyemizden GCC, AB & İngiltere'ye."),
       svg: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M3 13 V 7 H 14 V 17 H 3 Z"/><path d="M14 10 H 19 L 21 13 V 17 H 14 Z"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg> },
-    { t: "Secure payment", d: "Apple Pay, Klarna, Visa, AmEx, SEPA.",
+    { t: tr("Sichere Bezahlung","Secure payment","Güvenli ödeme"), d: "Apple Pay, Klarna, Visa, AmEx, SEPA.",
       svg: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 11 H 21"/></svg> },
-    { t: "30-day return", d: "Don't love it? Send it back, no questions.",
+    { t: tr("30 Tage Rückgabe","30-day return","30 gün iade"), d: tr("Gefällt's nicht? Schick es zurück, ohne Fragen.","Don't love it? Send it back, no questions.","Sevmedin mi? Geri gönder, soru sorulmaz."),
       svg: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M4 12 a 8 8 0 1 0 3-6"/><path d="M3 4 L 7 6 L 5 10"/></svg> },
-    { t: "Concierge support", d: "Real humans, real fast. WhatsApp & email.",
+    { t: tr("Concierge-Support","Concierge support","Concierge desteği"), d: tr("Echte Menschen, wirklich schnell. WhatsApp & E-Mail.","Real humans, real fast. WhatsApp & email.","Gerçek insanlar, gerçekten hızlı. WhatsApp & e-posta."),
       svg: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M5 19 L 5 8 a 3 3 0 0 1 3 -3 H 16 a 3 3 0 0 1 3 3 V 15 a 3 3 0 0 1 -3 3 H 9 Z"/></svg> },
   ];
   return (
@@ -1870,13 +1925,15 @@ function TrustBand() {
    FAQ (animated)
    ============================================================ */
 function Faq() {
+  useLang();
+  const FAQS = getFaqs();
   const [open, setOpen] = useState(0);
   return (
     <section id="faq" className="block faq">
       <div className="container">
         <div className="section-head">
-          <span className="eyebrow reveal">— FAQ</span>
-          <h2 className="reveal delay-1"><SplitText text="Quiet answers." /></h2>
+          <span className="eyebrow reveal">{tr("— FAQ","— FAQ","— SSS")}</span>
+          <h2 className="reveal delay-1" key={tr("de","en","tr")}><SplitText text={tr("Stille Antworten.","Quiet answers.","Sessiz cevaplar.")} /></h2>
         </div>
         <div className="faq-list">
           {FAQS.map((f, i) => (
@@ -1898,8 +1955,9 @@ function Faq() {
    GUARANTEE STRIP — signed first-cup promise (CRO T-13)
    ============================================================ */
 function GuaranteeStrip() {
+  useLang();
   return (
-    <section className="guarantee" aria-label="Erste-Tasse-Versprechen">
+    <section className="guarantee" aria-label={tr("Erste-Tasse-Versprechen","First-cup promise","İlk fincan sözü")}>
       <div className="g-inner">
         <div className="g-seal" aria-hidden="true">
           <svg viewBox="0 0 100 100" width="100%" height="100%">
@@ -1912,32 +1970,31 @@ function GuaranteeStrip() {
               <textPath href="#g-circle" startOffset="0">ESMEE · MAISON N° 01 · DUBAI ·  ESMEE · MAISON N° 01 · DUBAI ·  </textPath>
             </text>
             <g transform="translate(50 50)">
-              <text fill="#B07A52" fontFamily="Cormorant Garamond, serif" fontStyle="italic" fontSize="13" textAnchor="middle" y="-2">First</text>
-              <text fill="#B07A52" fontFamily="Cormorant Garamond, serif" fontStyle="italic" fontSize="13" textAnchor="middle" y="13">cup</text>
+              <text fill="#B07A52" fontFamily="Cormorant Garamond, serif" fontStyle="italic" fontSize="13" textAnchor="middle" y="-2">{tr("Erste","First","İlk")}</text>
+              <text fill="#B07A52" fontFamily="Cormorant Garamond, serif" fontStyle="italic" fontSize="13" textAnchor="middle" y="13">{tr("Tasse","cup","fincan")}</text>
               <line x1="-14" y1="20" x2="14" y2="20" stroke="#B07A52" strokeWidth="0.5" />
             </g>
           </svg>
         </div>
         <div className="g-body">
-          <span className="eyebrow">— Das Erste-Tasse-Versprechen</span>
-          <h3>
-            Wenn dich der erste Schluck nicht <em className="italic">überrascht</em>,
-            <br/>antworte mir auf diese Mail.
+          <span className="eyebrow">{tr("— Das Erste-Tasse-Versprechen","— The first-cup promise","— İlk fincan sözü")}</span>
+          <h3 key={tr("de","en","tr")}>
+            {tr(<>Wenn dich der erste Schluck nicht <em className="italic">überrascht</em>,<br/>antworte mir auf diese Mail.</>,
+                <>If the first sip doesn't <em className="italic">surprise</em> you,<br/>just reply to this email.</>,
+                <>İlk yudum seni <em className="italic">şaşırtmazsa</em>,<br/>bu e-postaya yanıt ver.</>)}
           </h3>
           <p>
-            30 Tage. Kein Fragebogen, kein Versandlabel-Theater. Ich erstatte dich
-            persönlich — bis zur Tasche, die du schon halb leer hast. Wer Tradition
-            verkauft, darf bei der Rückgabe nicht kleinlich werden.
+            {tr("30 Tage. Kein Fragebogen, kein Versandlabel-Theater. Ich erstatte dich persönlich — bis zur Tasche, die du schon halb leer hast. Wer Tradition verkauft, darf bei der Rückgabe nicht kleinlich werden.","30 days. No questionnaire, no shipping-label theatre. I'll refund you personally — even the pouch you've already half-emptied. Anyone who sells tradition shouldn't be stingy about returns.","30 gün. Anket yok, kargo etiketi tiyatrosu yok. Seni bizzat iade ederim — yarısını bitirdiğin paketi bile. Gelenek satan, iadede cimri olmamalı.")}
           </p>
           <div className="g-meta">
             <div className="g-sig">
               <span className="sig-script">Esmee</span>
-              <span className="sig-line">— Esmee · Composer, Maison N° 01</span>
+              <span className="sig-line">{tr("— Esmee · Komponistin, Maison N° 01","— Esmee · Composer, Maison N° 01","— Esmee · Kompozitör, Maison N° 01")}</span>
             </div>
             <ul className="g-points">
-              <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12l5 5L20 7"/></svg>30 Tage volle Rückerstattung</li>
-              <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12l5 5L20 7"/></svg>Persönliche Antwort von Esmee</li>
-              <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12l5 5L20 7"/></svg>Versand in 48 h aus Dubai</li>
+              <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12l5 5L20 7"/></svg>{tr("30 Tage volle Rückerstattung","30-day full refund","30 gün tam iade")}</li>
+              <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12l5 5L20 7"/></svg>{tr("Persönliche Antwort von Esmee","Personal reply from Esmee","Esmee'den kişisel yanıt")}</li>
+              <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12l5 5L20 7"/></svg>{tr("Versand in 48 h aus Dubai","Ships in 48 h from Dubai","Dubai'den 48 saatte kargo")}</li>
             </ul>
           </div>
         </div>
@@ -1950,29 +2007,29 @@ function GuaranteeStrip() {
    FINAL CTA
    ============================================================ */
 function FinalCta({ onShop, onMagnetMove, price }) {
+  useLang();
   return (
     <section className="final">
       <div className="inner">
-        <span className="eyebrow reveal" style={{ color: "var(--copper-soft)" }}>— Begin the ritual</span>
-        <h2 className="reveal delay-1">
-          <SplitText text="Tradition, distilled." />
+        <span className="eyebrow reveal" style={{ color: "var(--copper-soft)" }}>{tr("— Beginne das Ritual","— Begin the ritual","— Ritüele başla")}</span>
+        <h2 className="reveal delay-1" key={tr("de","en","tr")}>
+          <SplitText text={tr("Tradition, destilliert.","Tradition, distilled.","Gelenek, damıtılmış.")} />
           <br/>
-          <em className="italic"><SplitText text="Held in your cup." delay={0.3} /></em>
+          <em className="italic"><SplitText text={tr("In deiner Tasse gehalten.","Held in your cup.","Fincanında tutulmuş.")} delay={0.3} /></em>
         </h2>
         <p className="reveal delay-2">
-          One blend, six ingredients, zero refined sugar. Composed by hand in our
-          Dubai atelier and shipped wherever you call quiet.
+          {tr("Eine Mischung, sechs Zutaten, null raffinierter Zucker. Von Hand in unserem Dubai-Atelier komponiert und überallhin versandt, wo du Ruhe suchst.","One blend, six ingredients, zero refined sugar. Composed by hand in our Dubai atelier and shipped wherever you call quiet.","Tek harman, altı malzeme, sıfır rafine şeker. Dubai atölyemizde elle hazırlanır ve huzur aradığın her yere gönderilir.")}
         </p>
         <div className="cta-row reveal delay-3">
-          <button className="btn btn-primary" data-cur="btn" data-cur-label="Shop" onMouseMove={onMagnetMove} onClick={onShop}>Shop Manduraa · €{price || 28}</button>
-          <a href="#story-intro" className="btn btn-ghost" data-cur="btn" data-cur-label="Read">Read the story</a>
+          <button className="btn btn-primary" data-cur="btn" data-cur-label="Shop" onMouseMove={onMagnetMove} onClick={onShop}>{tr("Manduraa kaufen","Shop Manduraa","Manduraa al")} · €{price || 28}</button>
+          <a href="#story-intro" className="btn btn-ghost" data-cur="btn" data-cur-label={tr("Lesen","Read","Oku")}>{tr("Die Story lesen","Read the story","Hikâyeyi oku")}</a>
         </div>
-        <div className="final-subline reveal delay-3" aria-label="Risk reversal">
-          <span>0 g refined sugar · 6 ingredients</span>
+        <div className="final-subline reveal delay-3" aria-label={tr("Risiko-Umkehr","Risk reversal","Risk tersine")}>
+          <span>{tr("0 g raffinierter Zucker · 6 Zutaten","0 g refined sugar · 6 ingredients","0 g rafine şeker · 6 malzeme")}</span>
           <span className="sep"></span>
-          <span>30-day first-cup promise</span>
+          <span>{tr("30-Tage-Erste-Tasse-Versprechen","30-day first-cup promise","30 gün ilk fincan sözü")}</span>
           <span className="sep"></span>
-          <span>Ships in 48 h · free over €60</span>
+          <span>{tr("Versand in 48 h · gratis ab €60","Ships in 48 h · free over €60","48 saatte kargo · €60 üzeri ücretsiz")}</span>
         </div>
       </div>
     </section>
@@ -1982,11 +2039,12 @@ function FinalCta({ onShop, onMagnetMove, price }) {
 /* ============================================================
    CART DRAWER
    ============================================================ */
-const ADDONS = [
+function getAddons() {
+  return [
   {
     id: "spoon",
-    name: "Hand-Löffel · Olivenholz",
-    sub: "Hand-geschnitzt · Apulien · 14 cm",
+    name: tr("Hand-Löffel · Olivenholz","Hand spoon · olive wood","El kaşığı · zeytin ağacı"),
+    sub: tr("Hand-geschnitzt · Apulien · 14 cm","Hand-carved · Apulia · 14 cm","Elde oyulmuş · Apulia · 14 cm"),
     price: 18,
     icon: (
       <svg viewBox="0 0 36 36" width="32" height="32" fill="none" stroke="#B07A52" strokeWidth="1.4" strokeLinecap="round">
@@ -1997,8 +2055,8 @@ const ADDONS = [
   },
   {
     id: "card",
-    name: "Hand­geschriebene Karte",
-    sub: "Bauwoll-Karton · Wachssiegel · Esmee-Signatur",
+    name: tr("Hand­geschriebene Karte","Handwritten card","El yazısı kart"),
+    sub: tr("Bauwoll-Karton · Wachssiegel · Esmee-Signatur","Cotton card · wax seal · Esmee signature","Pamuk karton · mum mühür · Esmee imzası"),
     price: 6,
     icon: (
       <svg viewBox="0 0 36 36" width="32" height="32" fill="none" stroke="#B07A52" strokeWidth="1.4" strokeLinecap="round">
@@ -2009,8 +2067,8 @@ const ADDONS = [
   },
   {
     id: "cup",
-    name: "Keramik-Becher · Edition № 01",
-    sub: "Hand-glasiert · Dubai · Limitiert auf 200 Stück",
+    name: tr("Keramik-Becher · Edition № 01","Ceramic mug · Edition № 01","Seramik kupa · Edition № 01"),
+    sub: tr("Hand-glasiert · Dubai · Limitiert auf 200 Stück","Hand-glazed · Dubai · Limited to 200","Elde sırlanmış · Dubai · 200 adetle sınırlı"),
     price: 42,
     icon: (
       <svg viewBox="0 0 36 36" width="32" height="32" fill="none" stroke="#B07A52" strokeWidth="1.4" strokeLinecap="round">
@@ -2021,7 +2079,8 @@ const ADDONS = [
       </svg>
     ),
   },
-];
+  ];
+}
 // Icon for a live Shopify add-on, chosen by its product handle.
 function addonIcon(id) {
   const h = String(id || "").toLowerCase();
@@ -2052,6 +2111,8 @@ function addonIcon(id) {
   );
 }
 function CartDrawer({ open, onClose, items, onQty, onRemove, onAddOne, onAddAddon, onCheckout, liveAddons }) {
+  useLang();
+  const ADDONS = getAddons();
   // Live Shopify add-ons (copper set, bundle) when connected; demo add-ons otherwise.
   const addonList = (liveAddons && liveAddons.length)
     ? liveAddons.map(a => ({ ...a, icon: addonIcon(a.id) }))
@@ -2077,15 +2138,15 @@ function CartDrawer({ open, onClose, items, onQty, onRemove, onAddOne, onAddAddo
       <div className={"cart-overlay " + (open ? "open" : "")} onClick={onClose} />
       <aside className={"cart-drawer " + (open ? "open" : "")} aria-hidden={!open}>
         <div className="head">
-          <h3>Your bag</h3>
-          <button className="close" data-cur="btn" data-cur-label="Close" onClick={onClose}>Close ✕</button>
+          <h3>{tr("Dein Warenkorb","Your bag","Sepetin")}</h3>
+          <button className="close" data-cur="btn" data-cur-label={tr("Schließen","Close","Kapat")} onClick={onClose}>{tr("Schließen","Close","Kapat")} ✕</button>
         </div>
         <div className="items">
           {items.length === 0 && (
             <div className="cart-empty">
-              <span className="serif">Your bag is quiet.</span>
-              <p>Add a pouch of Manduraa to begin the ritual.</p>
-              <a className="quiet-cta" data-cur="btn" data-cur-label="Shop" href="#shop" onClick={onClose}>Browse Manduraa</a>
+              <span className="serif">{tr("Dein Warenkorb ist still.","Your bag is quiet.","Sepetin sessiz.")}</span>
+              <p>{tr("Füge einen Beutel Manduraa hinzu, um das Ritual zu beginnen.","Add a pouch of Manduraa to begin the ritual.","Ritüele başlamak için bir paket Manduraa ekle.")}</p>
+              <a className="quiet-cta" data-cur="btn" data-cur-label={tr("Shop","Shop","Mağaza")} href="#shop" onClick={onClose}>{tr("Manduraa entdecken","Browse Manduraa","Manduraa'ya göz at")}</a>
             </div>
           )}
           {items.map((it, idx) => {
@@ -2099,7 +2160,7 @@ function CartDrawer({ open, onClose, items, onQty, onRemove, onAddOne, onAddAddo
                   </div>
                   <div className="right">
                     <div className="price">€{money(it.unitPrice)}</div>
-                    <button className="rm" onClick={() => onRemove(idx)}>Entfernen</button>
+                    <button className="rm" onClick={() => onRemove(idx)}>{tr("Entfernen","Remove","Kaldır")}</button>
                   </div>
                 </div>
               );
@@ -2110,9 +2171,9 @@ function CartDrawer({ open, onClose, items, onQty, onRemove, onAddOne, onAddAddo
               <div>
                 <div className="name">Manduraa · {it.variantName}</div>
                 <div className="vmeta">
-                  {it.packLabel} · {it.packCount * it.qty} pouches
-                  {it.subActive && <span className="abo-chip"> · Abo {it.plan === "60" ? "alle 60 Tage" : "alle 30 Tage"} · −15 %</span>}
-                  {it.gift && <span className="gift-chip"> · Geschenk +€{it.giftFee || 6}</span>}
+                  {it.packLabel} · {it.packCount * it.qty} {tr("Beutel","pouches","paket")}
+                  {it.subActive && <span className="abo-chip"> · {tr("Abo","Sub","Abone")} {it.plan === "60" ? tr("alle 60 Tage","every 60 days","her 60 günde") : tr("alle 30 Tage","every 30 days","her 30 günde")} · −15 %</span>}
+                  {it.gift && <span className="gift-chip"> · {tr("Geschenk","Gift","Hediye")} +€{it.giftFee || 6}</span>}
                 </div>
                 <div className="qty-mini">
                   <button onClick={() => onQty(idx, Math.max(1, it.qty - 1))}>—</button>
@@ -2122,7 +2183,7 @@ function CartDrawer({ open, onClose, items, onQty, onRemove, onAddOne, onAddAddo
               </div>
               <div className="right">
                 <div className="price">€{money(it.unitPrice * it.qty * it.packCount)}</div>
-                <button className="rm" onClick={() => onRemove(idx)}>Entfernen</button>
+                <button className="rm" onClick={() => onRemove(idx)}>{tr("Entfernen","Remove","Kaldır")}</button>
               </div>
             </div>
           );})}
@@ -2130,7 +2191,7 @@ function CartDrawer({ open, onClose, items, onQty, onRemove, onAddOne, onAddAddo
         <div className="foot-bar">
           {hasItems && (
             <div className="cart-addons">
-              <div className="addon-label">— Vollende deine Bestellung</div>
+              <div className="addon-label">{tr("— Vollende deine Bestellung","— Complete your order","— Siparişini tamamla")}</div>
               <div className="addon-row">
                 {addonList.map(a => {
                   const added = inCart(a.id);
@@ -2148,7 +2209,7 @@ function CartDrawer({ open, onClose, items, onQty, onRemove, onAddOne, onAddAddo
                       </span>
                       <span className="addon-cta">
                         {added
-                          ? <span className="check">✓ Hinzugefügt</span>
+                          ? <span className="check">{tr("✓ Hinzugefügt","✓ Added","✓ Eklendi")}</span>
                           : <span className="plus">+ €{money(a.price)}</span>}
                       </span>
                     </button>
@@ -2163,10 +2224,10 @@ function CartDrawer({ open, onClose, items, onQty, onRemove, onAddOne, onAddAddo
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 5 V 19 M5 12 H 19"/></svg>
               </span>
               <div className="nudge-text">
-                <div className="head">Add 1 more pouch &mdash; save €{Math.round(remaining)} in shipping.</div>
-                <div className="sub">Just €{Math.round(remaining)} more for komplimentärer Versand.</div>
+                <div className="head">{tr("Füge 1 Beutel hinzu","Add 1 more pouch","1 paket daha ekle")} &mdash; {tr("spare €","save €","kargoda €")}{Math.round(remaining)}{tr(" beim Versand."," in shipping."," tasarruf et.")}</div>
+                <div className="sub">{tr("Nur noch €","Just €","Ücretsiz kargoya yalnızca €")}{Math.round(remaining)}{tr(" bis zum kostenlosen Versand."," more for free shipping."," kaldı.")}</div>
               </div>
-              <button className="nudge-cta" data-cur="btn" data-cur-label="Add" onClick={onAddOne}>+ Add</button>
+              <button className="nudge-cta" data-cur="btn" data-cur-label={tr("Hinzufügen","Add","Ekle")} onClick={onAddOne}>+ {tr("Hinzufügen","Add","Ekle")}</button>
             </div>
           )}
           {items.length > 0 && (
@@ -2174,39 +2235,39 @@ function CartDrawer({ open, onClose, items, onQty, onRemove, onAddOne, onAddAddo
               <div className="label">
                 <span>
                   {spoonFree
-                    ? "Du erhältst den Olivenholz-Löffel gratis"
+                    ? tr("Du erhältst den Olivenholz-Löffel gratis","You get the olive-wood spoon free","Zeytin ağacı kaşığı ücretsiz")
                     : free
-                      ? "Komplimentärer Versand freigeschaltet"
-                      : "Komplimentärer Versand"}
+                      ? tr("Komplimentärer Versand freigeschaltet","Free shipping unlocked","Ücretsiz kargo açıldı")
+                      : tr("Komplimentärer Versand","Free shipping","Ücretsiz kargo")}
                 </span>
                 <em>€{Math.round(subtotal)} / €{SPOON_AT}</em>
               </div>
               <div className="bar">
                 <div className="fill" style={{ width: pct + "%" }} />
-                <span className="tick" style={{ left: (FREE_AT / SPOON_AT * 100) + "%" }} aria-label="Versand frei">
+                <span className="tick" style={{ left: (FREE_AT / SPOON_AT * 100) + "%" }} aria-label={tr("Versand frei","Free shipping","Ücretsiz kargo")}>
                   <span className={"tick-dot " + (free ? "hit" : "")}></span>
-                  <span className="tick-label">€{FREE_AT}<br/>Versand</span>
+                  <span className="tick-label">€{FREE_AT}<br/>{tr("Versand","Shipping","Kargo")}</span>
                 </span>
-                <span className="tick" style={{ left: "100%" }} aria-label="Löffel frei">
+                <span className="tick" style={{ left: "100%" }} aria-label={tr("Löffel gratis","Free spoon","Ücretsiz kaşık")}>
                   <span className={"tick-dot " + (spoonFree ? "hit" : "")}></span>
-                  <span className="tick-label">€{SPOON_AT}<br/>Löffel</span>
+                  <span className="tick-label">€{SPOON_AT}<br/>{tr("Löffel","Spoon","Kaşık")}</span>
                 </span>
               </div>
               <div className="note">
                 {spoonFree
-                  ? "✓ Versand + Olivenholz-Löffel von Esmee — beides geht heute mit."
+                  ? tr("✓ Versand + Olivenholz-Löffel von Esmee — beides geht heute mit.","✓ Shipping + olive-wood spoon from Esmee — both included today.","✓ Kargo + Esmee'den zeytin ağacı kaşığı — bugün ikisi de dahil.")
                   : free
-                    ? <>Noch <strong>€{Math.round(remainingSpoon)}</strong> bis zum gratis Olivenholz-Löffel.</>
-                    : <>Noch <strong>€{Math.round(remaining)}</strong> bis kostenloser Versand.</>}
+                    ? <>{tr("Noch ","","")}<strong>€{Math.round(remainingSpoon)}</strong>{tr(" bis zum gratis Olivenholz-Löffel."," more to the free olive-wood spoon."," ücretsiz zeytin ağacı kaşığına kaldı.")}</>
+                    : <>{tr("Noch ","","")}<strong>€{Math.round(remaining)}</strong>{tr(" bis kostenloser Versand."," more to free shipping."," ücretsiz kargoya kaldı.")}</>}
               </div>
             </div>
           )}
           <div className="sub-row">
-            <span className="l">Zwischensumme</span>
+            <span className="l">{tr("Zwischensumme","Subtotal","Ara toplam")}</span>
             <span className="r">€<Counter to={subtotal} duration={400} key={subtotal} decimals={moneyDec} /></span>
           </div>
-          <div className="ship-note">Versand &amp; Steuern werden im Checkout berechnet</div>
-          <button className="checkout" data-cur="btn" data-cur-label="Pay" disabled={items.length === 0} onClick={onCheckout}>Zum Checkout →</button>
+          <div className="ship-note">{tr("Versand & Steuern werden im Checkout berechnet","Shipping & taxes calculated at checkout","Kargo & vergiler ödemede hesaplanır")}</div>
+          <button className="checkout" data-cur="btn" data-cur-label={tr("Bezahlen","Pay","Öde")} disabled={items.length === 0} onClick={onCheckout}>{tr("Zum Checkout","Checkout","Ödemeye geç")} →</button>
         </div>
       </aside>
     </>
@@ -2217,15 +2278,16 @@ function CartDrawer({ open, onClose, items, onQty, onRemove, onAddOne, onAddAddo
    STICKY MINI BUY-BAR
    ============================================================ */
 function MiniBar({ visible, variant, total, fromPrice, onShop, onMagnetMove }) {
+  useLang();
   return (
     <div className={"mini-bar " + (visible ? "in" : "")}>
       <div className="mini-thumb" style={{ backgroundImage: `url(${variant.image})` }} />
       <div className="mini-meta">
         <div className="mini-name">Manduraa · {variant.name}</div>
-        <div className="mini-sub">Edition № 01 · ab €{fromPrice} / Packung</div>
+        <div className="mini-sub">Edition № 01 · {tr("ab","from","şu fiyattan")} €{fromPrice} / {tr("Packung","pack","paket")}</div>
       </div>
-      <button className="mini-cta" data-cur="btn" data-cur-label="Add" onMouseMove={onMagnetMove} onClick={onShop}>
-        Jetzt kaufen
+      <button className="mini-cta" data-cur="btn" data-cur-label={tr("Hinzufügen","Add","Ekle")} onMouseMove={onMagnetMove} onClick={onShop}>
+        {tr("Jetzt kaufen","Buy now","Şimdi al")}
         <span className="p">€{total}</span>
       </button>
     </div>
@@ -2237,40 +2299,44 @@ function MiniBar({ visible, variant, total, fromPrice, onShop, onMagnetMove }) {
    ============================================================ */
 
 /* ---------- Unboxing — pinned 5-step ---------- */
-const UNBOX_STEPS = [
+function getUnboxSteps() {
+  return [
   {
-    kicker: "Step 01 — The arrival",
-    title: "A weighted box,\nclosed with intent.",
-    body: "Recycled kraft pulp, debossed in copper foil. Heavier than you expect. The first signal that this is not a delivery — it is a letter.",
-    meta: [["Material", "Recycled kraft 350g"], ["Closure", "Copper foil emboss"], ["Carbon", "Offset · DHL GoGreen"]],
+    kicker: tr("Schritt 01 — Die Ankunft","Step 01 — The arrival","Adım 01 — Varış"),
+    title: tr("Eine schwere Schachtel,\nmit Bedacht verschlossen.","A weighted box,\nclosed with intent.","Ağırlıklı bir kutu,\nözenle kapatılmış."),
+    body: tr("Recycelter Kraftzellstoff, mit Kupferfolie geprägt. Schwerer, als du erwartest. Das erste Signal, dass dies keine Lieferung ist — es ist ein Brief.","Recycled kraft pulp, debossed in copper foil. Heavier than you expect. The first signal that this is not a delivery — it is a letter.","Geri dönüştürülmüş kraft hamuru, bakır folyo ile kabartmalı. Beklediğinden ağır. Bunun bir teslimat değil — bir mektup olduğunun ilk işareti."),
+    meta: [[tr("Material","Material","Malzeme"), tr("Recycelter Kraft 350 g","Recycled kraft 350g","Geri dönüşüm kraft 350 g")], [tr("Verschluss","Closure","Kapanış"), tr("Kupferfolien-Prägung","Copper foil emboss","Bakır folyo kabartma")], [tr("CO₂","Carbon","Karbon"), tr("Ausgeglichen · DHL GoGreen","Offset · DHL GoGreen","Dengelenmiş · DHL GoGreen")]],
   },
   {
-    kicker: "Step 02 — The first opening",
-    title: "The lid lifts —\nslowly.",
-    body: "A double-fold lid with a single magnetic clasp. It opens like a book, and like a book, you can keep it after the cup is gone.",
-    meta: [["Closure", "Magnetic clasp"], ["Reuse", "A keepsake box"], ["Sound", "Soft · paper-rustle"]],
+    kicker: tr("Schritt 02 — Das erste Öffnen","Step 02 — The first opening","Adım 02 — İlk açılış"),
+    title: tr("Der Deckel hebt sich —\nlangsam.","The lid lifts —\nslowly.","Kapak kalkar —\nyavaşça."),
+    body: tr("Ein Doppelfalz-Deckel mit einem einzigen Magnetverschluss. Er öffnet sich wie ein Buch, und wie ein Buch kannst du ihn behalten, wenn die Tasse längst leer ist.","A double-fold lid with a single magnetic clasp. It opens like a book, and like a book, you can keep it after the cup is gone.","Tek mıknatıslı kapaklı çift katlı bir kapak. Bir kitap gibi açılır ve bir kitap gibi, fincan bittikten sonra da saklayabilirsin."),
+    meta: [[tr("Verschluss","Closure","Kapanış"), tr("Magnetverschluss","Magnetic clasp","Mıknatıslı kapak")], [tr("Wiederverwendung","Reuse","Tekrar kullanım"), tr("Eine Erinnerungsbox","A keepsake box","Hatıra kutusu")], [tr("Klang","Sound","Ses"), tr("Sanft · Papierrascheln","Soft · paper-rustle","Yumuşak · kâğıt hışırtısı")]],
   },
   {
-    kicker: "Step 03 — The inner letter",
-    title: "Cream tissue,\nfolded by hand.",
-    body: "A single sheet of acid-free cream paper, folded and stamped in copper with the maison mark. Underneath, a card from the composer.",
-    meta: [["Paper", "Cotton-rag, acid-free"], ["Stamp", "Copper foil · hand-pressed"], ["Made by", "One pair of hands"]],
+    kicker: tr("Schritt 03 — Der innere Brief","Step 03 — The inner letter","Adım 03 — İçteki mektup"),
+    title: tr("Cremefarbenes Seidenpapier,\nvon Hand gefaltet.","Cream tissue,\nfolded by hand.","Krem ipek kâğıt,\nelle katlanmış."),
+    body: tr("Ein einzelnes Blatt säurefreies cremefarbenes Papier, gefaltet und mit Kupfer mit dem Maison-Zeichen gestempelt. Darunter eine Karte des Komponisten.","A single sheet of acid-free cream paper, folded and stamped in copper with the maison mark. Underneath, a card from the composer.","Tek bir asitsiz krem kâğıt yaprağı, katlanmış ve maison mührüyle bakır damgalı. Altında, kompozitörden bir kart."),
+    meta: [[tr("Papier","Paper","Kâğıt"), tr("Baumwolllumpen, säurefrei","Cotton-rag, acid-free","Pamuk lifli, asitsiz")], [tr("Stempel","Stamp","Damga"), tr("Kupferfolie · handgepresst","Copper foil · hand-pressed","Bakır folyo · elle baskı")], [tr("Gefertigt von","Made by","Yapan"), tr("Ein Paar Hände","One pair of hands","Bir çift el")]],
   },
   {
-    kicker: "Step 04 — The reveal",
-    title: "The pouch,\nin its bed.",
-    body: "Laid in soft rose-tone wool. Hand-tied with a single cream linen ribbon. The pouch is heavier than the box suggested.",
-    meta: [["Pouch", "250 g · resealable"], ["Bed", "Recycled wool, rose"], ["Tied by", "The composer · always"]],
+    kicker: tr("Schritt 04 — Die Enthüllung","Step 04 — The reveal","Adım 04 — Açığa çıkış"),
+    title: tr("Der Beutel,\nin seinem Bett.","The pouch,\nin its bed.","Paket,\nyatağında."),
+    body: tr("Gebettet in weiche, rosa getönte Wolle. Von Hand mit einem einzigen cremefarbenen Leinenband gebunden. Der Beutel ist schwerer, als die Schachtel vermuten ließ.","Laid in soft rose-tone wool. Hand-tied with a single cream linen ribbon. The pouch is heavier than the box suggested.","Yumuşak, pembe tonlu yüne yatırılmış. Tek bir krem keten kurdeleyle elle bağlanmış. Paket, kutunun ima ettiğinden daha ağır."),
+    meta: [[tr("Beutel","Pouch","Paket"), tr("250 g · wiederverschließbar","250 g · resealable","250 g · yeniden kapanabilir")], [tr("Bett","Bed","Yatak"), tr("Recycelte Wolle, Rosé","Recycled wool, rose","Geri dönüşüm yün, pembe")], [tr("Gebunden von","Tied by","Bağlayan"), tr("Der Komponist · immer","The composer · always","Kompozitör · her zaman")]],
   },
   {
-    kicker: "Step 05 — The card",
-    title: "And a note,\nfor you.",
-    body: "Handwritten on a small cream card. Always signed, always different. Five seconds of someone you've never met thinking of you.",
-    meta: [["Card", "Hand-written"], ["Signed", "— E"], ["Tone", "Warm"]],
+    kicker: tr("Schritt 05 — Die Karte","Step 05 — The card","Adım 05 — Kart"),
+    title: tr("Und eine Notiz,\nfür dich.","And a note,\nfor you.","Ve bir not,\nsenin için."),
+    body: tr("Von Hand auf eine kleine cremefarbene Karte geschrieben. Immer signiert, immer anders. Fünf Sekunden, in denen jemand, den du nie getroffen hast, an dich denkt.","Handwritten on a small cream card. Always signed, always different. Five seconds of someone you've never met thinking of you.","Küçük bir krem karta el yazısıyla yazılmış. Her zaman imzalı, her zaman farklı. Hiç tanımadığın birinin seni düşündüğü beş saniye."),
+    meta: [[tr("Karte","Card","Kart"), tr("Handgeschrieben","Hand-written","El yazısı")], [tr("Signiert","Signed","İmza"), "— E"], [tr("Ton","Tone","Ton"), tr("Warm","Warm","Sıcak")]],
   },
-];
+  ];
+}
 
 function Unboxing() {
+  useLang();
+  const UNBOX_STEPS = getUnboxSteps();
   const wrapRef = useRef(null);
   const [step, setStep] = useState(0);
   useEffect(() => {
@@ -2319,8 +2385,8 @@ function Unboxing() {
               </div>
               <div className="pouch" style={{ backgroundImage: "url(/assets/scene-6.jpg)" }} />
               <div className="card">
-                Welcome to the maison.<br/>
-                Your first cup is a quiet one.
+                {tr("Willkommen in der Maison.","Welcome to the maison.","Maison'a hoş geldin.")}<br/>
+                {tr("Deine erste Tasse ist eine stille.","Your first cup is a quiet one.","İlk fincanın sakin olanı.")}
                 <small>— E</small>
               </div>
             </div>
@@ -2346,20 +2412,19 @@ const REVIEWS_V2 = [
   { tag: "Critical",   q: "Smaller than I expected for the price. But the cup itself — yes, three weeks in, I'm a believer.", a: "Ines D.", c: "Buyer · Madrid", s: 4, av: "/assets/scene-5.jpg" },
   { tag: "Most loved", q: "Subtle, elegant, never too sweet. The first hot drink that feels like a perfume.", a: "Yara N.", c: "Editor · Beirut", s: 5, av: "/assets/scene-6.jpg" },
 ];
-const MOSAIC = [
-  { img: "/assets/scene-2.jpg", badge: "08:00 — slow morning", cls: "big" },
+function getMosaic() {
+  return [
+  { img: "/assets/scene-2.jpg", badge: tr("08:00 — langsamer Morgen","08:00 — slow morning","08:00 — yavaş sabah"), cls: "big" },
   { img: "/assets/scene-3.jpg", badge: "14:00", cls: "tall" },
-  { img: "/assets/scene-4.jpg", badge: "weekend", cls: "" },
-  { img: "/assets/scene-5.jpg", badge: "20:00 nightcap", cls: "wide" },
-  { img: "/assets/scene-6.jpg", badge: "first cup", cls: "" },
-  { img: "/assets/scene-1.jpg", badge: "atelier", cls: "tall" },
-];
+  { img: "/assets/scene-4.jpg", badge: tr("Wochenende","weekend","hafta sonu"), cls: "" },
+  { img: "/assets/scene-5.jpg", badge: tr("20:00 Absacker","20:00 nightcap","20:00 gece içkisi"), cls: "wide" },
+  { img: "/assets/scene-6.jpg", badge: tr("erste Tasse","first cup","ilk fincan"), cls: "" },
+  { img: "/assets/scene-1.jpg", badge: tr("Atelier","atelier","atölye"), cls: "tall" },
+  ];
+}
 function ReviewsV2() {
-  const FILTERS = ["All", "Most loved", "First-cup", "Long-term", "Critical"];
-  const [f, setF] = useState("All");
-  const visible = REVIEWS_V2.filter(r => f === "All" || r.tag === f);
-  const hero = visible[0] || REVIEWS_V2[0];
-
+  useLang();
+  const MOSAIC = getMosaic();
   const ringRef = useRef(null);
   useEffect(() => {
     const el = ringRef.current; if (!el) return;
@@ -2385,29 +2450,29 @@ function ReviewsV2() {
     <section id="reviews" className="reviews-v2">
       <div className="container">
         <div className="section-head">
-          <span className="eyebrow reveal">— Edition № 01 · Neu</span>
-          <h2 className="display reveal delay-1" style={{ fontSize: "clamp(40px, 5.6vw, 80px)", margin: "14px auto 0" }}>
-            <SplitText text="Sei unter" /> <em className="italic"><SplitText text="den Ersten." delay={0.25} /></em>
+          <span className="eyebrow reveal">{tr("— Edition № 01 · Neu","— Edition № 01 · New","— Edition № 01 · Yeni")}</span>
+          <h2 className="display reveal delay-1" key={tr("de","en","tr")} style={{ fontSize: "clamp(40px, 5.6vw, 80px)", margin: "14px auto 0" }}>
+            <SplitText text={tr("Sei unter","Be among","İlk")} /> <em className="italic"><SplitText text={tr("den Ersten.","the first.","tadanlardan ol.")} delay={0.25} /></em>
           </h2>
         </div>
 
         <div className="hero-review reveal delay-1">
           <span className="open-q">"</span>
-          <blockquote>Eine ruhige Zeremonie — mit Datteln gesüßt, nicht mit Zucker. Sechs Zutaten, von Hand komponiert in unserem Atelier in Dubai. Du gehörst zu den Ersten, die sie probieren.</blockquote>
+          <blockquote>{tr("Eine ruhige Zeremonie — mit Datteln gesüßt, nicht mit Zucker. Sechs Zutaten, von Hand komponiert in unserem Atelier in Dubai. Du gehörst zu den Ersten, die sie probieren.","A quiet ceremony — sweetened with dates, not sugar. Six ingredients, composed by hand in our Dubai atelier. You're among the first to taste it.","Sessiz bir tören — şekerle değil, hurmayla tatlandırılmış. Altı malzeme, Dubai atölyemizde elle hazırlanmış. Onu tadan ilk kişilerdensin.")}</blockquote>
           <div className="author-row">
             <div className="author-text">
               <strong>— Esmee</strong>
-              <small>Composer · Maison N° 01</small>
+              <small>{tr("Komponistin · Maison N° 01","Composer · Maison N° 01","Kompozitör · Maison N° 01")}</small>
             </div>
           </div>
         </div>
 
         <div className="section-head" style={{ marginTop: "clamp(60px, 9vh, 100px)" }}>
-          <span className="eyebrow reveal">— Momente mit Manduraa</span>
+          <span className="eyebrow reveal">{tr("— Momente mit Manduraa","— Moments with Manduraa","— Manduraa ile anlar")}</span>
         </div>
         <div className="cust-mosaic reveal delay-1" style={{ marginTop: 32 }}>
           {MOSAIC.map((c, i) => (
-            <div key={i} className={"cell " + c.cls} data-cur="img" data-cur-label="View">
+            <div key={i} className={"cell " + c.cls} data-cur="img" data-cur-label={tr("Ansehen","View","Gör")}>
               <BlurImg src={c.img} alt="" />
               <span className="badge">{c.badge}</span>
             </div>
@@ -2420,6 +2485,7 @@ function ReviewsV2() {
 
 /* ---------- Recovery toast — abandoned cart with concrete recall (T-22) ---------- */
 function RecoveryToast({ count, items, onOpen, onDismiss }) {
+  useLang();
   const [show, setShow] = useState(false);
   const [abandonedMs, setAbandonedMs] = useState(0);
   useEffect(() => {
@@ -2442,10 +2508,10 @@ function RecoveryToast({ count, items, onOpen, onDismiss }) {
   const days = hours ? Math.floor(hours / 24) : 0;
   const timeLabel = !abandonedMs
     ? "" : days >= 1
-      ? `Vor ${days} ${days === 1 ? "Tag" : "Tagen"}`
+      ? tr(`Vor ${days} ${days === 1 ? "Tag" : "Tagen"}`, `${days} ${days === 1 ? "day" : "days"} ago`, `${days} gün önce`)
       : hours >= 1
-        ? `Vor ${hours} ${hours === 1 ? "Stunde" : "Stunden"}`
-        : "Gerade eben";
+        ? tr(`Vor ${hours} ${hours === 1 ? "Stunde" : "Stunden"}`, `${hours} ${hours === 1 ? "hour" : "hours"} ago`, `${hours} saat önce`)
+        : tr("Gerade eben","Just now","Az önce");
 
   // Build a short summary of what's waiting
   const real = (items || []).filter(it => it.kind !== "addon");
@@ -2456,15 +2522,15 @@ function RecoveryToast({ count, items, onOpen, onDismiss }) {
   return (
     <div className={"toast " + (show ? "in" : "")}>
       {timeLabel && <div className="t-kicker">— {timeLabel}</div>}
-      <h5>{isAbo ? "Dein Abo wartet auf dich." : "Deine Tasse wartet auf dich."}</h5>
+      <h5>{isAbo ? tr("Dein Abo wartet auf dich.","Your subscription is waiting.","Aboneliğin seni bekliyor.") : tr("Deine Tasse wartet auf dich.","Your cup is waiting.","Fincanın seni bekliyor.")}</h5>
       <p>
         {firstItem
-          ? <>{pouches} {pouches === 1 ? "Beutel" : "Beutel"} Manduraa · {firstItem.variantName}{isAbo ? <> · Abo aktiv</> : null} — genau wie du sie gelassen hast.</>
-          : <>{count} Beutel warten — genau wie du sie gelassen hast.</>}
+          ? <>{pouches} {tr("Beutel","pouch(es)","paket")} Manduraa · {firstItem.variantName}{isAbo ? <> · {tr("Abo aktiv","Subscription active","Abone aktif")}</> : null} — {tr("genau wie du sie gelassen hast.","exactly as you left them.","tam bıraktığın gibi.")}</>
+          : <>{count} {tr("Beutel warten — genau wie du sie gelassen hast.","pouches waiting — exactly as you left them.","paket bekliyor — tam bıraktığın gibi.")}</>}
       </p>
       <div className="actions">
-        <button className="open-bag" data-cur="btn" data-cur-label="Open" onClick={openBag}>Bestellung fortsetzen →</button>
-        <button className="dismiss" data-cur="btn" data-cur-label="Hide" onClick={close}>Später</button>
+        <button className="open-bag" data-cur="btn" data-cur-label={tr("Öffnen","Open","Aç")} onClick={openBag}>{tr("Bestellung fortsetzen","Continue order","Siparişe devam et")} →</button>
+        <button className="dismiss" data-cur="btn" data-cur-label={tr("Ausblenden","Hide","Gizle")} onClick={close}>{tr("Später","Later","Sonra")}</button>
       </div>
     </div>
   );
@@ -2474,6 +2540,7 @@ function RecoveryToast({ count, items, onOpen, onDismiss }) {
    EMAIL GATE (T-21) — soft inline capture for first-cup discount
    ============================================================ */
 function EmailGate({ onShop }) {
+  useLang();
   const [show, setShow] = useState(false);
   const [done, setDone] = useState(false);
   const [hidden, setHidden] = useState(false);
@@ -2535,34 +2602,34 @@ function EmailGate({ onShop }) {
   if (hidden) return null;
   return (
     <aside className={"email-gate " + (show ? "in " : "") + (done ? "done" : "")} aria-live="polite">
-      <button type="button" className="eg-close" onClick={dismiss} aria-label="Schließen">✕</button>
+      <button type="button" className="eg-close" onClick={dismiss} aria-label={tr("Schließen","Close","Kapat")}>✕</button>
       {!done ? (
         <>
-          <span className="eg-kicker">— Erste Tasse</span>
-          <h5>10 € auf deine erste Manduraa.</h5>
-          <p>Trag deine Mail ein — wir schicken dir den Code und einen leisen Brief, kein Spam.</p>
+          <span className="eg-kicker">{tr("— Erste Tasse","— First cup","— İlk fincan")}</span>
+          <h5>{tr("10 € auf deine erste Manduraa.","€10 off your first Manduraa.","İlk Manduraa'na 10 € indirim.")}</h5>
+          <p>{tr("Trag deine Mail ein — wir schicken dir den Code und einen leisen Brief, kein Spam.","Enter your email — we'll send the code and a quiet letter, no spam.","E-postanı gir — kodu ve sakin bir mektup gönderelim, spam yok.")}</p>
           <form className="eg-form" onSubmit={submit} noValidate>
             <input
               type="email"
-              placeholder="deine@mail.de"
+              placeholder={tr("deine@mail.de","you@email.com","sen@eposta.com")}
               value={email}
               onChange={e => { setEmail(e.target.value); setErr(false); }}
               autoComplete="email"
               aria-invalid={err}
             />
-            <button type="submit">Code holen →</button>
+            <button type="submit">{tr("Code holen","Get the code","Kodu al")} →</button>
           </form>
-          {err && <span className="eg-err">Bitte eine gültige E-Mail eintragen.</span>}
+          {err && <span className="eg-err">{tr("Bitte eine gültige E-Mail eintragen.","Please enter a valid email.","Lütfen geçerli bir e-posta gir.")}</span>}
           <div className="eg-foot">
-            <span>Einlösbar 30 Tage · Eine pro Kundin · Versand inklusive ab €60</span>
+            <span>{tr("Einlösbar 30 Tage · Eine pro Kundin · Versand inklusive ab €60","Valid 30 days · One per customer · Free shipping over €60","30 gün geçerli · Müşteri başına bir · €60 üzeri ücretsiz kargo")}</span>
           </div>
         </>
       ) : (
         <div className="eg-thanks">
-          <span className="eg-kicker">— Willkommen</span>
-          <h5>Dein Code: <span className="code">FIRSTCUP10</span></h5>
-          <p>Wir haben ihn dir auch per Mail geschickt. Einlösbar im Checkout, gültig 30 Tage.</p>
-          <button className="eg-shop" onClick={() => { dismiss(); onShop && onShop(); }}>Manduraa entdecken →</button>
+          <span className="eg-kicker">{tr("— Willkommen","— Welcome","— Hoş geldin")}</span>
+          <h5>{tr("Dein Code:","Your code:","Kodun:")} <span className="code">FIRSTCUP10</span></h5>
+          <p>{tr("Wir haben ihn dir auch per Mail geschickt. Einlösbar im Checkout, gültig 30 Tage.","We've also emailed it to you. Redeemable at checkout, valid 30 days.","Sana e-posta ile de gönderdik. Ödemede kullanılır, 30 gün geçerli.")}</p>
+          <button className="eg-shop" onClick={() => { dismiss(); onShop && onShop(); }}>{tr("Manduraa entdecken","Discover Manduraa","Manduraa'yı keşfet")} →</button>
         </div>
       )}
     </aside>
@@ -2570,16 +2637,20 @@ function EmailGate({ onShop }) {
 }
 
 /* ---------- Spec sheet — As composed ---------- */
-const SPEC = [
-  { name: "Medjool Date",          color: "#7A4A2B", pct: 25, gram: "62 g" },
-  { name: "Marcona Almond",        color: "#D9B988", pct: 19, gram: "48 g" },
-  { name: "Single-origin Arabica", color: "#3E2719", pct: 13, gram: "32 g" },
-  { name: "Antep Pistachio",       color: "#7A8C4F", pct: 10, gram: "26 g" },
-  { name: "Cocoa Nib",             color: "#4E3322", pct:  7, gram: "18 g" },
-  { name: "Green Cardamom",        color: "#A48A53", pct:  2, gram: "4 g"  },
-  { name: "Sea salt · trace",      color: "#E2D2C2", pct:  0.3, gram: "<1 g" },
-];
+function getSpec() {
+  return [
+  { name: tr("Medjool-Dattel","Medjool Date","Medjool Hurması"),          color: "#7A4A2B", pct: 25, gram: "62 g" },
+  { name: tr("Marcona-Mandel","Marcona Almond","Marcona Bademi"),        color: "#D9B988", pct: 19, gram: "48 g" },
+  { name: tr("Single-Origin-Arabica","Single-origin Arabica","Tek Kaynak Arabica"), color: "#3E2719", pct: 13, gram: "32 g" },
+  { name: tr("Antep-Pistazie","Antep Pistachio","Antep Fıstığı"),       color: "#7A8C4F", pct: 10, gram: "26 g" },
+  { name: tr("Kakaonib","Cocoa Nib","Kakao Nibi"),             color: "#4E3322", pct:  7, gram: "18 g" },
+  { name: tr("Grüner Kardamom","Green Cardamom","Yeşil Kakule"),        color: "#A48A53", pct:  2, gram: "4 g"  },
+  { name: tr("Meersalz · Spur","Sea salt · trace","Deniz tuzu · eser"),      color: "#E2D2C2", pct:  0.3, gram: "<1 g" },
+  ];
+}
 function SpecSheet() {
+  useLang();
+  const SPEC = getSpec();
   const ref = useRef(null);
   useEffect(() => {
     const el = ref.current; if (!el) return;
@@ -2599,37 +2670,36 @@ function SpecSheet() {
     <section className="spec">
       <div className="container">
         <div className="section-head">
-          <span className="eyebrow reveal">— As composed</span>
-          <h2 className="display reveal delay-1" style={{ fontSize: "clamp(40px, 5.6vw, 80px)", margin: "14px auto 0" }}>
-            <SplitText text="The full recipe," /> <em className="italic"><SplitText text="written down." delay={0.3} /></em>
+          <span className="eyebrow reveal">{tr("— Wie komponiert","— As composed","— Tarif edildiği gibi")}</span>
+          <h2 className="display reveal delay-1" key={tr("de","en","tr")} style={{ fontSize: "clamp(40px, 5.6vw, 80px)", margin: "14px auto 0" }}>
+            <SplitText text={tr("Das ganze Rezept,","The full recipe,","Tüm tarif,")} /> <em className="italic"><SplitText text={tr("aufgeschrieben.","written down.","yazıya dökülmüş.")} delay={0.3} /></em>
           </h2>
           <p className="reveal delay-2" style={{ margin: "22px auto 0", maxWidth: "52ch", fontSize: 15, lineHeight: 1.75, color: "var(--grain)" }}>
-            We publish what most won't. The full composition by gram, every
-            number per cup. Edition № 01 · Manduraa Original · 250 g pouch.
+            {tr("Wir veröffentlichen, was die meisten nicht tun. Die volle Komposition pro Gramm, jede Zahl pro Tasse. Edition № 01 · Manduraa Original · 250-g-Beutel.","We publish what most won't. The full composition by gram, every number per cup. Edition № 01 · Manduraa Original · 250 g pouch.","Çoğunun yapmadığını yayımlıyoruz. Gram gram tüm kompozisyon, fincan başına her sayı. Edition № 01 · Manduraa Original · 250 g paket.")}
           </p>
         </div>
 
         <div className="grid">
           <div className="pouch-card reveal">
             <div className="top">
-              <BlurImg src="/assets/scene-6.jpg" alt="The Manduraa pouch, hand-tied." />
+              <BlurImg src="/assets/scene-6.jpg" alt={tr("Der Manduraa-Beutel, von Hand gebunden.","The Manduraa pouch, hand-tied.","Manduraa paketi, elle bağlanmış.")} />
               <span className="lock-tag">№ 01 · 250 g</span>
             </div>
             <div className="body">
               <h3>Manduraa <em className="italic">Original</em></h3>
-              <p>Single-batch, single-season. Composed by hand in our Dubai atelier and tied with cream linen ribbon.</p>
+              <p>{tr("Eine Charge, eine Saison. Von Hand in unserem Dubai-Atelier komponiert und mit cremefarbenem Leinenband gebunden.","Single-batch, single-season. Composed by hand in our Dubai atelier and tied with cream linen ribbon.","Tek parti, tek mevsim. Dubai atölyemizde elle hazırlanmış ve krem keten kurdeleyle bağlanmış.")}</p>
               <div className="badges">
                 <span className="badge">Vegan</span>
-                <span className="badge">Gluten-free</span>
-                <span className="badge">Single-farm</span>
-                <span className="badge">Recyclable pouch</span>
-                <span className="badge">No additives</span>
+                <span className="badge">{tr("Glutenfrei","Gluten-free","Glutensiz")}</span>
+                <span className="badge">{tr("Eine Farm","Single-farm","Tek çiftlik")}</span>
+                <span className="badge">{tr("Recycelbarer Beutel","Recyclable pouch","Geri dönüşümlü paket")}</span>
+                <span className="badge">{tr("Ohne Zusätze","No additives","Katkısız")}</span>
               </div>
             </div>
           </div>
           <div className="table-wrap reveal delay-1" ref={ref}>
-            <h3>Composition · 250 g pouch</h3>
-            <span className="sub">— Edition N° 01 · Batch 124</span>
+            <h3>{tr("Komposition · 250-g-Beutel","Composition · 250 g pouch","Kompozisyon · 250 g paket")}</h3>
+            <span className="sub">{tr("— Edition N° 01 · Charge 124","— Edition N° 01 · Batch 124","— Edition N° 01 · Parti 124")}</span>
             <div className="ing-table">
               {SPEC.map((s, i) => (
                 <div className="ing-row" key={i}>
@@ -2641,20 +2711,20 @@ function SpecSheet() {
               ))}
             </div>
             <div className="nutrition">
-              <h4>Per cup · 7 g serving</h4>
+              <h4>{tr("Pro Tasse · 7-g-Portion","Per cup · 7 g serving","Fincan başına · 7 g porsiyon")}</h4>
               <div className="nut-grid">
-                <div className="nut-cell"><span className="k">Energy</span><span className="v">28<small>kcal</small></span></div>
-                <div className="nut-cell"><span className="k">Sugars</span><span className="v">2.6<small>g · from dates</small></span></div>
-                <div className="nut-cell"><span className="k">Refined sugar</span><span className="v">0<small>g</small></span></div>
-                <div className="nut-cell"><span className="k">Caffeine</span><span className="v">38<small>mg</small></span></div>
-                <div className="nut-cell"><span className="k">Protein</span><span className="v">0.9<small>g</small></span></div>
-                <div className="nut-cell"><span className="k">Fat</span><span className="v">1.4<small>g · good fats</small></span></div>
-                <div className="nut-cell"><span className="k">Fibre</span><span className="v">0.8<small>g</small></span></div>
-                <div className="nut-cell"><span className="k">Magnesium</span><span className="v">14<small>mg · 4% RI</small></span></div>
+                <div className="nut-cell"><span className="k">{tr("Energie","Energy","Enerji")}</span><span className="v">28<small>kcal</small></span></div>
+                <div className="nut-cell"><span className="k">{tr("Zucker","Sugars","Şeker")}</span><span className="v">2.6<small>{tr("g · aus Datteln","g · from dates","g · hurmadan")}</small></span></div>
+                <div className="nut-cell"><span className="k">{tr("Raffinierter Zucker","Refined sugar","Rafine şeker")}</span><span className="v">0<small>g</small></span></div>
+                <div className="nut-cell"><span className="k">{tr("Koffein","Caffeine","Kafein")}</span><span className="v">38<small>mg</small></span></div>
+                <div className="nut-cell"><span className="k">{tr("Protein","Protein","Protein")}</span><span className="v">0.9<small>g</small></span></div>
+                <div className="nut-cell"><span className="k">{tr("Fett","Fat","Yağ")}</span><span className="v">1.4<small>{tr("g · gute Fette","g · good fats","g · iyi yağlar")}</small></span></div>
+                <div className="nut-cell"><span className="k">{tr("Ballaststoffe","Fibre","Lif")}</span><span className="v">0.8<small>g</small></span></div>
+                <div className="nut-cell"><span className="k">{tr("Magnesium","Magnesium","Magnezyum")}</span><span className="v">14<small>{tr("mg · 4 % RM","mg · 4% RI","mg · %4 RI")}</small></span></div>
               </div>
               <div className="footer-row">
-                <span><strong>Allergens:</strong> almonds, pistachios.</span>
-                <span><strong>Best by:</strong> 06 / 2026</span>
+                <span><strong>{tr("Allergene:","Allergens:","Alerjenler:")}</strong> {tr("Mandeln, Pistazien.","almonds, pistachios.","badem, fıstık.")}</span>
+                <span><strong>{tr("Mindestens haltbar bis:","Best by:","Son kullanma:")}</strong> 06 / 2026</span>
               </div>
             </div>
           </div>
@@ -2666,6 +2736,7 @@ function SpecSheet() {
 
 /* ---------- Exit-intent toast ---------- */
 function ExitIntent({ onShop }) {
+  useLang();
   const [open, setOpen] = useState(false);
   const [done, setDone] = useState(false);
   useEffect(() => {
@@ -2686,13 +2757,13 @@ function ExitIntent({ onShop }) {
   const goShop = () => { setOpen(false); onShop && onShop(); };
   return (
     <div className={"exit-toast " + (open ? "in" : "")}>
-      <span className="kicker">— Before you go</span>
-      <h5>10 €. On your first pouch.</h5>
-      <p>A small invitation. Use the code at checkout — valid for the next 30 days, no expiry games.</p>
+      <span className="kicker">{tr("— Bevor du gehst","— Before you go","— Gitmeden önce")}</span>
+      <h5>{tr("10 €. Auf deinen ersten Beutel.","€10. On your first pouch.","10 €. İlk paketine.")}</h5>
+      <p>{tr("Eine kleine Einladung. Nutze den Code im Checkout — gültig für die nächsten 30 Tage, ohne Ablaufspielchen.","A small invitation. Use the code at checkout — valid for the next 30 days, no expiry games.","Küçük bir davet. Kodu ödemede kullan — önümüzdeki 30 gün geçerli, son kullanma oyunu yok.")}</p>
       <span className="code">FIRSTCUP10</span>
       <div className="actions">
-        <button className="shop" data-cur="btn" data-cur-label="Shop" onClick={goShop}>Shop now →</button>
-        <button className="dismiss" data-cur="btn" data-cur-label="Hide" onClick={close}>Maybe later</button>
+        <button className="shop" data-cur="btn" data-cur-label={tr("Shop","Shop","Mağaza")} onClick={goShop}>{tr("Jetzt kaufen","Shop now","Şimdi al")} →</button>
+        <button className="dismiss" data-cur="btn" data-cur-label={tr("Ausblenden","Hide","Gizle")} onClick={close}>{tr("Vielleicht später","Maybe later","Belki sonra")}</button>
       </div>
     </div>
   );
@@ -2723,6 +2794,7 @@ function useTabAttention() {
 
 /* ---------- Sugar Tracker ---------- */
 function SugarTracker() {
+  useLang();
   const [drinks, setDrinks] = useState(8);   // drinks per week
   const sugarPerDrink = 11;                  // grams
   const pricePerDrink = 4.2;                  // €
@@ -2738,20 +2810,19 @@ function SugarTracker() {
     <section className="block tracker">
       <div className="container">
         <div className="section-head">
-          <span className="eyebrow reveal">— Compare yourself</span>
-          <h2 className="reveal delay-1">
-            <SplitText text="How much sugar" /> <em className="italic"><SplitText text="does your year" delay={0.3} /></em> <SplitText text="hold?" delay={0.55} />
+          <span className="eyebrow reveal">{tr("— Vergleiche dich","— Compare yourself","— Kendini kıyasla")}</span>
+          <h2 className="reveal delay-1" key={tr("de","en","tr")}>
+            <SplitText text={tr("Wie viel Zucker","How much sugar","Yılın ne kadar")} /> <em className="italic"><SplitText text={tr("steckt in deinem Jahr","does your year","şeker")} delay={0.3} /></em> <SplitText text={tr("?","hold?","tutuyor?")} delay={0.55} />
           </h2>
           <p className="reveal delay-2">
-            Move the slider. We'll quietly show you the year of refined
-            sugar — and the year without it.
+            {tr("Bewege den Regler. Wir zeigen dir leise das Jahr an raffiniertem Zucker — und das Jahr ohne ihn.","Move the slider. We'll quietly show you the year of refined sugar — and the year without it.","Kaydırıcıyı hareket ettir. Sana sessizce rafine şekerli yılı — ve onsuz yılı gösterelim.")}
           </p>
         </div>
         <div className="grid">
           <div className="panel reveal">
-            <h3>Your week, honestly</h3>
+            <h3>{tr("Deine Woche, ehrlich","Your week, honestly","Haftanı dürüstçe")}</h3>
             <div className="label">
-              <span>Coffee · latte · energy drinks per week</span>
+              <span>{tr("Kaffee · Latte · Energydrinks pro Woche","Coffee · latte · energy drinks per week","Haftada kahve · latte · enerji içeceği")}</span>
               <em>{drinks}</em>
             </div>
             <div className="slider-row">
@@ -2765,26 +2836,26 @@ function SugarTracker() {
             </div>
             <div className="results">
               <div className="res-card them">
-                <span className="tag">— Your year now</span>
-                <span className="val"><Counter to={yearlyKg} duration={500} decimals={1} key={drinks} /><small>kg sugar</small></span>
-                <span className="sub">Across {drinks * 52} drinks · ≈ €<Counter to={yearlyEur} duration={500} key={"eur" + drinks} /> spent</span>
+                <span className="tag">{tr("— Dein Jahr jetzt","— Your year now","— Şimdiki yılın")}</span>
+                <span className="val"><Counter to={yearlyKg} duration={500} decimals={1} key={drinks} /><small>{tr("kg Zucker","kg sugar","kg şeker")}</small></span>
+                <span className="sub">{tr("Über ","Across ","")}{drinks * 52}{tr(" Getränke · ≈ €"," drinks · ≈ €"," içecek · ≈ €")}<Counter to={yearlyEur} duration={500} key={"eur" + drinks} />{tr(" ausgegeben"," spent"," harcandı")}</span>
               </div>
               <div className="res-card us">
-                <span className="tag">— Your year with Manduraa</span>
-                <span className="val"><Counter to={0} duration={500} /><small>g sugar</small></span>
-                <span className="sub">You'd save €<Counter to={saving > 0 ? saving : 0} duration={500} key={"save" + drinks} /> a year</span>
+                <span className="tag">{tr("— Dein Jahr mit Manduraa","— Your year with Manduraa","— Manduraa ile yılın")}</span>
+                <span className="val"><Counter to={0} duration={500} /><small>{tr("g Zucker","g sugar","g şeker")}</small></span>
+                <span className="sub">{tr("Du würdest €","You'd save €","Yılda €")}<Counter to={saving > 0 ? saving : 0} duration={500} key={"save" + drinks} />{tr(" im Jahr sparen"," a year"," tasarruf edersin")}</span>
               </div>
             </div>
           </div>
           <div className="stack reveal delay-1">
             <div className="col them">
-              <div className="label-top">Your year now<em>{yearlyKg} kg</em></div>
+              <div className="label-top">{tr("Dein Jahr jetzt","Your year now","Şimdiki yılın")}<em>{yearlyKg} kg</em></div>
               {Array.from({ length: themHeight }).map((_, i) => (
                 <span key={i} className="unit" style={{ animationDelay: (i * 0.02) + "s" }} />
               ))}
             </div>
             <div className="col us">
-              <div className="label-top">With Manduraa<em>0 g</em></div>
+              <div className="label-top">{tr("Mit Manduraa","With Manduraa","Manduraa ile")}<em>0 g</em></div>
               {Array.from({ length: usHeight }).map((_, i) => (
                 <span key={i} className="unit" />
               ))}
@@ -2798,6 +2869,7 @@ function SugarTracker() {
 
 /* ---------- Footer v2 ---------- */
 function FooterV2() {
+  useLang();
   const [now, setNow] = useState(() => new Date());
   const [city, setCity] = useState(0);
   const [email, setEmail] = useState("");
@@ -2850,89 +2922,89 @@ function FooterV2() {
         <div className="clock-row">
           <span className="green">
             <span className="pulse"></span>
-            {onShift ? "Atelier on shift" : "Atelier sleeps · back at 09:00 GST"}
+            {onShift ? tr("Atelier im Dienst","Atelier on shift","Atölye vardiyada") : tr("Atelier schläft · zurück um 09:00 GST","Atelier sleeps · back at 09:00 GST","Atölye uyuyor · 09:00 GST'te döner")}
             <span className="clock">{hh}:{mm} GST</span>
           </span>
-          <span>Composed in <span className="city" key={city}>{cities[city]}</span></span>
+          <span>{tr("Komponiert in","Composed in","Hazırlandığı yer")} <span className="city" key={city}>{cities[city]}</span></span>
         </div>
 
         <div className="signature-wrap">
           <span className="outline">Esmee</span>
-          <span className="tag">— Maison N° 01 · founded 2024</span>
+          <span className="tag">{tr("— Maison N° 01 · gegründet 2024","— Maison N° 01 · founded 2024","— Maison N° 01 · kuruluş 2024")}</span>
         </div>
 
         <div className="nl-card">
           <div className="nl-text">
-            <span className="nl-kicker">— Maison correspondence</span>
-            <h3>Letters from the atelier.</h3>
-            <p>A short, slow note once a season. Composition diaries, single-farm stories, and quiet invitations to events in Dubai, London and Paris.</p>
+            <span className="nl-kicker">{tr("— Maison-Korrespondenz","— Maison correspondence","— Maison yazışmaları")}</span>
+            <h3>{tr("Briefe aus dem Atelier.","Letters from the atelier.","Atölyeden mektuplar.")}</h3>
+            <p>{tr("Eine kurze, langsame Notiz einmal pro Saison. Kompositionstagebücher, Single-Farm-Geschichten und leise Einladungen zu Events in Dubai, London und Paris.","A short, slow note once a season. Composition diaries, single-farm stories, and quiet invitations to events in Dubai, London and Paris.","Mevsimde bir kez kısa, sakin bir not. Kompozisyon günlükleri, tek çiftlik hikâyeleri ve Dubai, Londra ve Paris'teki etkinliklere sessiz davetler.")}</p>
           </div>
           {!sent ? (
             <form className="nl-form" onSubmit={submit}>
               <div className="row">
-                <input type="email" placeholder="Your email address" value={email} onChange={e => setEmail(e.target.value)} data-cur="text" />
-                <button data-cur="btn" data-cur-label="Send" type="submit"><span>Subscribe</span><span aria-hidden="true">→</span></button>
+                <input type="email" placeholder={tr("Deine E-Mail-Adresse","Your email address","E-posta adresin")} value={email} onChange={e => setEmail(e.target.value)} data-cur="text" />
+                <button data-cur="btn" data-cur-label={tr("Senden","Send","Gönder")} type="submit"><span>{tr("Abonnieren","Subscribe","Abone ol")}</span><span aria-hidden="true">→</span></button>
               </div>
-              <span className="micro">No spam, ever. Unsubscribe in one click.</span>
+              <span className="micro">{tr("Niemals Spam. Abmeldung mit einem Klick.","No spam, ever. Unsubscribe in one click.","Asla spam yok. Tek tıkla abonelikten çık.")}</span>
             </form>
           ) : (
             <div>
-              <p className="nl-thanks">Thank you. A first letter is on its way.</p>
-              <span className="micro">You're among the first to follow the maison.</span>
+              <p className="nl-thanks">{tr("Danke. Ein erster Brief ist unterwegs.","Thank you. A first letter is on its way.","Teşekkürler. İlk mektup yola çıktı.")}</p>
+              <span className="micro">{tr("Du gehörst zu den Ersten, die der Maison folgen.","You're among the first to follow the maison.","Maison'u takip eden ilk kişilerdensin.")}</span>
             </div>
           )}
         </div>
 
         <div className="links-grid">
           <div>
-            <h4>Product</h4>
+            <h4>{tr("Produkt","Product","Ürün")}</h4>
             <ul>
               <li><a href="#shop">Manduraa Original<span className="arr">↗</span></a></li>
               <li><a href="#shop">Rose Cardamom<span className="arr">↗</span></a></li>
-              <li><a href="#shop">Caffeine-free<span className="arr">↗</span></a></li>
-              <li><a href="#shop">Bulk packs<span className="arr">↗</span></a></li>
+              <li><a href="#shop">{tr("Koffeinfrei","Caffeine-free","Kafeinsiz")}<span className="arr">↗</span></a></li>
+              <li><a href="#shop">{tr("Mengenpakete","Bulk packs","Toplu paketler")}<span className="arr">↗</span></a></li>
             </ul>
           </div>
           <div>
             <h4>Maison</h4>
             <ul>
-              <li><a href="#composer">The composer<span className="arr">↗</span></a></li>
-              <li><a href="#story-intro">Our story<span className="arr">↗</span></a></li>
-              <li><a href="#universe">Ingredients<span className="arr">↗</span></a></li>
-              <li><a href="#moments">Where it lives<span className="arr">↗</span></a></li>
+              <li><a href="#story-intro">{tr("Die Komponistin","The composer","Kompozitör")}<span className="arr">↗</span></a></li>
+              <li><a href="#story-intro">{tr("Unsere Geschichte","Our story","Hikâyemiz")}<span className="arr">↗</span></a></li>
+              <li><a href="#universe">{tr("Zutaten","Ingredients","İçindekiler")}<span className="arr">↗</span></a></li>
+              <li><a href="#reviews">{tr("Wo es lebt","Where it lives","Nerede yaşar")}<span className="arr">↗</span></a></li>
             </ul>
           </div>
           <div>
-            <h4>Care</h4>
+            <h4>{tr("Service","Care","Destek")}</h4>
             <ul>
-              <li><a href="#faq">FAQ<span className="arr">↗</span></a></li>
-              <li><a href="#">Shipping & returns<span className="arr">↗</span></a></li>
-              <li><a href="#">Contact concierge<span className="arr">↗</span></a></li>
-              <li><a href="#">Wholesale<span className="arr">↗</span></a></li>
+              <li><a href="#faq">{tr("FAQ","FAQ","SSS")}<span className="arr">↗</span></a></li>
+              <li><a href="#faq">{tr("Versand & Rückgabe","Shipping & returns","Kargo & iade")}<span className="arr">↗</span></a></li>
+              <li><a href="#faq">{tr("Concierge kontaktieren","Contact concierge","Concierge'e ulaş")}<span className="arr">↗</span></a></li>
+              <li><a href="#faq">{tr("Großhandel","Wholesale","Toptan")}<span className="arr">↗</span></a></li>
             </ul>
           </div>
           <div>
-            <h4>Follow</h4>
+            <h4>{tr("Folgen","Follow","Takip et")}</h4>
             <ul>
               <li><a href="#">Instagram<span className="arr">↗</span></a></li>
               <li><a href="#">TikTok<span className="arr">↗</span></a></li>
               <li><a href="#">Pinterest<span className="arr">↗</span></a></li>
-              <li><a href="#">Spotify · atelier playlist<span className="arr">↗</span></a></li>
+              <li><a href="#">{tr("Spotify · Atelier-Playlist","Spotify · atelier playlist","Spotify · atölye çalma listesi")}<span className="arr">↗</span></a></li>
             </ul>
           </div>
         </div>
 
         <div className="bottom">
-          <span>© 2026 — Composed slowly · Dubai · Beirut · Antakya</span>
+          <span>{tr("© 2026 — Langsam komponiert · Dubai · Beirut · Antakya","© 2026 — Composed slowly · Dubai · Beirut · Antakya","© 2026 — Yavaşça hazırlandı · Dubai · Beyrut · Antakya")}</span>
           <span className="pay">
-            We accept
+            {tr("Wir akzeptieren","We accept","Kabul ettiklerimiz")}
             <span>Apple Pay</span>
             <span>Klarna</span>
             <span>Visa</span>
             <span>AmEx</span>
             <span>SEPA</span>
           </span>
-          <span>Privacy · Terms · Imprint</span>
+          <span>{tr("Datenschutz · AGB · Impressum","Privacy · Terms · Imprint","Gizlilik · Şartlar · Künye")}</span>
         </div>
       </div>
     </footer>
@@ -3094,7 +3166,9 @@ function App() {
     try {
       if (!isShopifyConfigured()) {
         window.alert(
-          "Demo-Modus: Verbinde einen Shopify-Store (siehe README / .env.example), um zur echten Kasse zu gehen."
+          tr("Demo-Modus: Verbinde einen Shopify-Store (siehe README / .env.example), um zur echten Kasse zu gehen.",
+             "Demo mode: connect a Shopify store (see README / .env.example) to reach the real checkout.",
+             "Demo modu: gerçek ödemeye ulaşmak için bir Shopify mağazası bağla (README / .env.example).")
         );
         return;
       }
@@ -3106,7 +3180,7 @@ function App() {
           return line;
         });
       if (lines.length === 0) {
-        window.alert("Keine Shopify-Artikel im Warenkorb.");
+        window.alert(tr("Keine Shopify-Artikel im Warenkorb.","No Shopify items in the cart.","Sepette Shopify ürünü yok."));
         return;
       }
       // Auto-apply the discount code matching the chosen pack tier (+ subscription).
@@ -3116,7 +3190,7 @@ function App() {
       const url = await createCheckout(lines, codes);
       window.location.href = url;
     } catch (e) {
-      window.alert("Checkout fehlgeschlagen: " + ((e && e.message) || e));
+      window.alert(tr("Checkout fehlgeschlagen: ","Checkout failed: ","Ödeme başarısız: ") + ((e && e.message) || e));
     }
   }, [cart]);
 
