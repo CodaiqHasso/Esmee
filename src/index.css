@@ -6792,30 +6792,35 @@ section.universe, section.story-intro, section.unbox, section.ritual {
 }
 
 /* ============================================================
-   MOBILE — Ritual: natural vertical stack instead of horizontal pin
-   (the pinned horizontal scroll felt awkward + wasted space on phones)
+   MOBILE — Ritual: keep the sideways (horizontal) scroll, but balance the
+   panel so text + illustration fill the screen with no wasted gap.
+   (Horizontal mechanic stays; only the inner panel layout is optimised.)
    ============================================================ */
 @media (max-width: 880px) {
-  .ritual.horizontal .h-wrap { height: auto !important; }
-  .ritual.horizontal .h-stage { position: static; height: auto; overflow: visible; }
-  .ritual.horizontal .h-track {
-    flex-direction: column; width: 100%; height: auto;
-    transform: none !important; will-change: auto;
-  }
+  .ritual.horizontal .h-wrap { height: 260vh; }
+  .ritual.horizontal .h-stage { height: 100dvh; }
   .ritual.horizontal .h-panel {
-    width: 100%; height: auto;
-    grid-template-columns: 1fr;
-    gap: 22px;
-    padding: 50px var(--rail);
-    border-top: 1px solid rgba(43,31,23,.08);
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: flex-start;
+    gap: clamp(16px, 3.2vh, 32px);
+    padding: 86px var(--rail) 78px;
   }
-  .ritual.horizontal .h-panel:first-child { border-top: 0; padding-top: 44px; }
-  .ritual.horizontal .h-panel .big-num { display: none; }
-  .ritual.horizontal .h-text { max-width: none; }
+  .ritual.horizontal .h-text { max-width: none; width: 100%; }
+  .ritual.horizontal .h-text h3 { font-size: clamp(38px, 11.5vw, 60px); }
+  .ritual.horizontal .h-text p { font-size: 15.5px; margin-top: 16px; }
+  .ritual.horizontal .h-text .micro-meta { margin-top: 18px; }
   .ritual.horizontal .h-vis {
-    aspect-ratio: 4 / 3; width: 100%; max-width: 400px; margin: 4px auto 0;
+    aspect-ratio: 5 / 4; width: 100%; max-width: 300px;
+    align-self: center; margin: 0 auto;
   }
-  .ritual.horizontal .h-progress { display: none; }
+  /* keep the big watermark subtle so it doesn't crowd the smaller panel */
+  .ritual.horizontal .h-panel .big-num { font-size: 56vw; bottom: 4vh; opacity: .6; }
+  .ritual.horizontal .h-progress { bottom: 26px; gap: 18px; }
+  .ritual.horizontal .h-progress .step-name { font-size: 12px; }
+}
+@media (max-width: 380px) {
+  .ritual.horizontal .h-vis { max-width: 250px; }
+  .ritual.horizontal .h-text h3 { font-size: clamp(34px, 11vw, 50px); }
 }
 
 /* ============================================================
