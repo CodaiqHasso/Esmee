@@ -224,6 +224,11 @@ h1, h2, h3 { margin: 0; }
   height: 620vh;
   background: #0E0905;
 }
+/* Shorter cinematic on mobile so the intro isn't a scroll-marathon
+   (scene transitions scale with this height automatically). */
+@media (max-width: 720px) {
+  .story { height: 420vh; }
+}
 .story-stage {
   position: sticky; top: 0;
   height: 100vh;

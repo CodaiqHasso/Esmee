@@ -527,10 +527,17 @@ function SteamCanvas({ getIntensity }) {
         ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
         ctx.fill();
       }
-      raf = requestAnimationFrame(step);
+      raf = visible ? requestAnimationFrame(step) : 0;
     };
-    raf = requestAnimationFrame(step);
-    return () => { cancelAnimationFrame(raf); ro.disconnect(); };
+    // Only animate while the hero canvas is actually on-screen — once the user
+    // scrolls past the hero, the loop pauses (keeps the main thread free for scroll).
+    let visible = false;
+    const io = new IntersectionObserver(([e]) => {
+      visible = e.isIntersecting;
+      if (visible && !raf) { last = performance.now(); raf = requestAnimationFrame(step); }
+    }, { threshold: 0.01 });
+    io.observe(canvas);
+    return () => { cancelAnimationFrame(raf); io.disconnect(); ro.disconnect(); };
   }, [getIntensity]);
   return <canvas ref={ref} className="steam-canvas" aria-hidden="true" />;
 }
@@ -902,9 +909,15 @@ function IngredientUniverse() {
   const INGREDIENTS = getIngredients();
   const [selected, setSelected] = useState(null); // selected ingredient INDEX or null
 
-  // auto-rotate slowly when idle
+  // auto-rotate slowly when idle — ONLY while the orbit is on-screen AND on desktop.
+  // On ≤900px the orbit is replaced by a static grid, so we never animate there.
+  // (A permanent 60fps loop here re-rendered the whole component every frame and
+  //  made mobile scrolling janky.)
   useEffect(() => {
+    const wrap = wrapRef.current;
+    const mq = window.matchMedia("(min-width: 901px)");
     let raf = 0;
+    let visible = false;
     const tick = () => {
       if (!dragging.current) {
         // inertia decay or gentle auto-rotate
@@ -919,8 +932,13 @@ function IngredientUniverse() {
       }
       raf = requestAnimationFrame(tick);
     };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
+    const start = () => { if (!raf && visible && mq.matches) raf = requestAnimationFrame(tick); };
+    const stop = () => { if (raf) { cancelAnimationFrame(raf); raf = 0; } };
+    const sync = () => { (visible && mq.matches) ? start() : stop(); };
+    const io = new IntersectionObserver(([e]) => { visible = e.isIntersecting; sync(); }, { threshold: 0.02 });
+    if (wrap) io.observe(wrap);
+    if (mq.addEventListener) mq.addEventListener("change", sync);
+    return () => { stop(); io.disconnect(); if (mq.removeEventListener) mq.removeEventListener("change", sync); };
   }, []);
 
   // drag handlers
