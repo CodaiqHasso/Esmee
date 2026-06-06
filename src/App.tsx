@@ -156,32 +156,32 @@ function getPacks() {
 
 function getIngredients() {
   return [
-  { name: tr("Medjool-Dattel","Medjool Date","Medjool Hurması"), note: tr("Natürliche Süße","Natural sweetness","Doğal tatlılık"), color: "#7A4A2B", angle: 18, r: 46,
+  { name: tr("Medjool-Dattel","Medjool Date","Medjool Hurması"), short: tr("Dattel","Date","Hurma"), note: tr("Natürliche Süße","Natural sweetness","Doğal tatlılık"), color: "#7A4A2B", angle: 18, r: 46,
     origin: tr("Jordantal · Jordanien","Jordan Valley · Jordan","Ürdün Vadisi · Ürdün"), season: tr("Herbst '25","Autumn '25","Sonbahar '25"), grams: tr("62 g / 250-g-Beutel","62 g / 250 g pouch","62 g / 250 g paket"), img: "/assets/scene-6.jpg",
     lede: tr("Die einzige Süße in der Tasse.","The only sweetness in the cup.","Fincandaki tek tatlılık."),
     body: tr("Sonnengetrocknet auf einer einzigen Farm im Jordantal von der Familie Al-Saadi. Wir verwenden die weiche Medjool-Sorte — von Hand zu einer Paste gepresst, die sich ohne jede Körnigkeit in der Mischung auflöst.","Sun-cured on a single farm in the Jordan Valley by the Al-Saadi family. We use the soft-grade Medjool — pressed by hand into a paste that dissolves into the blend without a trace of graininess.","Ürdün Vadisi'nde Al-Saadi ailesi tarafından tek bir çiftlikte güneşte kurutulur. Yumuşak Medjool çeşidini kullanırız — elle ezilerek, harmana hiç tanecik bırakmadan eriyen bir macun hâline getirilir.")
   },
-  { name: tr("Marcona-Mandel","Marcona Almond","Marcona Bademi"), note: tr("Cremig & nussig","Creamy & nutty","Kremsi ve fındıksı"), color: "#D9B988", angle: 80, r: 48,
+  { name: tr("Marcona-Mandel","Marcona Almond","Marcona Bademi"), short: tr("Mandel","Almond","Badem"), note: tr("Cremig & nussig","Creamy & nutty","Kremsi ve fındıksı"), color: "#D9B988", angle: 80, r: 48,
     origin: tr("Alicante · Spanien","Alicante · Spain","Alicante · İspanya"), season: tr("Sommer '25","Summer '25","Yaz '25"), grams: tr("48 g / 250-g-Beutel","48 g / 250 g pouch","48 g / 250 g paket"), img: "/assets/scene-5.jpg",
     lede: tr("Macht die Tasse cremig.","Makes the cup creamy.","Fincanı kremsi yapar."),
     body: tr("Kalt vermahlen, bis das Öl freigesetzt wird. Marcona gibt der Tasse ihr Mundgefühl — den runden, milchigen Körper, der dich auf Milch ganz verzichten lässt.","Cold-stone milled until the oil releases. Marcona gives the cup its mouthfeel — the round, milky body that lets you skip the dairy entirely.","Yağı açığa çıkana dek soğuk taşla öğütülür. Marcona, fincana ağız dolusu hissini verir — sütü tamamen atlamanı sağlayan yuvarlak, sütlü gövde.")
   },
-  { name: tr("Antep-Pistazie","Antep Pistachio","Antep Fıstığı"), note: tr("Nussig & salzig","Nutty & salty","Fındıksı ve tuzlu"), color: "#7A8C4F", angle: 142, r: 45,
+  { name: tr("Antep-Pistazie","Antep Pistachio","Antep Fıstığı"), short: tr("Pistazie","Pistachio","Fıstık"), note: tr("Nussig & salzig","Nutty & salty","Fındıksı ve tuzlu"), color: "#7A8C4F", angle: 142, r: 45,
     origin: tr("Gaziantep · Türkei","Gaziantep · Türkiye","Gaziantep · Türkiye"), season: tr("Spätsommer '25","Late summer '25","Yaz sonu '25"), grams: tr("26 g / 250-g-Beutel","26 g / 250 g pouch","26 g / 250 g paket"), img: "/assets/scene-3.jpg",
     lede: tr("Nussig, leicht salzig.","Nutty, lightly salty.","Fındıksı, hafif tuzlu."),
     body: tr("Aus den Antep-Hainen außerhalb von Gaziantep. Von Hand geschält, kalt geröstet, gerade so weit gemahlen, dass ihre Salzigkeit erhalten bleibt. Die Salzkante, die die Datteln wie Dessert schmecken lässt.","From the Antep groves outside Gaziantep. Hand-shelled, cold-roasted, milled just enough to keep their salinity intact. The salt-edge that makes the dates taste like dessert.","Gaziantep dışındaki Antep bahçelerinden. Elle ayıklanır, soğuk kavrulur, tuzluluğunu koruyacak kadar öğütülür. Hurmaları tatlı gibi tatlandıran o tuz dokunuşu.")
   },
-  { name: tr("Single-Origin-Arabica","Single-origin Arabica","Tek Kaynak Arabica"), note: tr("Sanfter Koffein-Kick","Gentle caffeine lift","Hafif kafein"), color: "#3E2719", angle: 210, r: 47,
+  { name: tr("Single-Origin-Arabica","Single-origin Arabica","Tek Kaynak Arabica"), short: tr("Arabica","Arabica","Arabica"), note: tr("Sanfter Koffein-Kick","Gentle caffeine lift","Hafif kafein"), color: "#3E2719", angle: 210, r: 47,
     origin: tr("Haraz · Jemen","Haraz · Yemen","Haraz · Yemen"), season: tr("Frühling '25","Spring '25","İlkbahar '25"), grams: tr("32 g / 250-g-Beutel","32 g / 250 g pouch","32 g / 250 g paket"), img: "/assets/scene-1.jpg",
     lede: tr("Nur ein Hauch Kaffee.","Just a hint of coffee.","Yalnızca bir tutam kahve."),
     body: tr("Von den Haraz-Bergfarmen, gewaschen und in der Höhe langsam getrocknet. Wir verwenden weniger als 15 % der Mischung an Kaffee — genug Schwung, um ihn zu spüren, nicht genug, um abzustürzen.","From the Haraz mountain farms, washed and slow-dried at altitude. We pull less than 15% of the blend in coffee — enough lift to notice, not enough to crash.","Haraz dağ çiftliklerinden, yıkanmış ve yükseklerde yavaşça kurutulmuş. Harmanın %15'inden azını kahve olarak alırız — fark edilecek kadar canlılık, çökertmeyecek kadar az.")
   },
-  { name: tr("Grüner Kardamom","Green Cardamom","Yeşil Kakule"), note: tr("Aromatische Wärme","Aromatic warmth","Aromatik sıcaklık"), color: "#A48A53", angle: 272, r: 44,
+  { name: tr("Grüner Kardamom","Green Cardamom","Yeşil Kakule"), short: tr("Kardamom","Cardamom","Kakule"), note: tr("Aromatische Wärme","Aromatic warmth","Aromatik sıcaklık"), color: "#A48A53", angle: 272, r: 44,
     origin: tr("Kerala · Indien","Kerala · India","Kerala · Hindistan"), season: tr("Ganzjährig","Year-round","Yıl boyu"), grams: tr("4 g / 250-g-Beutel","4 g / 250 g pouch","4 g / 250 g paket"), img: "/assets/scene-2.jpg",
     lede: tr("Warm und aromatisch.","Warm and aromatic.","Sıcak ve aromatik."),
     body: tr("Ganze Kapseln, am Morgen des Mischens zerstoßen. Nur vier Gramm pro Beutel — präsent genug, um die Dattel zu heben, leise genug, um nie zu überwältigen.","Whole pods crushed the morning of blending. Just four grams per pouch — present enough to lift the date, quiet enough never to overwhelm.","Bütün kapsüller, harmanlama sabahı dövülür. Paket başına yalnızca dört gram — hurmayı yükseltecek kadar var, asla bastırmayacak kadar sessiz.")
   },
-  { name: tr("Kakaonib","Cocoa Nib","Kakao Nibi"), note: tr("Bitterer Kontrast","Bitter contrast","Acı kontrast"), color: "#4E3322", angle: 330, r: 46,
+  { name: tr("Kakaonib","Cocoa Nib","Kakao Nibi"), short: tr("Kakao","Cocoa","Kakao"), note: tr("Bitterer Kontrast","Bitter contrast","Acı kontrast"), color: "#4E3322", angle: 330, r: 46,
     origin: tr("Tabasco · Mexiko","Tabasco · Mexico","Tabasco · Meksika"), season: tr("Winter '25","Winter '25","Kış '25"), grams: tr("18 g / 250-g-Beutel","18 g / 250 g pouch","18 g / 250 g paket"), img: "/assets/scene-4.jpg",
     lede: tr("Ein bitterer Schoko-Ton.","A bitter chocolate note.","Acı bir çikolata notası."),
     body: tr("Kakaonibs aus einer einzigen Kooperative in Tabasco, leicht geröstet, um die Schokolade ohne Süße hervorzubringen. Die bittere Linie, die die Tasse zusammenhält.","Cocoa nibs from a single co-op in Tabasco, lightly toasted to draw out the chocolate without sweetness. The bitter line that holds the cup together.","Tabasco'da tek bir kooperatiften kakao nibleri, çikolatayı tatlılık olmadan ortaya çıkarmak için hafifçe kavrulur. Fincanı bir arada tutan acı çizgi.")
@@ -1039,6 +1039,15 @@ function IngredientUniverse() {
   useLang();
   const INGREDIENTS = getIngredients();
   const [selected, setSelected] = useState(null); // selected ingredient INDEX or null
+  // On phones the orbit is smaller, so pull the chips onto a tighter ring.
+  const [narrow, setNarrow] = useState(() => typeof window !== "undefined" && window.matchMedia("(max-width: 900px)").matches);
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 900px)");
+    const on = () => setNarrow(mq.matches);
+    if (mq.addEventListener) mq.addEventListener("change", on);
+    return () => { if (mq.removeEventListener) mq.removeEventListener("change", on); };
+  }, []);
+  const rScale = narrow ? 0.72 : 1;
 
   // auto-rotate slowly when idle — ONLY while the orbit is on-screen AND on desktop.
   // On ≤900px the orbit is replaced by a static grid, so we never animate there.
@@ -1084,6 +1093,9 @@ function IngredientUniverse() {
       return Math.atan2(e.clientY - cy, e.clientX - cx) * 180 / Math.PI;
     };
     const down = (e) => {
+      // On phones the orbit auto-spins via CSS and isn't drag-rotated (keeps
+      // page scrolling smooth); only tap-to-open is active there.
+      if (window.matchMedia("(max-width: 900px)").matches) return;
       dragging.current = true;
       wrap.classList.add("dragging");
       lastAngle.current = angleAt(e);
@@ -1129,8 +1141,8 @@ function IngredientUniverse() {
     // Position the chip at its base angle plus the live rotation. The chip itself
     // stays upright (no transform rotation) so labels never tilt or flip.
     const rad = ((ing.angle + rot) * Math.PI) / 180;
-    const left = 50 + Math.cos(rad) * ing.r;
-    const top  = 50 + Math.sin(rad) * ing.r;
+    const left = 50 + Math.cos(rad) * ing.r * rScale;
+    const top  = 50 + Math.sin(rad) * ing.r * rScale;
     return (
       <div
         key={idx}
@@ -1147,7 +1159,7 @@ function IngredientUniverse() {
       >
         <span className="swatch" style={{ background: ing.color }} />
         <div>
-          <div className="name">{ing.name}</div>
+          <div className="name"><span className="nm-full">{ing.name}</span><span className="nm-short">{ing.short || ing.name}</span></div>
           <span className="note">{ing.note}</span>
         </div>
       </div>
@@ -1157,8 +1169,8 @@ function IngredientUniverse() {
   // connectors from each chip to the center — follow the same live rotation as the chips
   const connectors = INGREDIENTS.map((ing, i) => {
     const rad = ((ing.angle + rot) * Math.PI) / 180;
-    const x = 50 + Math.cos(rad) * ing.r;
-    const y = 50 + Math.sin(rad) * ing.r;
+    const x = 50 + Math.cos(rad) * ing.r * rScale;
+    const y = 50 + Math.sin(rad) * ing.r * rScale;
     return <path key={i} d={`M50 50 L${x} ${y}`} />;
   });
 

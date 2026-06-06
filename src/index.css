@@ -6546,38 +6546,39 @@ section.universe, section.story-intro, section.unbox, section.ritual {
    it only shows on wide screens; everything ≤900px gets a clean tappable grid. */
 .orbit-grid-mobile { display: none; }
 .orbit-desc-m { display: none; }
+.universe .ing-chip .nm-short { display: none; }   /* desktop shows the full name */
+
+/* MOBILE: a compact, gently auto-spinning orbit. The rotation is a pure GPU
+   CSS animation (no React re-render → no scroll cost), drag is disabled, and
+   tapping a chip opens it. The static grid is no longer used. */
+@keyframes orbSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes chipSpinRev { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(-360deg); } }
 @media (max-width: 900px) {
-  .universe .orbit-wrap { display: none; }
   .orbit-desc-d { display: none; }
   .orbit-desc-m { display: block; }
-  .orbit-grid-mobile {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 10px;
-    margin: clamp(28px, 5vh, 44px) auto 0;
-    width: 100%;
-    max-width: 460px;
+  .orbit-grid-mobile { display: none; }
+  .universe .orbit-wrap {
+    display: block;
+    max-width: min(86vw, 360px);
+    margin: clamp(22px, 4vh, 38px) auto 0;
   }
-  /* Two columns on tablets so the grid fills the wider space cleanly */
-  @media (min-width: 560px) {
-    .orbit-grid-mobile { grid-template-columns: repeat(2, 1fr); max-width: 720px; gap: 12px; }
+  .universe .orbit-inner,
+  .universe .orbit-svg { animation: orbSpin 80s linear infinite; transform-origin: 50% 50%; will-change: transform; }
+  .universe .ing-chip {
+    animation: chipSpinRev 80s linear infinite; will-change: transform;
+    gap: 7px; padding: 7px 12px 7px 7px; border-radius: 99px;
   }
-  .orbit-grid-mobile .om-card {
-    display: flex; align-items: center; gap: 14px;
-    width: 100%; text-align: left;
-    padding: 14px 16px;
-    border-radius: var(--r-md);
-    background: rgba(255,251,245,.82);
-    border: 1px solid rgba(43,31,23,.10);
-    box-shadow: var(--sh-soft);
-    transition: transform .2s var(--ease), box-shadow .2s var(--ease);
-  }
-  .orbit-grid-mobile .om-card:active { transform: scale(.98); box-shadow: var(--sh-medium); }
-  .orbit-grid-mobile .om-sw { width: 26px; height: 26px; border-radius: 50%; flex: 0 0 auto; box-shadow: inset 0 1px 3px rgba(0,0,0,.25); }
-  .orbit-grid-mobile .om-text { display: flex; flex-direction: column; gap: 2px; flex: 1 1 auto; min-width: 0; }
-  .orbit-grid-mobile .om-name { font-family: var(--serif); font-size: 18px; font-weight: 500; color: var(--coffee); line-height: 1.05; }
-  .orbit-grid-mobile .om-note { font-size: 10.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--copper); }
-  .orbit-grid-mobile .om-arrow { color: var(--grain); font-size: 15px; opacity: .45; flex: 0 0 auto; }
+  .universe .ing-chip .swatch { width: 18px; height: 18px; }
+  .universe .ing-chip .nm-full { display: none; }
+  .universe .ing-chip .nm-short { display: inline; }
+  .universe .ing-chip .name { font-size: 12.5px; }
+  .universe .ing-chip .note { display: none; }
+  .universe .orbit-core { inset: 30%; }
+  .universe .hint { display: none; }
+}
+@media (max-width: 900px) and (prefers-reduced-motion: reduce) {
+  .universe .orbit-inner, .universe .orbit-svg { animation: none; }
+  .universe .ing-chip { animation: none; transform: translate(-50%, -50%); }
 }
 
 /* ============================================================
