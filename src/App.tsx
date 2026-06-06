@@ -3194,9 +3194,9 @@ function FooterV2() {
             <h4>{tr("Service","Care","Destek")}</h4>
             <ul>
               <li><a href="#faq">{tr("FAQ","FAQ","SSS")}<span className="arr">↗</span></a></li>
-              <li><a href="#faq">{tr("Versand & Rückgabe","Shipping & returns","Kargo & iade")}<span className="arr">↗</span></a></li>
-              <li><a href="#faq">{tr("Concierge kontaktieren","Contact concierge","Concierge'e ulaş")}<span className="arr">↗</span></a></li>
-              <li><a href="#faq">{tr("Großhandel","Wholesale","Toptan")}<span className="arr">↗</span></a></li>
+              <li><a href="/versand">{tr("Versand & Zahlung","Shipping & payment","Kargo & ödeme")}<span className="arr">↗</span></a></li>
+              <li><a href="/widerruf">{tr("Widerruf & Rückgabe","Returns & refunds","İade & geri ödeme")}<span className="arr">↗</span></a></li>
+              <li><a href="mailto:info@esmee-drinks.de">{tr("Kontakt","Contact","İletişim")}<span className="arr">↗</span></a></li>
             </ul>
           </div>
           <div>
@@ -3220,7 +3220,12 @@ function FooterV2() {
             <span>AmEx</span>
             <span>SEPA</span>
           </span>
-          <span>{tr("Datenschutz · AGB · Impressum","Privacy · Terms · Imprint","Gizlilik · Şartlar · Künye")}</span>
+          <span className="foot-legal">
+            <a href="/impressum">Impressum</a>
+            <a href="/datenschutz">{tr("Datenschutz","Privacy","Gizlilik")}</a>
+            <a href="/agb">AGB</a>
+            <a href="/widerruf">{tr("Widerruf","Returns","İade")}</a>
+          </span>
         </div>
       </div>
     </footer>
