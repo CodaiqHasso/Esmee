@@ -342,6 +342,11 @@ function Counter({ to, duration = 1400, prefix = "", suffix = "", decimals = 0, 
 function useSmoothScroll() {
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    // Touch devices: never intercept scrolling. Some mobile browsers dispatch
+    // `wheel` events for swipes; hijacking them with preventDefault replaced the
+    // native momentum with a lerp animation, so a swipe couldn't be continued
+    // until the animation finished. Native touch scrolling only on mobile.
+    if (window.matchMedia('(pointer: coarse)').matches || 'ontouchstart' in window) return;
     let target = window.scrollY;
     let current = target;
     let raf = 0;
