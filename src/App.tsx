@@ -115,7 +115,7 @@ const VARIANTS = [
     name: "Original",
     sub: "with single-origin coffee",
     swatch: "linear-gradient(135deg,#C4A893,#9B7B61)",
-    image: "/assets/scene-6.jpg",
+    image: "/assets/lifestyle-cezve-powder.jpeg",
     note: "A composed cup — roasted almonds, Medjool dates, pistachio and a quiet pour of arabica.",
   },
   {
@@ -134,6 +134,14 @@ const VARIANTS = [
     image: "/assets/scene-5.jpg",
     note: "All of the ritual, none of the lift. A nightcap of dates, almond and cocoa whisper.",
   },
+];
+
+// Product gallery — multiple photos shown in the shop image stage (thumbnails switch).
+const PRODUCT_GALLERY = [
+  "/assets/lifestyle-cezve-powder.jpeg",
+  "/assets/lifestyle-cup-pouches.jpeg",
+  "/assets/lifestyle-cup-almonds.jpeg",
+  "/assets/lifestyle-pouch-tray.jpeg",
 ];
 
 // Bulk packs — single purchase only (no subscriptions)
@@ -1395,6 +1403,7 @@ function Shop({ onAdd, onMagnetMove, onTap, liveVariants, sellingPlans }) {
   const variants = (liveVariants && liveVariants.length) ? liveVariants : VARIANTS;
   const singleVariant = variants.length === 1;
   const [variant, setVariant] = useState(variants[0]);
+  const [activeImg, setActiveImg] = useState(0); // product gallery index
   useEffect(() => {
     if (liveVariants && liveVariants.length) setVariant(liveVariants[0]);
   }, [liveVariants]);
@@ -1524,7 +1533,7 @@ function Shop({ onAdd, onMagnetMove, onTap, liveVariants, sellingPlans }) {
   };
 
   const add = () => {
-    flyToCart(variant.image);
+    flyToCart(PRODUCT_GALLERY[activeImg] || variant.image);
     setTimeout(() => {
       onAdd({
         variant: variant.id,
@@ -1535,7 +1544,7 @@ function Shop({ onAdd, onMagnetMove, onTap, liveVariants, sellingPlans }) {
         qty,
         unitPrice,
         total,
-        image: variant.image,
+        image: PRODUCT_GALLERY[activeImg] || variant.image,
         merchandiseId: variant.merchandiseId,
         sellingPlanId,
         plan,
@@ -1554,32 +1563,29 @@ function Shop({ onAdd, onMagnetMove, onTap, liveVariants, sellingPlans }) {
         <div className="product-stage" ref={stageRef}>
           <div className={"light-bg var-" + variant.id} />
           <div className="tilt-layer" ref={tiltRef}>
-            {variants.map(v => (
+            {PRODUCT_GALLERY.map((src, i) => (
               <div
-                key={v.id}
-                className={"pouch " + (v.id === variant.id ? "active" : "")}
-                style={{ backgroundImage: `url(${v.image})` }}
+                key={i}
+                className={"pouch " + (i === activeImg ? "active" : "")}
+                style={{ backgroundImage: `url(${src})` }}
               />
             ))}
           </div>
           {burst}
           <span className="floating-tag"><span className="pulse"></span>{tr("Auf Lager · Versand in 48 h","In stock · Ships in 48 h","Stokta · 48 saatte kargo")}</span>
-          {!singleVariant && (
-            <div className="swatch-row">
-              {variants.map(v => (
-                <button
-                  key={v.id}
-                  className={"swatch " + (v.id === variant.id ? "active" : "")}
-                  style={{ background: v.swatch }}
-                  onClick={() => chooseVariant(v)}
-                  data-cur="btn"
-                  data-cur-label={tr("Wählen","Pick","Seç")}
-                  aria-label={v.name}
-                  title={v.name}
-                />
-              ))}
-            </div>
-          )}
+          <div className="gallery-thumbs">
+            {PRODUCT_GALLERY.map((src, i) => (
+              <button
+                key={i}
+                type="button"
+                className={"gthumb " + (i === activeImg ? "active" : "")}
+                style={{ backgroundImage: `url(${src})` }}
+                onClick={() => { setActiveImg(i); onTap && onTap(); }}
+                aria-label={tr("Bild","Image","Görsel") + " " + (i + 1)}
+                aria-current={i === activeImg}
+              />
+            ))}
+          </div>
         </div>
 
         <div className="meta">
