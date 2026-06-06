@@ -148,9 +148,9 @@ const PRODUCT_GALLERY = [
 function getPacks() {
   return [
   { id: "1",  count: 1,  unit: 32, save: 0,  label: tr("1 Packung","1 pack","1 paket"),     sub: tr("250 g · ≈ 16 Tassen","250 g · ≈ 16 cups","250 g · ≈ 16 fincan"),          badge: null },
-  { id: "3",  count: 3,  unit: 28, save: 12, label: tr("3 Packungen","3 packs","3 paket"),   sub: tr("750 g · ≈ 48 Tassen","750 g · ≈ 48 cups","750 g · ≈ 48 fincan"),          badge: tr("Am beliebtesten","Most Loved","En sevilen"),        badgeStyle: "copper", mostLoved: true },
+  { id: "3",  count: 3,  unit: 28, save: 12, label: tr("3 Packungen","3 packs","3 paket"),   sub: tr("750 g · ≈ 48 Tassen","750 g · ≈ 48 cups","750 g · ≈ 48 fincan"),          badge: tr("Beliebt","Popular","Popüler"),        badgeStyle: "copper", mostLoved: true },
   { id: "5",  count: 5,  unit: 25, save: 22, label: tr("5 Packungen","5 packs","5 paket"),   sub: tr("1,25 kg · ≈ 80 Tassen","1.25 kg · ≈ 80 cups","1,25 kg · ≈ 80 fincan"),        badge: tr("Bester Wert","Best value","En iyi değer"),       badgeStyle: "dark" },
-  { id: "10", count: 10, unit: 22, save: 31, label: tr("10+ Packungen","10+ packs","10+ paket"), sub: tr("2,5 kg · ≈ 160 Tassen","2.5 kg · ≈ 160 cups","2,5 kg · ≈ 160 fincan"),        badge: tr("Maximale Ersparnis","Max savings","Maks. tasarruf"), badgeStyle: "copper" },
+  { id: "10", count: 10, unit: 22, save: 31, label: tr("10+ Packungen","10+ packs","10+ paket"), sub: tr("2,5 kg · ≈ 160 Tassen","2.5 kg · ≈ 160 cups","2,5 kg · ≈ 160 fincan"),        badge: tr("Bestpreis","Best price","En iyi fiyat"), badgeStyle: "copper" },
   ];
 }
 

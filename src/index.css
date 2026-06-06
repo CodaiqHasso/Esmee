@@ -6959,52 +6959,63 @@ section.universe, section.story-intro, section.unbox, section.ritual {
 /* ============================================================
    SHOP — compact delivery toggle + 2-column bulk packs (tidier buy area)
    ============================================================ */
+/* a touch more air above each selector group */
+.shop .option-block { margin-top: 26px; }
+.shop .option-label { margin-bottom: 12px; }
+
 /* Delivery: one-time vs subscription as a 2-up segmented control */
-.deliv-seg { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+.deliv-seg { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 0; }
 .deliv-seg .seg {
   position: relative;
-  display: flex; flex-direction: column; align-items: flex-start; gap: 5px;
-  padding: 14px 16px; cursor: pointer; text-align: left;
-  border: 1.5px solid rgba(43,31,23,.12); border-radius: var(--r-md);
+  display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 7px;
+  min-height: 74px;
+  padding: 16px 18px; cursor: pointer; text-align: left;
+  border: 1.5px solid rgba(43,31,23,.12); border-radius: 16px;
   background: var(--paper);
-  transition: border-color .2s var(--ease), background .2s var(--ease), transform .2s var(--ease);
+  transition: border-color .2s var(--ease), background .2s var(--ease), transform .2s var(--ease), box-shadow .2s var(--ease);
 }
 .deliv-seg .seg:hover { border-color: rgba(43,31,23,.3); transform: translateY(-1px); }
-.deliv-seg .seg.active { border-color: var(--coffee); background: linear-gradient(135deg, var(--ivory), var(--rose-mist) 220%); }
+.deliv-seg .seg.active {
+  border-color: var(--coffee);
+  background: linear-gradient(135deg, var(--ivory), var(--rose-mist) 220%);
+  box-shadow: 0 10px 26px -16px rgba(43,31,23,.45);
+}
 .deliv-seg .seg-name { font-family: var(--serif); font-weight: 700; font-size: 17px; color: var(--coffee); line-height: 1; }
 .deliv-seg .seg-price { font-family: var(--serif); font-weight: 700; font-size: 15px; color: var(--coffee); font-variant-numeric: tabular-nums; line-height: 1; }
-.deliv-seg .seg-price small { font-family: var(--sans); font-weight: 500; font-size: 9px; letter-spacing: .08em; text-transform: uppercase; color: var(--grain); margin-left: 3px; }
+.deliv-seg .seg-price small { font-family: var(--sans); font-weight: 500; font-size: 9px; letter-spacing: .08em; text-transform: uppercase; color: var(--grain); margin-left: 4px; }
 .deliv-seg .seg-badge {
-  position: absolute; top: -9px; right: 12px;
+  position: absolute; top: -10px; right: 14px;
   background: linear-gradient(180deg, #C99577, #B07A52); color: var(--cream);
   font-family: var(--mono, ui-monospace, monospace); font-size: 9px; font-weight: 700; letter-spacing: .14em;
-  padding: 3px 9px; border-radius: 99px; box-shadow: 0 5px 12px -5px rgba(176,122,82,.6);
+  padding: 4px 10px; border-radius: 99px; box-shadow: 0 6px 14px -5px rgba(176,122,82,.6);
 }
-.deliv-extra { margin-top: 12px; }
-.cadence-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.deliv-extra { margin-top: 14px; }
+.cadence-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .cadence-row .cad {
-  padding: 10px 12px; cursor: pointer;
-  border: 1px solid rgba(43,31,23,.14); border-radius: var(--r-pill);
+  padding: 11px 12px; cursor: pointer;
+  border: 1px solid rgba(43,31,23,.14); border-radius: 99px;
   background: var(--paper);
-  font-family: var(--sans); font-size: 12px; letter-spacing: .02em; color: var(--coffee);
+  font-family: var(--sans); font-size: 12.5px; letter-spacing: .02em; color: var(--coffee);
   transition: border-color .2s var(--ease), background .2s var(--ease), color .2s var(--ease);
 }
+.cadence-row .cad:hover { border-color: rgba(43,31,23,.3); }
 .cadence-row .cad.active { border-color: var(--coffee); background: var(--coffee); color: var(--cream); }
-.deliv-extra .plan-perks { margin-top: 12px; }
+.deliv-extra .plan-perks { margin-top: 14px; }
 
-/* Bulk packs: 2-column compact vertical cards */
-.shop .pack-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+/* Bulk packs: 2-column cards, uniform height, breathing room */
+.shop .pack-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .shop .pack {
-  display: flex; flex-direction: column; align-items: flex-start; gap: 1px;
-  padding: 13px 14px 12px;
+  display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start;
+  gap: 3px; min-height: 104px;
+  padding: 16px 16px 15px; border-radius: 16px;
 }
-.shop .pack .radio { position: absolute; top: 11px; right: 11px; width: 17px; height: 17px; margin: 0; }
-.shop .pack .pack-name { font-size: 15.5px; line-height: 1.1; padding-right: 22px; }
+.shop .pack .radio { position: absolute; top: 14px; right: 14px; width: 18px; height: 18px; margin: 0; }
+.shop .pack .pack-name { font-size: 15.5px; line-height: 1.12; padding-right: 24px; }
 .shop .pack .pack-sub { font-size: 9.5px; letter-spacing: .08em; margin-top: 4px; }
-.shop .pack > div:last-child { margin-top: 9px; text-align: left; }
-.shop .pack .pack-price { font-size: 18px; text-align: left; }
-.shop .pack .pack-per { font-size: 9px; letter-spacing: .05em; margin-top: 3px; }
-.shop .pack .badge { top: -8px; left: 11px; right: auto; font-size: 8px; padding: 3px 8px; letter-spacing: .14em; }
+.shop .pack > div:last-child { margin-top: auto; padding-top: 10px; text-align: left; }
+.shop .pack .pack-price { font-size: 19px; text-align: left; line-height: 1; }
+.shop .pack .pack-per { font-size: 9px; letter-spacing: .05em; margin-top: 4px; color: var(--grain); }
+.shop .pack .badge { top: -9px; left: 14px; right: auto; font-size: 8px; padding: 4px 10px; letter-spacing: .12em; }
 
 /* ============================================================
    SHOP — product image gallery thumbnails
