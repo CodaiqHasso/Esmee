@@ -1399,7 +1399,7 @@ function Shop({ onAdd, onMagnetMove, onTap, liveVariants, sellingPlans }) {
     if (liveVariants && liveVariants.length) setVariant(liveVariants[0]);
   }, [liveVariants]);
   const PACKS = getPacks();
-  const [packId, setPackId] = useState("3");
+  const [packId, setPackId] = useState("1");
   const pack = PACKS.find(p => p.id === packId) || PACKS[1];
   const [qty, setQty] = useState(1);
   const [bump, setBump] = useState(false);
@@ -1592,69 +1592,81 @@ function Shop({ onAdd, onMagnetMove, onTap, liveVariants, sellingPlans }) {
 
           <div className="price-row">
             <span className="price">€{m(unitPrice)}</span>
-            <span className="price-was">€{m(wasUnit)}</span>
+            {wasUnit > unitPrice && <span className="price-was">€{m(wasUnit)}</span>}
             {!subActive && pack.save > 0 && <span className="price-save">{tr("Du sparst","You save","Tasarruf")} {pack.save}%</span>}
             {subActive && <span className="price-save sub-tag">{tr("Abo","Subscription","Abonelik")} · −{Math.round(subPct*100)}%</span>}
           </div>
 
-          {/* CRO T-03: Subscription / one-time plan toggle */}
+          {/* Delivery — compact one-time / subscription segmented toggle */}
           <div className="option-block">
             <div className="option-label">
-              <span>{tr("Lieferung wählen","Choose your delivery","Teslimatını seç")}</span>
+              <span>{tr("Lieferung","Delivery","Teslimat")}</span>
               <em>{plan === "once" ? tr("Einmalkauf","One-time","Tek seferlik") : (plan === "30" ? tr("Abo · alle 30 Tage","Subscription · every 30 days","Abonelik · her 30 günde") : tr("Abo · alle 60 Tage","Subscription · every 60 days","Abonelik · her 60 günde"))}</em>
             </div>
-            <div className="plan-row">
+            <div className="deliv-seg">
               <button
                 type="button"
-                className={"plan-card " + (plan === "once" ? "active" : "")}
+                className={"seg " + (plan === "once" ? "active" : "")}
                 onClick={() => { setPlan("once"); onTap && onTap(); }}
-                data-cur="btn"
-                data-cur-label="Pick"
+                data-cur="btn" data-cur-label="Pick"
               >
-                <span className="plan-radio"></span>
-                <span className="plan-body">
-                  <span className="plan-name">{tr("Einmalkauf","One-time","Tek seferlik")}</span>
-                  <span className="plan-sub">{tr("Keine Bindung · Versand in 48 Stunden","No commitment · ships in 48 hours","Taahhüt yok · 48 saatte kargo")}</span>
-                </span>
-                <span className="plan-price">€{m(baseUnit)}<small>{tr("/Packung","/pack","/paket")}</small></span>
+                <span className="seg-name">{tr("Einmalkauf","One-time","Tek seferlik")}</span>
+                <span className="seg-price">€{m(baseUnit)}<small>{tr("/Pkg","/pack","/paket")}</small></span>
               </button>
               <button
                 type="button"
-                className={"plan-card with-save " + (plan === "30" ? "active" : "")}
-                onClick={() => { setPlan("30"); onTap && onTap(); }}
-                data-cur="btn"
-                data-cur-label={tr("Wählen","Pick","Seç")}
+                className={"seg " + (subActive ? "active" : "")}
+                onClick={() => { if (!subActive) setPlan("30"); onTap && onTap(); }}
+                data-cur="btn" data-cur-label={tr("Wählen","Pick","Seç")}
               >
-                <span className="plan-badge">{tr("Spare","Save","Tasarruf")} {Math.round(pct30 * 100)} %</span>
-                <span className="plan-radio"></span>
-                <span className="plan-body">
-                  <span className="plan-name">{tr("Abo · alle 30 Tage","Subscription · every 30 days","Abonelik · her 30 günde")}</span>
-                  <span className="plan-sub">{tr("15 % Rabatt auf jede Lieferung. Jederzeit pausieren oder kündigen.","15% off every delivery. Pause or cancel anytime.","Her teslimatta %15 indirim. İstediğin zaman duraklat ya da iptal et.")}</span>
-                </span>
-                <span className="plan-price">€{m(unit30)}<small>{tr("/Packung","/pack","/paket")}</small></span>
-              </button>
-              <button
-                type="button"
-                className={"plan-card " + (plan === "60" ? "active" : "")}
-                onClick={() => { setPlan("60"); onTap && onTap(); }}
-                data-cur="btn"
-                data-cur-label={tr("Wählen","Pick","Seç")}
-              >
-                <span className="plan-radio"></span>
-                <span className="plan-body">
-                  <span className="plan-name">{tr("Abo · alle 60 Tage","Subscription · every 60 days","Abonelik · her 60 günde")}</span>
-                  <span className="plan-sub">{tr("Gleicher Rabatt, längerer Abstand — für ein bis zwei Tassen am Tag.","Same discount, more time between — for one or two cups a day.","Aynı indirim, daha uzun aralık — günde bir iki fincan için.")}</span>
-                </span>
-                <span className="plan-price">€{m(unit60)}<small>{tr("/Packung","/pack","/paket")}</small></span>
+                <span className="seg-badge">−{Math.round(pct30 * 100)} %</span>
+                <span className="seg-name">{tr("Im Abo","Subscribe","Abonelik")}</span>
+                <span className="seg-price">€{m(unit30)}<small>{tr("/Pkg","/pack","/paket")}</small></span>
               </button>
             </div>
             {subActive && (
-              <div className="plan-perks">
-                <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12l5 5L20 7"/></svg>{tr("15 % Rabatt auf jede Lieferung — automatisch","15% off every delivery — automatically","Her teslimatta otomatik %15 indirim")}</span>
-                <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12l5 5L20 7"/></svg>{tr("Jederzeit pausieren, ändern oder kündigen","Pause, change or cancel anytime","İstediğin zaman duraklat, değiştir ya da iptal et")}</span>
-                <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12l5 5L20 7"/></svg>{tr("Kostenloser Versand bei jeder Lieferung","Free shipping on every delivery","Her teslimatta ücretsiz kargo")}</span>
+              <div className="deliv-extra">
+                <div className="cadence-row">
+                  <button type="button" className={"cad " + (plan === "30" ? "active" : "")} onClick={() => { setPlan("30"); onTap && onTap(); }}>{tr("Alle 30 Tage","Every 30 days","Her 30 günde")}</button>
+                  <button type="button" className={"cad " + (plan === "60" ? "active" : "")} onClick={() => { setPlan("60"); onTap && onTap(); }}>{tr("Alle 60 Tage","Every 60 days","Her 60 günde")}</button>
+                </div>
+                <div className="plan-perks">
+                  <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12l5 5L20 7"/></svg>{tr("15 % Rabatt auf jede Lieferung","15% off every delivery","Her teslimatta %15 indirim")}</span>
+                  <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12l5 5L20 7"/></svg>{tr("Jederzeit pausieren oder kündigen","Pause or cancel anytime","İstediğin zaman duraklat ya da iptal et")}</span>
+                  <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12l5 5L20 7"/></svg>{tr("Kostenloser Versand bei jeder Lieferung","Free shipping on every delivery","Her teslimatta ücretsiz kargo")}</span>
+                </div>
               </div>
             )}
+          </div>
+
+          {/* Quantity — bulk discount */}
+          <div className="option-block">
+            <div className="option-label"><span>{tr("Menge — Mengenrabatt","Quantity — bulk discount","Miktar — toplu indirim")}</span><em>{pack.label}</em></div>
+            <div className="pack-grid">
+              {PACKS.map(p => (
+                <button
+                  key={p.id}
+                  className={"pack " + (p.id === pack.id ? "active" : "")}
+                  data-cur="btn"
+                  data-cur-label={tr("Wählen","Pick","Seç")}
+                  data-most-loved={p.mostLoved ? "1" : undefined}
+                  onClick={(e) => choosePack(p, e)}
+                >
+                  {p.badge && (
+                    <span className={"badge " + (p.badgeStyle === "copper" ? "copper" : "")}>{p.badge}</span>
+                  )}
+                  <span className="radio"></span>
+                  <div>
+                    <div className="pack-name">{p.label}</div>
+                    <div className="pack-sub">{p.sub}</div>
+                  </div>
+                  <div>
+                    <div className="pack-price">€{m(packUnit(p) * p.count)}</div>
+                    <div className="pack-per">€{m(packUnit(p))}{tr(" / Packung"," / pack"," / paket")}{p.save ? " · −" + p.save + "%" : ""}</div>
+                  </div>
+                </button>
+              ))}
+            </div>
           </div>
 
           {/* CRO T-11: Gift mode toggle */}
@@ -1722,35 +1734,6 @@ function Shop({ onAdd, onMagnetMove, onTap, liveVariants, sellingPlans }) {
               </div>
             </div>
           )}
-
-          <div className="option-block">
-            <div className="option-label"><span>{tr("Menge — Mengenrabatt","Quantity — bulk discount","Miktar — toplu indirim")}</span><em>{pack.label}</em></div>
-            <div className="pack-grid">
-              {PACKS.map(p => (
-                <button
-                  key={p.id}
-                  className={"pack " + (p.id === pack.id ? "active" : "")}
-                  data-cur="btn"
-                  data-cur-label={tr("Wählen","Pick","Seç")}
-                  data-most-loved={p.mostLoved ? "1" : undefined}
-                  onClick={(e) => choosePack(p, e)}
-                >
-                  {p.badge && (
-                    <span className={"badge " + (p.badgeStyle === "copper" ? "copper" : "")}>{p.badge}</span>
-                  )}
-                  <span className="radio"></span>
-                  <div>
-                    <div className="pack-name">{p.label}</div>
-                    <div className="pack-sub">{p.sub}</div>
-                  </div>
-                  <div>
-                    <div className="pack-price">€{m(packUnit(p) * p.count)}</div>
-                    <div className="pack-per">€{m(packUnit(p))}{tr(" / Packung"," / pack"," / paket")}{p.save ? " · −" + p.save + "%" : ""}</div>
-                  </div>
-                </button>
-              ))}
-            </div>
-          </div>
 
           <div className="atc-row">
             <div className="qty">
