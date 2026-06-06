@@ -6735,3 +6735,34 @@ section.universe, section.story-intro, section.unbox, section.ritual {
   }
   .nav-menu { -webkit-backdrop-filter: none; backdrop-filter: none; background: rgba(252,246,236,.99); }
 }
+
+/* ============================================================
+   iOS / MOBILE SCROLL PERF — kill ALL backdrop-filter blur on phones.
+   iOS Safari re-computes every backdrop-filter element on each scroll
+   frame, which stutters the whole page. Drop the frosted-glass effect on
+   mobile and restore enough background opacity so nothing looks see-through.
+   ============================================================ */
+@media (max-width: 720px) {
+  *, *::before, *::after {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+  /* surfaces that leaned on the blur for legibility → make them solid */
+  .plan-card { background: rgba(250,244,234,.95); }
+  .shop .product-stage .swatch-row { background: rgba(250,244,234,.93); }
+  .shop .product-stage .floating-tag,
+  .frame .floating-tag { background: rgba(250,244,234,.95); }
+  .taste-card { background: rgba(250,244,234,.93); }
+  .radar-wrap { background: rgba(250,244,234,.93); }
+  .universe .ing-chip { background: rgba(250,244,234,.95); }
+  .audio-pill { background: rgba(250,244,234,.95); }
+}
+
+/* iOS: use the dynamic viewport for pinned full-height stages so the
+   address-bar show/hide doesn't reflow them mid-scroll. */
+@supports (height: 100dvh) {
+  @media (max-width: 720px) {
+    .story-stage,
+    .ritual.horizontal .h-stage { height: 100dvh; }
+  }
+}
