@@ -7043,3 +7043,77 @@ section.universe, section.story-intro, section.unbox, section.ritual {
   .shop .product-stage .gallery-thumbs { bottom: 10px; gap: 6px; }
   .shop .gthumb { width: 44px; height: 44px; border-radius: 8px; }
 }
+
+/* ============================================================
+   FEATURED ACCESSORY — Copper set (measuring spoon & water gauge)
+   ============================================================ */
+.addon-feature-section { background: var(--paper); padding: 0 var(--rail) clamp(40px, 7vh, 80px); }
+.addon-feature {
+  max-width: var(--max); margin: 0 auto;
+  display: grid; grid-template-columns: auto 1fr auto;
+  align-items: center; gap: clamp(20px, 3vw, 40px);
+  padding: clamp(22px, 3vw, 36px);
+  border-radius: var(--r-xl);
+  background:
+    radial-gradient(120% 140% at 0% 0%, rgba(176,122,82,.12), transparent 55%),
+    linear-gradient(180deg, var(--ivory), var(--paper));
+  border: 1px solid rgba(176,122,82,.22);
+  box-shadow: 0 24px 60px -34px rgba(43,31,23,.4);
+}
+.addon-feature .af-vis {
+  width: clamp(110px, 12vw, 150px); height: clamp(110px, 12vw, 150px);
+  flex: 0 0 auto; display: grid; place-items: center;
+  border-radius: var(--r-lg);
+  background: radial-gradient(circle at 50% 40%, #fff8f0, #efe2d2);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.7), 0 10px 24px -16px rgba(43,31,23,.35);
+}
+.addon-feature .af-illus { width: 78%; height: 78%; }
+.addon-feature .af-eyebrow {
+  font-family: var(--sans); font-size: 11px; letter-spacing: .3em; text-transform: uppercase;
+  color: var(--copper); font-weight: 600;
+}
+.addon-feature .af-name {
+  font-family: var(--serif); font-weight: 500;
+  font-size: clamp(22px, 2.6vw, 30px); line-height: 1.15; color: var(--espresso);
+  margin: 8px 0 6px;
+}
+.addon-feature .af-sub { font-size: 14.5px; line-height: 1.6; color: var(--grain); margin: 0; max-width: 52ch; }
+.addon-feature .af-points {
+  list-style: none; padding: 0; margin: 14px 0 0;
+  display: flex; flex-wrap: wrap; gap: 8px 18px;
+}
+.addon-feature .af-points li {
+  position: relative; padding-left: 18px;
+  font-size: 12.5px; color: var(--coffee);
+}
+.addon-feature .af-points li::before {
+  content: ""; position: absolute; left: 0; top: 6px;
+  width: 7px; height: 7px; border-radius: 50%; background: var(--copper);
+}
+.addon-feature .af-buy { display: flex; flex-direction: column; align-items: flex-end; gap: 12px; flex: 0 0 auto; }
+.addon-feature .af-price { font-family: var(--serif); font-weight: 700; font-size: 28px; color: var(--coffee); font-variant-numeric: tabular-nums; }
+.addon-feature .af-add {
+  white-space: nowrap; cursor: pointer;
+  padding: 14px 26px; border-radius: var(--r-pill);
+  background: var(--coffee); color: var(--cream);
+  font-size: 11px; letter-spacing: .22em; text-transform: uppercase;
+  border: 1.5px solid var(--coffee);
+  transition: transform .2s var(--ease), background .25s var(--ease), box-shadow .25s var(--ease);
+  box-shadow: 0 12px 30px -14px rgba(43,31,23,.5);
+}
+.addon-feature .af-add:hover { transform: translateY(-2px); background: var(--espresso); }
+.addon-feature .af-add.in { background: transparent; color: var(--coffee); box-shadow: none; }
+
+@media (max-width: 860px) {
+  .addon-feature { grid-template-columns: auto 1fr; gap: 18px 20px; }
+  .addon-feature .af-buy { grid-column: 1 / -1; flex-direction: row; align-items: center; justify-content: space-between; gap: 14px; }
+  .addon-feature .af-add { flex: 1; text-align: center; }
+}
+@media (max-width: 520px) {
+  .addon-feature { grid-template-columns: 1fr; text-align: center; padding: 22px 18px; }
+  .addon-feature .af-vis { width: 96px; height: 96px; margin: 0 auto; }
+  .addon-feature .af-sub { margin-left: auto; margin-right: auto; }
+  .addon-feature .af-points { justify-content: center; }
+  .addon-feature .af-buy { flex-direction: column; }
+  .addon-feature .af-add { width: 100%; }
+}

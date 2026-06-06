@@ -2260,6 +2260,64 @@ function addonIcon(id) {
     </svg>
   );
 }
+/* Featured accessory — Copper set (measuring spoon & water gauge) */
+function AddonFeature({ addon, inCart, onAdd, onTap }) {
+  useLang();
+  if (!addon) return null;
+  const m = (n) => Number.isInteger(n) ? String(n) : (Math.round(n * 100) / 100).toFixed(2);
+  return (
+    <section id="zubehoer" className="addon-feature-section">
+      <div className="container">
+        <div className="addon-feature">
+          <div className="af-vis" aria-hidden="true">
+            <svg viewBox="0 0 150 120" className="af-illus" fill="none" stroke="url(#cuGrad)" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+              <defs>
+                <linearGradient id="cuGrad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stopColor="#E0A87C" />
+                  <stop offset="1" stopColor="#A6663F" />
+                </linearGradient>
+              </defs>
+              {/* measuring spoon */}
+              <ellipse cx="40" cy="48" rx="24" ry="14" />
+              <ellipse cx="40" cy="48" rx="13" ry="7" strokeWidth="1.5" opacity=".55" />
+              <path d="M60 41 L102 16" />
+              <circle cx="106" cy="14" r="4.5" />
+              {/* water gauge / measuring beaker */}
+              <path d="M82 58 L120 58 L114 106 Q113 112 107 112 L95 112 Q89 112 88 106 Z" />
+              <path d="M90 76 H112" strokeWidth="1.5" opacity=".6" />
+              <path d="M90 90 H106" strokeWidth="1.5" opacity=".6" />
+            </svg>
+          </div>
+          <div className="af-body">
+            <span className="af-eyebrow">{tr("Das passende Zubehör","The matching accessory","Uygun aksesuar")}</span>
+            <h3 className="af-name">{addon.name || tr("Kupfer-Set — Messlöffel & Wassermesser","Copper set — measuring spoon & water gauge","Bakır set — ölçü kaşığı & su ölçer")}</h3>
+            <p className="af-sub">{addon.sub || tr("Handpoliertes Kupfer für die perfekte Tasse — ein Messlöffel für exakt 7 g und ein Wassermesser mit 150-ml-Markierung.","Hand-polished copper for the perfect cup — a measuring spoon for exactly 7 g and a water gauge marked at 150 ml.","Mükemmel fincan için elde parlatılmış bakır — tam 7 g için ölçü kaşığı ve 150 ml işaretli su ölçer.")}</p>
+            <ul className="af-points">
+              <li>{tr("Exakt 7 g pro Löffel","Exactly 7 g per scoop","Kaşık başına tam 7 g")}</li>
+              <li>{tr("150-ml-Markierung","150 ml mark","150 ml işareti")}</li>
+              <li>{tr("Handpoliertes Kupfer","Hand-polished copper","Elde parlatılmış bakır")}</li>
+            </ul>
+          </div>
+          <div className="af-buy">
+            <span className="af-price">€{m(addon.price)}</span>
+            <button
+              type="button"
+              className={"af-add " + (inCart ? "in" : "")}
+              data-cur="btn"
+              data-cur-label={tr("Hinzufügen","Add","Ekle")}
+              onClick={() => { onAdd && onAdd(); onTap && onTap(); }}
+            >
+              {inCart
+                ? tr("Im Warenkorb ✓","In your bag ✓","Sepette ✓")
+                : tr("Set hinzufügen","Add the set","Seti ekle")}
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function CartDrawer({ open, onClose, items, onQty, onRemove, onAddOne, onAddAddon, onCheckout, liveAddons }) {
   useLang();
   const ADDONS = getAddons();
@@ -3358,6 +3416,12 @@ function App() {
       }];
     });
   }, []);
+
+  // Featured Copper set (measuring spoon & water gauge) — live Shopify add-on
+  // when connected, otherwise a safe display fallback.
+  const copperAddon = (liveAddons || []).find(a => /kupfer|copper/i.test(String(a.id))) ||
+    { id: "kupfer-set", name: null, sub: null, price: 39 };
+  const copperInCart = cart.some(it => it.addonId === copperAddon.id);
   const cartCount = cart.reduce((s, it) => s + it.qty * it.packCount, 0);
 
   // Smart nudge: bump qty of first cart item by 1
@@ -3431,6 +3495,12 @@ function App() {
         <Vs />
         <Benefits />
         <Shop onAdd={addToCart} onMagnetMove={onMagnetMove} onTap={audio.playTap} liveVariants={liveVariants} sellingPlans={sellingPlans} />
+        <AddonFeature
+          addon={copperAddon}
+          inCart={copperInCart}
+          onAdd={() => addAddon({ ...copperAddon, name: copperAddon.name || "Kupfer-Set — Messlöffel & Wassermesser", icon: addonIcon(copperAddon.id) })}
+          onTap={audio.playTap}
+        />
         <SpecSheet />
         <Ritual />
         <TasteProfile />
