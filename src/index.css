@@ -6797,8 +6797,32 @@ section.universe, section.story-intro, section.unbox, section.ritual {
   .shop .product-stage .swatch-row { left: 13px; bottom: 13px; padding: 8px; }
   .shop .meta h2 { font-size: clamp(40px, 13vw, 58px); }
   .shop .meta .lede { font-size: 14.5px; }
-  .shop .price-row { margin-top: 20px; }
+
+  /* price row stays on one line, save-badge never clipped */
+  .shop .price-row { margin-top: 20px; gap: 10px; flex-wrap: wrap; }
   .shop .price { font-size: 38px; }
+  .shop .price-save { white-space: nowrap; }
+
+  /* bulk packs: tighter, price column never cramped */
+  .pack { padding: 15px 16px; gap: 12px; grid-template-columns: 22px 1fr auto; }
+  .pack .radio { width: 20px; height: 20px; }
+  .pack .pack-name { font-size: 17px; }
+  .pack .pack-sub { font-size: 10px; letter-spacing: .12em; }
+  .pack .pack-price { font-size: 19px; white-space: nowrap; }
+  .pack .pack-per { font-size: 9px; letter-spacing: .12em; }
+  .pack .badge { font-size: 8px; padding: 4px 9px; right: 12px; letter-spacing: .16em; }
+
+  /* add-to-cart: give the button more room (smaller stepper, tighter text) */
+  .atc-row { gap: 10px; margin-top: 22px; }
+  .qty { height: 54px; }
+  .qty button { width: 42px; font-size: 17px; }
+  .qty .v { width: 28px; font-size: 19px; }
+  .btn-add { height: 54px; padding: 0 16px; font-size: 10px; letter-spacing: .18em; gap: 10px; }
+  .btn-add .price-tag { font-size: 16px; padding-left: 12px; gap: 8px; }
+
+  /* express pay + trust */
+  .ex-btn { height: 46px; }
+  .trust-row { padding: 16px 18px; gap: 14px 20px; }
 }
 
 /* ============================================================
