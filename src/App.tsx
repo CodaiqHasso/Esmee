@@ -797,6 +797,7 @@ function ScrollStory({ onSteamIntensity, heroFrom }) {
 
   useEffect(() => {
     let raf = 0;
+    let inView = true;
     const smooth = (t) => { t = Math.max(0, Math.min(1, t)); return t * t * (3 - 2 * t); };
     const update = () => {
       raf = 0;
@@ -843,10 +844,18 @@ function ScrollStory({ onSteamIntensity, heroFrom }) {
       const c = Math.min(N - 1, Math.max(0, Math.round(playhead)));
       if (c !== lastCue.current) { lastCue.current = c; setCue(c); }
     };
-    const onScroll = () => { if (raf) return; raf = requestAnimationFrame(update); };
+    // Only react to scroll while the hero is actually on-screen — otherwise this
+    // handler keeps mutating styles on every scroll across the whole page, which
+    // forces synchronous main-thread scrolling on iOS.
+    const onScroll = () => { if (raf || !inView) return; raf = requestAnimationFrame(update); };
+    const io = new IntersectionObserver(([e]) => {
+      inView = e.isIntersecting;
+      if (inView && !raf) raf = requestAnimationFrame(update);
+    }, { threshold: 0 });
+    const st = stageRef.current; if (st) io.observe(st);
     window.addEventListener('scroll', onScroll, { passive: true });
     update();
-    return () => { window.removeEventListener('scroll', onScroll); cancelAnimationFrame(raf); };
+    return () => { window.removeEventListener('scroll', onScroll); io.disconnect(); cancelAnimationFrame(raf); };
   }, [onSteamIntensity]);
 
   const scrollToShop = () => {
@@ -1878,6 +1887,7 @@ function Ritual() {
     const wrap = wrapRef.current, track = trackRef.current;
     if (!wrap || !track) return;
     let raf = 0;
+    let inView = true;
     const update = () => {
       raf = 0;
       const rect = wrap.getBoundingClientRect();
@@ -1890,10 +1900,16 @@ function Ritual() {
       const idx = Math.min(N - 1, Math.round(p * (N - 1)));
       setActive(idx);
     };
-    const onScroll = () => { if (raf) return; raf = requestAnimationFrame(update); };
+    // Only run while the section is on-screen (no page-wide style writes on iOS).
+    const onScroll = () => { if (raf || !inView) return; raf = requestAnimationFrame(update); };
+    const io = new IntersectionObserver(([e]) => {
+      inView = e.isIntersecting;
+      if (inView && !raf) raf = requestAnimationFrame(update);
+    }, { threshold: 0 });
+    io.observe(wrap);
     window.addEventListener('scroll', onScroll, { passive: true });
     update();
-    return () => { window.removeEventListener('scroll', onScroll); cancelAnimationFrame(raf); };
+    return () => { window.removeEventListener('scroll', onScroll); io.disconnect(); cancelAnimationFrame(raf); };
   }, []);
 
   const meta = [
@@ -3083,26 +3099,29 @@ function FooterV2() {
     const id = setInterval(() => setNow(new Date()), 30000);
     return () => clearInterval(id);
   }, []);
-  // Outline-fill on scroll
+  // Outline-fill on scroll — only while the footer is on-screen
   useEffect(() => {
     const el = wrapRef.current; if (!el) return;
     let raf = 0;
-    const onScroll = () => {
-      if (raf) return;
-      raf = requestAnimationFrame(() => {
-        raf = 0;
-        const sigWrap = el.querySelector(".signature-wrap");
-        const outline = el.querySelector(".outline");
-        if (!sigWrap || !outline) return;
-        const r = sigWrap.getBoundingClientRect();
-        const vh = window.innerHeight;
-        const p = Math.max(0, Math.min(1, (vh - r.top) / (vh + r.height * 0.4)));
-        outline.style.setProperty("--fill-pct", (p * 100) + "%");
-      });
+    let inView = false;
+    const run = () => {
+      raf = 0;
+      const sigWrap = el.querySelector(".signature-wrap");
+      const outline = el.querySelector(".outline");
+      if (!sigWrap || !outline) return;
+      const r = sigWrap.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const p = Math.max(0, Math.min(1, (vh - r.top) / (vh + r.height * 0.4)));
+      outline.style.setProperty("--fill-pct", (p * 100) + "%");
     };
+    const onScroll = () => { if (raf || !inView) return; raf = requestAnimationFrame(run); };
+    const io = new IntersectionObserver(([e]) => {
+      inView = e.isIntersecting;
+      if (inView && !raf) raf = requestAnimationFrame(run);
+    }, { threshold: 0 });
+    io.observe(el);
     window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-    return () => { window.removeEventListener("scroll", onScroll); cancelAnimationFrame(raf); };
+    return () => { window.removeEventListener("scroll", onScroll); io.disconnect(); cancelAnimationFrame(raf); };
   }, []);
   const local = new Date(now.getTime() + (1 * 60 * 60 * 1000) - (now.getTimezoneOffset() * 60 * 1000));
   const hh = String(local.getUTCHours()).padStart(2, "0");
@@ -3266,33 +3285,44 @@ function App() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const scrollY = useScrollY();
   useReveal();
   useParallax();
   useSmoothScroll();
   useTabAttention();
   const audio = useAudio();
 
-  // Floating header behavior
-  const scrolled = scrollY > 80;
-
-  // mini buy-bar
+  // Header + mini-bar visibility — derived from scroll WITHOUT storing the raw
+  // scroll position in state (that re-rendered the whole App on every frame and
+  // forced synchronous main-thread scrolling on iOS Safari → janky/stepped scroll).
+  // We only setState when the boolean actually flips, so the tree re-renders a
+  // handful of times instead of 60×/second.
+  const [scrolled, setScrolled] = useState(false);
   const [miniVisible, setMiniVisible] = useState(false);
   useEffect(() => {
-    // CRO: surface the sticky ATC as soon as the user is past the hero.
-    const shop = document.getElementById("shop");
-    const vh = window.innerHeight || 800;
-    let show = scrollY > vh * 0.9;
-    if (shop) {
-      const r = shop.getBoundingClientRect();
-      const sTop = r.top + window.scrollY;
-      const sBot = sTop + r.height;
-      // Hide while Shop block itself is on screen (its own ATC is right there).
-      const inShop = scrollY + vh > sTop + 80 && scrollY < sBot - 120;
-      if (inShop) show = false;
-    }
-    setMiniVisible(show);
-  }, [scrollY]);
+    let raf = 0;
+    const compute = () => {
+      raf = 0;
+      const y = window.scrollY;
+      const vh = window.innerHeight || 800;
+      setScrolled(prev => { const v = y > 80; return v === prev ? prev : v; });
+      const shop = document.getElementById("shop");
+      let show = y > vh * 0.9;
+      if (shop) {
+        const r = shop.getBoundingClientRect();
+        const sTop = r.top + y;
+        const sBot = sTop + r.height;
+        // Hide while the Shop block is on screen (its own ATC is right there).
+        const inShop = y + vh > sTop + 80 && y < sBot - 120;
+        if (inShop) show = false;
+      }
+      setMiniVisible(prev => show === prev ? prev : show);
+    };
+    const onScroll = () => { if (raf) return; raf = requestAnimationFrame(compute); };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    compute();
+    return () => { window.removeEventListener("scroll", onScroll); window.removeEventListener("resize", onScroll); cancelAnimationFrame(raf); };
+  }, []);
 
   const addToCart = useCallback((item) => {
     setCart(prev => {
