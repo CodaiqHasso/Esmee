@@ -55,8 +55,12 @@ function LangToggle({ compact }) {
         aria-label="Sprache / Language"
         onClick={() => setOpen(o => !o)}
       >
+        <svg className="lang-globe" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
+          <circle cx="12" cy="12" r="9" />
+          <path d="M3 12 H21" />
+          <path d="M12 3 C 15 6, 15 18, 12 21 C 9 18, 9 6, 12 3 Z" />
+        </svg>
         {LANG_LABEL[lang]}
-        <svg className="lang-dd-caret" width="9" height="9" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5 L5 6.5 L8 3.5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
       </button>
       {open && createPortal(
         <div
@@ -701,8 +705,10 @@ function Nav({ onCart, cartCount, scrolled }) {
         <div className="right">
           <LangToggle />
           <button className="cart-btn" data-cur="btn" data-cur-label={tr("Tasche","Bag","Çanta")} onClick={onCart} aria-label={tr("Warenkorb öffnen","Open cart","Sepeti aç")}>
-            <svg className="cart-ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M6 8 H 18 L 17 20 H 7 Z"/><path d="M9 8 a 3 3 0 0 1 6 0"/></svg>
-            <span className="cart-label">{tr("Warenkorb","Cart","Sepet")}</span>
+            <svg className="cart-ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.55" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M6 8.5 H18 L17.05 19.4 A1.7 1.7 0 0 1 15.36 21 H8.64 A1.7 1.7 0 0 1 6.95 19.4 Z" />
+              <path d="M9 8.5 V7 A3 3 0 0 1 15 7 V8.5" />
+            </svg>
             <span className="cart-count">{cartCount}</span>
           </button>
         </div>

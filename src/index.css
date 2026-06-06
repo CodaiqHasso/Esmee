@@ -6468,16 +6468,17 @@ section.universe, section.story-intro, section.unbox, section.ritual {
 .lang-dd { position: relative; }
 .lang-dd-btn {
   display: inline-flex; align-items: center; gap: 5px;
-  padding: 8px 11px; border-radius: var(--r-pill);
-  background: rgba(43,31,23,.06);
-  border: 1px solid rgba(43,31,23,.10);
-  font-family: var(--sans); font-size: 11px; font-weight: 600; letter-spacing: 0.1em;
+  padding: 8px 9px; border-radius: var(--r-pill);
+  background: transparent;
+  border: 1px solid rgba(43,31,23,.14);
+  font-family: var(--sans); font-size: 11px; font-weight: 600; letter-spacing: 0.06em;
   color: var(--coffee); cursor: pointer; line-height: 1;
-  transition: background .2s var(--ease);
+  transition: background .2s var(--ease), border-color .2s var(--ease);
 }
-.lang-dd-btn:hover { background: rgba(43,31,23,.1); }
-.lang-dd-caret { opacity: .55; transition: transform .25s var(--ease); }
-.lang-dd.open .lang-dd-caret { transform: rotate(180deg); }
+.lang-dd-btn:hover { background: rgba(43,31,23,.06); border-color: rgba(43,31,23,.24); }
+.lang-globe { opacity: .8; flex: 0 0 auto; }
+.lang-dd.open .lang-dd-btn { background: rgba(43,31,23,.07); }
+.lang-dd.open .lang-globe { opacity: 1; color: var(--copper); }
 /* portaled to <body>, positioned via inline fixed top/right */
 .lang-dd-menu {
   min-width: 88px;
@@ -6875,3 +6876,43 @@ section.universe, section.story-intro, section.unbox, section.ritual {
 .foot-legal { display: inline-flex; flex-wrap: wrap; gap: 6px 16px; }
 .foot-legal a { color: inherit; opacity: .85; transition: opacity .2s var(--ease); }
 .foot-legal a:hover { opacity: 1; text-decoration: underline; text-underline-offset: 2px; }
+
+/* ============================================================
+   NAV — custom cart icon button + small count badge top-right
+   ============================================================ */
+.nav .cart-btn {
+  position: relative;
+  display: inline-grid; place-items: center;
+  width: 44px; height: 44px; padding: 0;
+  border-radius: 50%;
+  overflow: visible;                 /* let the count badge sit outside */
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.16) 0%, transparent 55%, rgba(0,0,0,.16) 100%),
+    linear-gradient(180deg, var(--coffee) 0%, var(--espresso) 100%);
+  color: var(--cream);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.2),
+    inset 0 -1px 0 rgba(0,0,0,.28),
+    0 8px 20px -10px rgba(43,31,23,.55);
+  transition: transform .25s var(--ease), box-shadow .25s var(--ease);
+}
+.nav .cart-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.24), 0 12px 26px -10px rgba(43,31,23,.6);
+}
+.nav .cart-btn .cart-ico { display: block; }
+.nav .cart-btn .cart-count {
+  position: absolute; top: -5px; right: -5px;
+  display: grid; place-items: center;
+  min-width: 18px; height: 18px; padding: 0 4px;
+  border-radius: 9px;
+  background: linear-gradient(180deg, var(--copper-soft, #c8956d), var(--copper));
+  color: var(--cream);
+  font-family: var(--sans);
+  font-size: 10px; font-weight: 700; letter-spacing: 0; line-height: 1;
+  border: 2px solid var(--paper);    /* ring separates badge from button + nav */
+  box-shadow: 0 2px 6px -1px rgba(43,31,23,.45);
+}
+@media (max-width: 920px) {
+  .nav .cart-btn { width: 42px; height: 42px; }
+}
