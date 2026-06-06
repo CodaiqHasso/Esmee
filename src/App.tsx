@@ -7,24 +7,46 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import { isShopifyConfigured, createCheckout, fetchVariants, fetchAddons, fetchSellingPlans } from "./lib/shopify";
 import { tr, useLang, LANGS, LANG_LABEL } from "./i18n";
 
-/* Language toggler — DE / EN / TR. German is the default. */
+/* Language switcher — compact button + dropdown. DE / EN / TR (German default). */
 function LangToggle({ compact }) {
   const { lang, setLang } = useLang();
+  const [open, setOpen] = useState(false);
+  const ref = useRef(null);
+  useEffect(() => {
+    if (!open) return;
+    const onDoc = (e) => { if (ref.current && !ref.current.contains(e.target)) setOpen(false); };
+    const onKey = (e) => { if (e.key === "Escape") setOpen(false); };
+    document.addEventListener("pointerdown", onDoc);
+    document.addEventListener("keydown", onKey);
+    return () => { document.removeEventListener("pointerdown", onDoc); document.removeEventListener("keydown", onKey); };
+  }, [open]);
   return (
-    <div className={"lang-toggle " + (compact ? "compact" : "")} role="group" aria-label="Sprache / Language">
-      {LANGS.map((l) => (
-        <button
-          key={l}
-          type="button"
-          className={"lang-opt " + (lang === l ? "active" : "")}
-          aria-pressed={lang === l}
-          data-cur="btn"
-          data-cur-label={LANG_LABEL[l]}
-          onClick={() => setLang(l)}
-        >
-          {LANG_LABEL[l]}
-        </button>
-      ))}
+    <div className={"lang-dd " + (open ? "open" : "")} ref={ref}>
+      <button
+        type="button"
+        className="lang-dd-btn"
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        aria-label="Sprache / Language"
+        onClick={() => setOpen(o => !o)}
+      >
+        {LANG_LABEL[lang]}
+        <svg className="lang-dd-caret" width="9" height="9" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5 L5 6.5 L8 3.5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+      </button>
+      <div className="lang-dd-menu" role="listbox">
+        {LANGS.map((l) => (
+          <button
+            key={l}
+            type="button"
+            role="option"
+            aria-selected={lang === l}
+            className={"lang-dd-opt " + (lang === l ? "active" : "")}
+            onClick={() => { setLang(l); setOpen(false); }}
+          >
+            {LANG_LABEL[l]}
+          </button>
+        ))}
+      </div>
     </div>
   );
 }
@@ -197,6 +219,9 @@ function useReveal() {
 
 function useParallax() {
   useEffect(() => {
+    // Parallax repaints every image on each scroll frame — skip it on phones,
+    // where it barely registers visually but costs real scroll smoothness.
+    if (window.matchMedia("(max-width: 720px)").matches) return;
     const els = document.querySelectorAll(".frame.parallax");
     let raf = 0;
     const update = () => {
@@ -472,6 +497,9 @@ function SteamCanvas({ getIntensity }) {
   const ref = useRef(null);
   useEffect(() => {
     const canvas = ref.current; if (!canvas) return;
+    // Skip the steam particle loop on phones — drawing dozens of radial-gradient
+    // particles per frame is the main source of hero scroll jank on mobile.
+    if (window.matchMedia("(max-width: 720px)").matches) return;
     const ctx = canvas.getContext("2d");
     let w = 0, h = 0;
     const dpr = Math.min(window.devicePixelRatio || 1, 2);

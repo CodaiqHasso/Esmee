@@ -6456,36 +6456,42 @@ section.universe, section.story-intro, section.unbox, section.ritual {
   .cart-btn .cart-label { display: none; }
   .cart-btn { padding: 10px 14px; gap: 8px; }
 }
-.lang-toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: 2px;
-  padding: 3px;
-  border-radius: var(--r-pill);
+/* Language switcher — compact button + dropdown */
+.lang-dd { position: relative; }
+.lang-dd-btn {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 8px 11px; border-radius: var(--r-pill);
   background: rgba(43,31,23,.06);
   border: 1px solid rgba(43,31,23,.10);
+  font-family: var(--sans); font-size: 11px; font-weight: 600; letter-spacing: 0.1em;
+  color: var(--coffee); cursor: pointer; line-height: 1;
+  transition: background .2s var(--ease);
 }
-.lang-toggle .lang-opt {
-  font-family: var(--sans);
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  font-weight: 500;
-  padding: 6px 9px;
-  border-radius: var(--r-pill);
-  color: var(--coffee);
-  opacity: .5;
-  transition: background .25s var(--ease), color .25s var(--ease), opacity .25s var(--ease);
-  line-height: 1;
+.lang-dd-btn:hover { background: rgba(43,31,23,.1); }
+.lang-dd-caret { opacity: .55; transition: transform .25s var(--ease); }
+.lang-dd.open .lang-dd-caret { transform: rotate(180deg); }
+.lang-dd-menu {
+  position: absolute; top: calc(100% + 8px); right: 0;
+  min-width: 82px;
+  background: #fcf6ec;
+  border: 1px solid rgba(43,31,23,.10);
+  border-radius: 12px;
+  box-shadow: 0 16px 36px -14px rgba(43,31,23,.42);
+  padding: 5px; display: flex; flex-direction: column; gap: 2px;
+  opacity: 0; visibility: hidden; transform: translateY(-6px);
+  transition: opacity .2s var(--ease), transform .2s var(--ease), visibility .2s var(--ease);
+  z-index: 6;
 }
-.lang-toggle .lang-opt:hover { opacity: .85; }
-.lang-toggle .lang-opt.active {
-  background: var(--coffee);
-  color: var(--cream);
-  opacity: 1;
+.lang-dd.open .lang-dd-menu { opacity: 1; visibility: visible; transform: none; }
+.lang-dd-opt {
+  text-align: left; padding: 9px 12px; border-radius: 8px;
+  font-family: var(--sans); font-size: 12px; letter-spacing: 0.08em; font-weight: 500;
+  color: var(--coffee); opacity: .7; cursor: pointer; background: none; border: 0;
+  transition: background .15s var(--ease), opacity .15s var(--ease);
 }
+.lang-dd-opt:hover { background: rgba(43,31,23,.06); opacity: 1; }
+.lang-dd-opt.active { background: var(--coffee); color: var(--cream); opacity: 1; }
 @media (max-width: 920px) {
-  .lang-toggle { padding: 2px; }
-  .lang-toggle .lang-opt { padding: 8px 9px; font-size: 11px; letter-spacing: 0.06em; }
   .nav .right { gap: 8px; }
 }
 
@@ -6714,4 +6720,18 @@ section.universe, section.story-intro, section.unbox, section.ritual {
   section.block { padding: 64px var(--rail); }
   /* A little breathing room above pinned/sticky CTAs so nothing sits under the mini-bar */
   .foot-v2 { padding-bottom: 96px; }
+
+  /* PERF: backdrop-filter blur on the fixed nav + mini-bar forces the GPU to
+     re-blur the page behind them on every scroll frame — a big cause of janky
+     mobile scrolling. Swap to near-opaque solids (no blur) on phones. */
+  .nav {
+    background: rgba(252,246,236,.97);
+    -webkit-backdrop-filter: none; backdrop-filter: none;
+  }
+  .nav-shell.scrolled .nav { background: rgba(253,248,240,.99); }
+  .mini-bar {
+    background: rgba(252,246,236,.97);
+    -webkit-backdrop-filter: none; backdrop-filter: none;
+  }
+  .nav-menu { -webkit-backdrop-filter: none; backdrop-filter: none; background: rgba(252,246,236,.99); }
 }
