@@ -2891,9 +2891,19 @@ body.pre-locked { overflow: hidden; }
   box-shadow: 0 1px 2px rgba(0,0,0,.25);
 }
 @media (max-width: 720px) {
-  .foot-v2 .bottom .pay { width: 100%; }
-  .pay-icons { gap: 6px; }
-  .pay-ico { width: 34px; height: 21.5px; }
+  /* stack the three bottom blocks cleanly */
+  .foot-v2 .bottom { flex-direction: column; align-items: flex-start; gap: 22px; }
+  /* label on its own line, badges form one tidy left-aligned row below it */
+  .foot-v2 .bottom .pay {
+    width: 100%; flex-direction: column; align-items: flex-start; gap: 11px;
+  }
+  .foot-v2 .bottom .pay .pay-label { opacity: .6; }
+  .pay-icons { width: 100%; gap: 8px; }
+  .pay-ico { width: 40px; height: 25px; }
+}
+@media (max-width: 380px) {
+  .pay-ico { width: 36px; height: 22.7px; }
+  .pay-icons { gap: 7px; }
 }
 
 /* ---------- Final Watermark moment ---------- */
