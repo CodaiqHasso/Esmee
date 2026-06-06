@@ -2844,7 +2844,7 @@ body.pre-locked { overflow: hidden; }
   gap: 40px;
 }
 @media (max-width: 880px) { .foot-v2 .links-grid { grid-template-columns: 1fr 1fr; } }
-@media (max-width: 540px) { .foot-v2 .links-grid { grid-template-columns: 1fr; } }
+@media (max-width: 540px) { .foot-v2 .links-grid { grid-template-columns: 1fr 1fr; gap: 30px 18px; } }
 .foot-v2 .links-grid h4 {
   font-family: var(--sans); font-weight: 500; font-size: 10px; letter-spacing: 0.36em; text-transform: uppercase;
   color: rgba(239,230,218,.5); margin: 0 0 18px;

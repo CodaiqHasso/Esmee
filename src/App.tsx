@@ -2001,7 +2001,7 @@ function TasteProfile() {
             </div>
           </div>
           <div className="radar-wrap reveal delay-1" ref={ref}>
-            <svg viewBox="0 0 400 400" role="img" aria-label="Taste profile radar chart">
+            <svg viewBox="-48 0 496 400" role="img" aria-label="Taste profile radar chart">
               {/* grid */}
               {rings.map((r, i) => (
                 <polygon key={i} className="grid-poly" points={r} />
@@ -2121,7 +2121,7 @@ function GuaranteeStrip() {
             <circle cx="50" cy="50" r="46" fill="none" stroke="#B07A52" strokeWidth="0.8" />
             <circle cx="50" cy="50" r="38" fill="none" stroke="#B07A52" strokeWidth="0.4" strokeDasharray="1 3" />
             <text fill="#B07A52" fontFamily="Cormorant Garamond, serif" fontSize="6.5" letterSpacing="1.4">
-              <textPath href="#g-circle" startOffset="0">ESMEE · MAISON N° 01 · DUBAI ·  ESMEE · MAISON N° 01 · DUBAI ·  </textPath>
+              <textPath href="#g-circle" startOffset="0">ESMEE · MANDURAA · EDITION N° 01 ·  ESMEE · MANDURAA · EDITION N° 01 ·  </textPath>
             </text>
             <g transform="translate(50 50)">
               <text fill="#B07A52" fontFamily="Cormorant Garamond, serif" fontStyle="italic" fontSize="13" textAnchor="middle" y="-2">{tr("Erste","First","İlk")}</text>
