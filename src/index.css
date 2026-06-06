@@ -6470,19 +6470,19 @@ section.universe, section.story-intro, section.unbox, section.ritual {
 .lang-dd-btn:hover { background: rgba(43,31,23,.1); }
 .lang-dd-caret { opacity: .55; transition: transform .25s var(--ease); }
 .lang-dd.open .lang-dd-caret { transform: rotate(180deg); }
+/* portaled to <body>, positioned via inline fixed top/right */
 .lang-dd-menu {
-  position: absolute; top: calc(100% + 8px); right: 0;
-  min-width: 82px;
+  min-width: 88px;
   background: #fcf6ec;
   border: 1px solid rgba(43,31,23,.10);
   border-radius: 12px;
-  box-shadow: 0 16px 36px -14px rgba(43,31,23,.42);
+  box-shadow: 0 18px 40px -14px rgba(43,31,23,.45);
   padding: 5px; display: flex; flex-direction: column; gap: 2px;
-  opacity: 0; visibility: hidden; transform: translateY(-6px);
-  transition: opacity .2s var(--ease), transform .2s var(--ease), visibility .2s var(--ease);
-  z-index: 6;
+  z-index: 200;
+  transform-origin: top right;
+  animation: langDdIn .18s var(--ease-out);
 }
-.lang-dd.open .lang-dd-menu { opacity: 1; visibility: visible; transform: none; }
+@keyframes langDdIn { from { opacity: 0; transform: translateY(-6px) scale(.96); } to { opacity: 1; transform: none; } }
 .lang-dd-opt {
   text-align: left; padding: 9px 12px; border-radius: 8px;
   font-family: var(--sans); font-size: 12px; letter-spacing: 0.08em; font-weight: 500;

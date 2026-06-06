@@ -4,25 +4,49 @@
    Type-checking is disabled on this file because it is a 1:1 port of an
    imperative, DOM-driven prototype; runtime behaviour is the source of truth. */
 import React, { useState, useEffect, useRef, useCallback } from "react";
+import { createPortal } from "react-dom";
 import { isShopifyConfigured, createCheckout, fetchVariants, fetchAddons, fetchSellingPlans } from "./lib/shopify";
 import { tr, useLang, LANGS, LANG_LABEL } from "./i18n";
 
-/* Language switcher — compact button + dropdown. DE / EN / TR (German default). */
+/* Language switcher — compact button + dropdown. DE / EN / TR (German default).
+   The menu is portaled to <body> so the nav's overflow:hidden / backdrop-filter
+   can never clip or cover it. */
 function LangToggle({ compact }) {
   const { lang, setLang } = useLang();
   const [open, setOpen] = useState(false);
-  const ref = useRef(null);
+  const btnRef = useRef(null);
+  const menuRef = useRef(null);
+  const [pos, setPos] = useState({ top: 0, right: 0 });
+  const place = () => {
+    const b = btnRef.current; if (!b) return;
+    const r = b.getBoundingClientRect();
+    setPos({ top: Math.round(r.bottom + 8), right: Math.round(window.innerWidth - r.right) });
+  };
   useEffect(() => {
     if (!open) return;
-    const onDoc = (e) => { if (ref.current && !ref.current.contains(e.target)) setOpen(false); };
+    place();
+    const onDoc = (e) => {
+      if (menuRef.current && menuRef.current.contains(e.target)) return;
+      if (btnRef.current && btnRef.current.contains(e.target)) return;
+      setOpen(false);
+    };
     const onKey = (e) => { if (e.key === "Escape") setOpen(false); };
+    const onScroll = () => setOpen(false);
     document.addEventListener("pointerdown", onDoc);
     document.addEventListener("keydown", onKey);
-    return () => { document.removeEventListener("pointerdown", onDoc); document.removeEventListener("keydown", onKey); };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      document.removeEventListener("pointerdown", onDoc);
+      document.removeEventListener("keydown", onKey);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
   }, [open]);
   return (
-    <div className={"lang-dd " + (open ? "open" : "")} ref={ref}>
+    <div className={"lang-dd " + (open ? "open" : "")}>
       <button
+        ref={btnRef}
         type="button"
         className="lang-dd-btn"
         aria-haspopup="listbox"
@@ -33,20 +57,28 @@ function LangToggle({ compact }) {
         {LANG_LABEL[lang]}
         <svg className="lang-dd-caret" width="9" height="9" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5 L5 6.5 L8 3.5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
       </button>
-      <div className="lang-dd-menu" role="listbox">
-        {LANGS.map((l) => (
-          <button
-            key={l}
-            type="button"
-            role="option"
-            aria-selected={lang === l}
-            className={"lang-dd-opt " + (lang === l ? "active" : "")}
-            onClick={() => { setLang(l); setOpen(false); }}
-          >
-            {LANG_LABEL[l]}
-          </button>
-        ))}
-      </div>
+      {open && createPortal(
+        <div
+          ref={menuRef}
+          className="lang-dd-menu"
+          role="listbox"
+          style={{ position: "fixed", top: pos.top, right: pos.right }}
+        >
+          {LANGS.map((l) => (
+            <button
+              key={l}
+              type="button"
+              role="option"
+              aria-selected={lang === l}
+              className={"lang-dd-opt " + (lang === l ? "active" : "")}
+              onClick={() => { setLang(l); setOpen(false); }}
+            >
+              {LANG_LABEL[l]}
+            </button>
+          ))}
+        </div>,
+        document.body
+      )}
     </div>
   );
 }
