@@ -2881,11 +2881,19 @@ body.pre-locked { overflow: hidden; }
 }
 .foot-v2 .bottom .pay {
   display: inline-flex; gap: 12px; align-items: center; color: rgba(239,230,218,.7);
+  flex-wrap: wrap;
 }
-.foot-v2 .bottom .pay span {
-  font-family: var(--serif); font-size: 12px; letter-spacing: 0.04em; text-transform: none;
-  padding: 4px 10px; border-radius: var(--r-sm);
-  background: rgba(252,246,236,.08); color: var(--bone);
+.foot-v2 .bottom .pay .pay-label { white-space: nowrap; }
+.pay-icons { display: inline-flex; align-items: center; gap: 7px; flex-wrap: wrap; }
+.pay-ico {
+  width: 38px; height: 24px; display: block; flex: 0 0 auto;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(0,0,0,.25);
+}
+@media (max-width: 720px) {
+  .foot-v2 .bottom .pay { width: 100%; }
+  .pay-icons { gap: 6px; }
+  .pay-ico { width: 34px; height: 21.5px; }
 }
 
 /* ---------- Final Watermark moment ---------- */

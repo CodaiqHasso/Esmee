@@ -7,6 +7,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { isShopifyConfigured, createCheckout, fetchVariants, fetchAddons, fetchSellingPlans } from "./lib/shopify";
 import { tr, useLang, LANGS, LANG_LABEL } from "./i18n";
+import { PaymentIcons } from "./PaymentIcons";
 
 /* Language switcher — compact button + dropdown. DE / EN / TR (German default).
    The menu is portaled to <body> so the nav's overflow:hidden / backdrop-filter
@@ -3213,12 +3214,8 @@ function FooterV2() {
         <div className="bottom">
           <span>{tr("© 2026 — Von Hand gemischt · in Tradition von Beirut & Antakya","© 2026 — Hand-blended · in the tradition of Beirut & Antakya","© 2026 — Elde harmanlandı · Beyrut & Antakya geleneğinde")}</span>
           <span className="pay">
-            {tr("Wir akzeptieren","We accept","Kabul ettiklerimiz")}
-            <span>Apple Pay</span>
-            <span>Klarna</span>
-            <span>Visa</span>
-            <span>AmEx</span>
-            <span>SEPA</span>
+            <span className="pay-label">{tr("Wir akzeptieren","We accept","Kabul ettiklerimiz")}</span>
+            <PaymentIcons />
           </span>
           <span className="foot-legal">
             <a href="/impressum">Impressum</a>
