@@ -6758,11 +6758,53 @@ section.universe, section.story-intro, section.unbox, section.ritual {
   .audio-pill { background: rgba(250,244,234,.95); }
 }
 
-/* iOS: use the dynamic viewport for pinned full-height stages so the
-   address-bar show/hide doesn't reflow them mid-scroll. */
+/* iOS: use the dynamic viewport for the pinned hero stage so the
+   address-bar show/hide doesn't reflow it mid-scroll. */
 @supports (height: 100dvh) {
   @media (max-width: 720px) {
-    .story-stage,
-    .ritual.horizontal .h-stage { height: 100dvh; }
+    .story-stage { height: 100dvh; }
   }
+}
+
+/* ============================================================
+   MOBILE — Product (shop) section: compact image, reachable buy options
+   ============================================================ */
+@media (max-width: 720px) {
+  .shop { padding: 52px var(--rail) 60px; }
+  .shop-grid { gap: 26px; }
+  /* the 4/5 portrait image ate most of the first screen — square it up */
+  .shop .product-stage { aspect-ratio: 1 / 1; max-height: 54vh; }
+  .shop .product-stage .floating-tag { right: 13px; top: 13px; padding: 8px 13px; font-size: 9px; letter-spacing: .2em; }
+  .shop .product-stage .swatch-row { left: 13px; bottom: 13px; padding: 8px; }
+  .shop .meta h2 { font-size: clamp(40px, 13vw, 58px); }
+  .shop .meta .lede { font-size: 14.5px; }
+  .shop .price-row { margin-top: 20px; }
+  .shop .price { font-size: 38px; }
+}
+
+/* ============================================================
+   MOBILE — Ritual: natural vertical stack instead of horizontal pin
+   (the pinned horizontal scroll felt awkward + wasted space on phones)
+   ============================================================ */
+@media (max-width: 880px) {
+  .ritual.horizontal .h-wrap { height: auto !important; }
+  .ritual.horizontal .h-stage { position: static; height: auto; overflow: visible; }
+  .ritual.horizontal .h-track {
+    flex-direction: column; width: 100%; height: auto;
+    transform: none !important; will-change: auto;
+  }
+  .ritual.horizontal .h-panel {
+    width: 100%; height: auto;
+    grid-template-columns: 1fr;
+    gap: 22px;
+    padding: 50px var(--rail);
+    border-top: 1px solid rgba(43,31,23,.08);
+  }
+  .ritual.horizontal .h-panel:first-child { border-top: 0; padding-top: 44px; }
+  .ritual.horizontal .h-panel .big-num { display: none; }
+  .ritual.horizontal .h-text { max-width: none; }
+  .ritual.horizontal .h-vis {
+    aspect-ratio: 4 / 3; width: 100%; max-width: 400px; margin: 4px auto 0;
+  }
+  .ritual.horizontal .h-progress { display: none; }
 }
