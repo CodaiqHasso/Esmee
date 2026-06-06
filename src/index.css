@@ -184,6 +184,60 @@ h1, h2, h3 { margin: 0; }
 }
 .nav .link:hover::after { transform: scaleX(1); }
 
+/* keep the nav pill above the mobile menu overlay so the close button works */
+.nav { position: relative; z-index: 2; }
+
+/* Hamburger — mobile only */
+.nav-burger { display: none; }
+@media (max-width: 920px) {
+  .nav-burger {
+    display: inline-flex; flex-direction: column; justify-content: center; gap: 5px;
+    width: 42px; height: 42px; margin-left: -10px; padding: 0 9px;
+    background: none; border: 0; cursor: pointer;
+  }
+  .nav-burger span {
+    display: block; height: 2px; width: 22px; border-radius: 2px;
+    background: var(--coffee);
+    transition: transform .3s var(--ease), opacity .2s var(--ease);
+  }
+  .nav-burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-burger.open span:nth-child(2) { opacity: 0; }
+  .nav-burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+}
+
+/* Full-screen mobile menu */
+.nav-menu {
+  position: fixed; inset: 0; z-index: 1;
+  background: rgba(252,246,236,.98);
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transition: opacity .35s var(--ease), visibility .35s var(--ease);
+}
+.nav-menu.open { opacity: 1; visibility: visible; pointer-events: auto; }
+.nav-menu-panel { display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; }
+.nav-menu-link {
+  font-family: var(--serif); font-weight: 300;
+  font-size: clamp(30px, 9vw, 46px); line-height: 1.55;
+  color: var(--coffee);
+  opacity: 0; transform: translateY(12px);
+}
+.nav-menu.open .nav-menu-link { animation: navMenuIn .5s var(--ease-out) forwards; }
+.nav-menu.open .nav-menu-link:nth-child(1) { animation-delay: .06s; }
+.nav-menu.open .nav-menu-link:nth-child(2) { animation-delay: .12s; }
+.nav-menu.open .nav-menu-link:nth-child(3) { animation-delay: .18s; }
+.nav-menu.open .nav-menu-link:nth-child(4) { animation-delay: .24s; }
+@keyframes navMenuIn { to { opacity: 1; transform: none; } }
+.nav-menu-wa {
+  margin-top: 26px;
+  display: inline-flex; align-items: center; gap: 9px;
+  padding: 14px 24px; border-radius: var(--r-pill);
+  background: #1aa951; color: #fff;
+  font-family: var(--sans); font-size: 14px; letter-spacing: .02em;
+  opacity: 0;
+}
+.nav-menu.open .nav-menu-wa { animation: navMenuIn .5s var(--ease-out) .32s forwards; }
+
 .brandmark {
   font-family: var(--serif);
   font-weight: 400;
@@ -6431,7 +6485,7 @@ section.universe, section.story-intro, section.unbox, section.ritual {
 }
 @media (max-width: 920px) {
   .lang-toggle { padding: 2px; }
-  .lang-toggle .lang-opt { padding: 5px 6px; font-size: 10px; letter-spacing: 0.08em; }
+  .lang-toggle .lang-opt { padding: 8px 9px; font-size: 11px; letter-spacing: 0.06em; }
   .nav .right { gap: 8px; }
 }
 
@@ -6650,4 +6704,14 @@ section.universe, section.story-intro, section.unbox, section.ritual {
 @media (max-width: 720px) {
   .wa-widget { right: 14px; bottom: 90px; }   /* clear the floating mini-bar */
   .wa-panel { width: min(330px, calc(100vw - 28px)); }
+}
+
+/* ============================================================
+   MOBILE OPTIMISATION — tighter vertical rhythm on phones
+   ============================================================ */
+@media (max-width: 720px) {
+  /* The default ~100px section padding makes the page feel endless on phones */
+  section.block { padding: 64px var(--rail); }
+  /* A little breathing room above pinned/sticky CTAs so nothing sits under the mini-bar */
+  .foot-v2 { padding-bottom: 96px; }
 }

@@ -595,10 +595,33 @@ function flyToCart(imageUrl) {
 
 function Nav({ onCart, cartCount, scrolled }) {
   useLang();
+  const [menu, setMenu] = useState(false);
+  // Lock body scroll while the mobile menu is open
+  useEffect(() => {
+    if (!menu) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = prev; };
+  }, [menu]);
+  const links = [
+    { id: "#story-intro", label: "Manduraa" },
+    { id: "#universe", label: tr("Zutaten","Ingredients","İçindekiler") },
+    { id: "#shop", label: tr("Shop","Shop","Mağaza") },
+    { id: "#faq", label: tr("FAQ","FAQ","SSS") },
+  ];
+  const go = (id) => (e) => {
+    e.preventDefault();
+    setMenu(false);
+    const el = document.querySelector(id);
+    if (el) setTimeout(() => window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 80, behavior: "smooth" }), 60);
+  };
   return (
     <div className={"nav-shell " + (scrolled ? "scrolled" : "")}>
       <nav className="nav">
         <div className="left">
+          <button className={"nav-burger " + (menu ? "open" : "")} aria-label={tr("Menü","Menu","Menü")} aria-expanded={menu} onClick={() => setMenu(m => !m)}>
+            <span /><span /><span />
+          </button>
           <div className="links">
             <a className="link" data-cur="btn" data-cur-label={tr("Lesen","Read","Oku")} href="#story-intro">Manduraa</a>
             <a className="link" data-cur="btn" data-cur-label={tr("Öffnen","Open","Aç")} href="#universe">{tr("Zutaten","Ingredients","İçindekiler")}</a>
@@ -618,6 +641,25 @@ function Nav({ onCart, cartCount, scrolled }) {
           </button>
         </div>
       </nav>
+
+      {/* Mobile menu overlay */}
+      <div className={"nav-menu " + (menu ? "open" : "")} onClick={() => setMenu(false)} aria-hidden={!menu}>
+        <div className="nav-menu-panel" onClick={e => e.stopPropagation()}>
+          {links.map(l => (
+            <a key={l.id} className="nav-menu-link" href={l.id} onClick={go(l.id)}>{l.label}</a>
+          ))}
+          <a
+            className="nav-menu-wa"
+            href="https://wa.me/905315670838"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => setMenu(false)}
+          >
+            <svg width="18" height="18" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true"><path d="M16.02 3.2c-7.06 0-12.8 5.73-12.8 12.79 0 2.26.59 4.46 1.72 6.41L3.2 28.8l6.57-1.72a12.74 12.74 0 0 0 6.24 1.6h.01c7.05 0 12.79-5.74 12.79-12.8 0-3.42-1.33-6.63-3.75-9.05a12.7 12.7 0 0 0-9.04-3.63Zm5.83 16.16c-.32-.16-1.89-.93-2.18-1.04-.29-.11-.5-.16-.71.16-.21.32-.82 1.04-1 1.25-.18.21-.37.24-.69.08-.32-.16-1.35-.5-2.57-1.59-.95-.85-1.59-1.9-1.78-2.22-.18-.32-.02-.49.14-.65.14-.14.32-.37.48-.56.16-.18.21-.32.32-.53.11-.21.05-.4-.03-.56-.08-.16-.71-1.72-.98-2.35-.26-.62-.52-.53-.71-.54l-.61-.01c-.21 0-.56.08-.85.4s-1.11 1.09-1.11 2.66 1.14 3.08 1.3 3.29c.16.21 2.25 3.43 5.45 4.81 2.27.98 2.73.79 3.22.74.49-.04 1.89-.77 2.16-1.52.27-.74.27-1.38.19-1.51-.08-.13-.29-.21-.61-.37Z"/></svg>
+            {tr("Auf WhatsApp schreiben","Message us on WhatsApp","WhatsApp'tan yaz")}
+          </a>
+        </div>
+      </div>
     </div>
   );
 }
