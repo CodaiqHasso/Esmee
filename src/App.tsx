@@ -186,6 +186,11 @@ function getIngredients() {
     lede: tr("Ein bitterer Schoko-Ton.","A bitter chocolate note.","Acı bir çikolata notası."),
     body: tr("Kakaonibs aus einer einzigen Kooperative in Tabasco, leicht geröstet, um die Schokolade ohne Süße hervorzubringen. Die bittere Linie, die die Tasse zusammenhält.","Cocoa nibs from a single co-op in Tabasco, lightly toasted to draw out the chocolate without sweetness. The bitter line that holds the cup together.","Tabasco'da tek bir kooperatiften kakao nibleri, çikolatayı tatlılık olmadan ortaya çıkarmak için hafifçe kavrulur. Fincanı bir arada tutan acı çizgi.")
   },
+  { name: tr("Kokosnuss-Sahne","Coconut Cream","Hindistan Cevizi Kreması"), short: tr("Kokos","Coconut","Kokos"), note: tr("Samtige Cremigkeit","Velvety creaminess","Kadifemsi kremsilik"), color: "#E6D6BE", angle: 36, r: 46,
+    origin: tr("Mindanao · Philippinen","Mindanao · Philippines","Mindanao · Filipinler"), season: tr("Ganzjährig","Year-round","Yıl boyu"), grams: tr("38 g / 250-g-Beutel","38 g / 250 g pouch","38 g / 250 g paket"), img: "/assets/lifestyle-cup-almonds.jpeg",
+    lede: tr("Macht die Tasse samtig.","Makes the cup velvety.","Fincanı kadifemsi yapar."),
+    body: tr("Schonend getrocknete Kokosnuss-Sahne, fein vermahlen. Sie rundet die Mischung ab und macht jede Tasse seidig — milchig cremig, ganz ohne Milch.","Gently dried coconut cream, finely milled. It rounds out the blend and makes every cup silky — milky and creamy, with no dairy at all.","Nazikçe kurutulmuş Hindistan cevizi kreması, ince öğütülmüş. Harmanı tamamlar ve her fincanı ipeksi yapar — sütsüz ama sütlü kremsilik.")
+  },
   ];
 }
 
@@ -221,7 +226,7 @@ function getTaste() {
 
 function getFaqs() {
   return [
-  { q: tr("Was steckt eigentlich in Manduraa?","What's actually in Manduraa?","Manduraa'da aslında ne var?"), a: tr("Sechs Zutaten, mehr nicht: Medjool-Datteln, Marcona-Mandeln, Antep-Pistazien, Single-Origin-Arabica-Kaffee, grüner Kardamom und Kakaonibs. Kein raffinierter Zucker, keine Sirupe, keine Aromen, keine Konservierungsstoffe. Vegan und glutenfrei.","Six ingredients, nothing else: Medjool dates, Marcona almonds, Antep pistachios, single-origin arabica coffee, green cardamom and cocoa nibs. No refined sugar, no syrups, no flavourings, no preservatives. Vegan and gluten-free.","Altı malzeme, başka hiçbir şey: Medjool hurması, Marcona bademi, Antep fıstığı, tek kaynak arabica kahve, yeşil kakule ve kakao nibleri. Rafine şeker yok, şurup yok, aroma yok, koruyucu yok. Vegan ve glutensiz.") },
+  { q: tr("Was steckt eigentlich in Manduraa?","What's actually in Manduraa?","Manduraa'da aslında ne var?"), a: tr("Sieben Zutaten, mehr nicht: Medjool-Datteln, Marcona-Mandeln, Kokosnuss-Sahne, Single-Origin-Arabica-Kaffee, Antep-Pistazien, Kakaonibs und grüner Kardamom. Kein raffinierter Zucker, keine Sirupe, keine Aromen, keine Konservierungsstoffe. Vegan und glutenfrei.","Seven ingredients, nothing else: Medjool dates, Marcona almonds, coconut cream, single-origin arabica coffee, Antep pistachios, cocoa nibs and green cardamom. No refined sugar, no syrups, no flavourings, no preservatives. Vegan and gluten-free.","Yedi malzeme, başka hiçbir şey: Medjool hurması, Marcona bademi, Hindistan cevizi kreması, tek kaynak arabica kahve, Antep fıstığı, kakao nibleri ve yeşil kakule. Rafine şeker yok, şurup yok, aroma yok, koruyucu yok. Vegan ve glutensiz.") },
   { q: tr("Wie bereite ich es zu?","How do I prepare it?","Nasıl hazırlanır?"), a: tr("Ein gehäufter Löffel (7 g) pro kleine Tasse. 150 ml heißes — nicht kochendes — Wasser oder aufgeschäumte Milch dazugeben und zehn Sekunden rühren. Vor dem Trinken dreißig Sekunden ruhen lassen. Das ist das ganze Ritual.","One heaped spoon (7 g) per small cup. Add 150 ml of hot — not boiling — water or steamed milk and stir for ten seconds. Let it rest for thirty seconds before drinking. That's the entire ritual.","Her küçük fincan için bir tepeleme kaşık (7 g). 150 ml sıcak — kaynar değil — su ya da köpürtülmüş süt ekleyip on saniye karıştır. İçmeden önce otuz saniye dinlendir. Tüm ritüel bu kadar.") },
   { q: tr("Enthält es Koffein?","Does it contain caffeine?","Kafein içeriyor mu?"), a: tr("Original enthält etwa halb so viel Koffein wie ein normaler Espresso — sanft, anhaltend. Wir bieten auch eine koffeinfreie Edition mit natürlich entkoffeiniertem Arabica an.","Original contains about half the caffeine of a regular espresso — gentle, sustained. We also offer a caffeine-free edition using naturally decaffeinated arabica.","Original, normal bir espressonun yaklaşık yarısı kadar kafein içerir — yumuşak, sürekli. Ayrıca doğal olarak kafeini alınmış arabica ile kafeinsiz bir edisyon da sunuyoruz.") },
   { q: tr("Wie lange reicht ein Beutel?","How long does a pouch last?","Bir paket ne kadar yeter?"), a: tr("Ein 250-g-Beutel ergibt etwa 16 Tassen. Versiegelt an einem kühlen, dunklen Ort gelagert, bleibt er ab dem auf der Rückseite aufgedruckten Datum sechs Monate auf dem Höhepunkt.","A 250 g pouch makes roughly 16 cups. Stored sealed in a cool, dark place, it stays at peak for six months from the date stamped on the back.","250 g'lık bir paket yaklaşık 16 fincan yapar. Serin, karanlık bir yerde kapalı saklandığında, arkasında yazan tarihten itibaren altı ay boyunca en iyi durumda kalır.") },
@@ -752,7 +757,7 @@ function getScenes() {
   {
     src: "/assets/scene-1.jpg",
     kicker: "Esmee · Edition N° 01",
-    title: tr("Sechs Zutaten.\nEine Tasse.", "Six ingredients.\nOne cup.", "Altı malzeme.\nBir fincan."),
+    title: tr("Sieben Zutaten.\nEine Tasse.", "Seven ingredients.\nOne cup.", "Yedi malzeme.\nBir fincan."),
     body: tr("Datteln, Mandeln, Pistazie und Kaffee.\nMit Datteln gesüßt, nicht mit Zucker.", "Dates, almonds, pistachio and coffee.\nSweetened with dates, not sugar.", "Hurma, badem, fıstık ve kahve.\nŞekerle değil, hurmayla tatlandırıldı."),
     pos: "top", sub: tr("Zum Entdecken scrollen", "Scroll to explore", "Keşfetmek için kaydır"),
   },
@@ -795,7 +800,7 @@ function getScenes() {
     src: "/assets/scene-6.jpg",
     kicker: "Edition № 01",
     title: "Manduraa.",
-    body: tr("Mit Datteln gesüßt, nicht mit Zucker.\n250 g · 6 Zutaten · 0 g zugesetzter Zucker.", "Sweetened with dates, not sugar.\n250 g · 6 ingredients · 0 sugar added.", "Şekerle değil, hurmayla tatlandırıldı.\n250 g · 6 malzeme · 0 g ilave şeker."),
+    body: tr("Mit Datteln gesüßt, nicht mit Zucker.\n250 g · 7 Zutaten · 0 g zugesetzter Zucker.", "Sweetened with dates, not sugar.\n250 g · 7 ingredients · 0 sugar added.", "Şekerle değil, hurmayla tatlandırıldı.\n250 g · 7 malzeme · 0 g ilave şeker."),
     pos: "bottom", cta: true,
   },
   ];
@@ -897,7 +902,7 @@ function ScrollStory({ onSteamIntensity, heroFrom }) {
         <div className={"hero-buystrip " + (cue === 0 ? "in" : "")} aria-hidden={cue !== 0}>
           <div className="hb-row hb-row-top">
             <span className="hb-stars" aria-label={tr("Produkt-Highlights","Product highlights","Ürün öne çıkanları")}>
-              <span className="hb-rate">{tr("0 g raffinierter Zucker · 6 Zutaten · Vegan","0 g refined sugar · 6 ingredients · vegan","0 g rafine şeker · 6 malzeme · vegan")}</span>
+              <span className="hb-rate">{tr("0 g raffinierter Zucker · 7 Zutaten · Vegan","0 g refined sugar · 7 ingredients · vegan","0 g rafine şeker · 7 malzeme · vegan")}</span>
             </span>
             <span className="hb-trust">
               <span>{tr("30 Tage Geld-zurück","30-day money-back","30 gün iade")}</span>
@@ -965,7 +970,7 @@ function ReviewsRibbon() {
       </div>
       <div className="rr-quotes">
         <span>{tr("Mit Datteln gesüßt.","Sweetened with dates.","Hurmayla tatlandırılmış.")}</span>
-        <span>{tr("Sechs Zutaten.","Six ingredients.","Altı malzeme.")}</span>
+        <span>{tr("Sieben Zutaten.","Seven ingredients.","Yedi malzeme.")}</span>
         <span>{tr("Von Hand gemischt.","Hand-blended.","Elde harmanlandı.")}</span>
       </div>
       <button className="rr-jump" type="button" onClick={jump}>{tr("Die Mischung entdecken","Discover the blend","Harmanı keşfet")} →</button>
@@ -999,14 +1004,14 @@ function StoryIntro() {
             {tr(" geduldig mahlten — Zucker war den Gästen vorbehalten."," — because sugar was saved for guests."," öğüten kadınlar — çünkü şeker misafirler içindi.")}
           </p>
           <p className="reveal delay-3">
-            {tr("Wir haben die Geste eingefangen. Sechs Zutaten, nichts weiter. Die Mischung wird allein durch ","We bottled the gesture. Six ingredients, nothing else. The blend is sweetened only by ","Bu jesti şişeye koyduk. Altı malzeme, başka hiçbir şey. Harman yalnızca ")}
+            {tr("Wir haben die Geste eingefangen. Sieben Zutaten, nichts weiter. Die Mischung wird allein durch ","We bottled the gesture. Seven ingredients, nothing else. The blend is sweetened only by ","Bu jesti şişeye koyduk. Yedi malzeme, başka hiçbir şey. Harman yalnızca ")}
             <HoverWord word={tr("Datteln aus dem Jordantal","Jordan Valley dates","Ürdün Vadisi hurmaları")} label={tr("Medjool-Dattel","Medjool Date","Medjool Hurması")} text={tr("Sonnengetrocknet auf einer einzigen Farm im Jordantal.","Sun-cured on a single farm in the Jordan Valley.","Ürdün Vadisi'nde tek bir çiftlikte güneşte kurutulmuş.")} img="/assets/scene-6.jpg" />
             {tr(" gesüßt. Der Körper kommt von kalt vermahlener Marcona. Der Schwung, wenn du ihn willst, ist Single-Origin-",". The body comes from cold-stone Marcona. The lift, when you want it, is single-origin "," ile tatlandırılır. Gövde, soğuk taşla öğütülmüş Marcona'dan gelir. İstediğinde gelen canlılık ise tek kaynak ")}
             <HoverWord word={tr("Arabica","arabica","arabica")} label={tr("Arabica · Jemen","Arabica · Yemen","Arabica · Yemen")} text={tr("Ein bedächtiger Aufguss von den Haraz-Bergfarmen.","A measured pour from the Haraz mountain farms.","Haraz dağ çiftliklerinden ölçülü bir demleme.")} img="/assets/scene-1.jpg" />
             {tr(".",".",".")}
           </p>
           <div className="stats reveal delay-3">
-            <div className="stat"><strong><Counter to={6} duration={1100} /></strong><span>{tr("Zutaten","Ingredients","Malzeme")}</span></div>
+            <div className="stat"><strong><Counter to={7} duration={1100} /></strong><span>{tr("Zutaten","Ingredients","Malzeme")}</span></div>
             <div className="stat"><strong><Counter to={0} duration={1100} suffix="g" /></strong><span>{tr("Raffinierter Zucker","Refined sugar","Rafine şeker")}</span></div>
             <div className="stat"><strong><Counter to={90} duration={1100} suffix="s" /></strong><span>{tr("In der Tasse","In the cup","Fincanda")}</span></div>
           </div>
@@ -1138,9 +1143,11 @@ function IngredientUniverse() {
   }, []);
 
   const placeChip = (ing, idx) => {
-    // Position the chip at its base angle plus the live rotation. The chip itself
-    // stays upright (no transform rotation) so labels never tilt or flip.
-    const rad = ((ing.angle + rot) * Math.PI) / 180;
+    // Spread the chips evenly around the ring by index (auto-adapts to any
+    // ingredient count). The chip itself stays upright (no transform rotation)
+    // so labels never tilt or flip.
+    const baseAngle = (360 / INGREDIENTS.length) * idx + 18;
+    const rad = ((baseAngle + rot) * Math.PI) / 180;
     const left = 50 + Math.cos(rad) * ing.r * rScale;
     const top  = 50 + Math.sin(rad) * ing.r * rScale;
     return (
@@ -1168,7 +1175,8 @@ function IngredientUniverse() {
 
   // connectors from each chip to the center — follow the same live rotation as the chips
   const connectors = INGREDIENTS.map((ing, i) => {
-    const rad = ((ing.angle + rot) * Math.PI) / 180;
+    const baseAngle = (360 / INGREDIENTS.length) * i + 18;
+    const rad = ((baseAngle + rot) * Math.PI) / 180;
     const x = 50 + Math.cos(rad) * ing.r * rScale;
     const y = 50 + Math.sin(rad) * ing.r * rScale;
     return <path key={i} d={`M50 50 L${x} ${y}`} />;
@@ -1180,7 +1188,7 @@ function IngredientUniverse() {
         <div className="section-head">
           <span className="eyebrow reveal">{tr("— Zutaten-Universum","— Ingredient universe","— Malzeme evreni")}</span>
           <h2 className="reveal delay-1" key={tr("de","en","tr")}>
-            <SplitText text={tr("Sechs Zutaten","Six ingredients","Altı malzeme")} /> <em className="italic"><SplitText text={tr("im Orbit.","in orbit.","yörüngede.")} delay={0.25} /></em>
+            <SplitText text={tr("Sieben Zutaten","Seven ingredients","Yedi malzeme")} /> <em className="italic"><SplitText text={tr("im Orbit.","in orbit.","yörüngede.")} delay={0.25} /></em>
           </h2>
           <p className="reveal delay-2 orbit-desc-d">
             {tr("Ziehe, um den Orbit zu drehen. Klicke auf eine Zutat, um die Farm, die Saison und das Gramm-Gewicht hinter einer einzigen Tasse Manduraa kennenzulernen.","Drag to rotate the orbit. Click any ingredient to meet the farm, the season, and the gram-count behind a single cup of Manduraa.","Yörüngeyi döndürmek için sürükle. Bir fincan Manduraa'nın ardındaki çiftliği, mevsimi ve gram miktarını görmek için herhangi bir malzemeye tıkla.")}
@@ -2185,14 +2193,14 @@ function FinalCta({ onShop, onMagnetMove, price }) {
           <em className="italic"><SplitText text={tr("jeden Morgen.","every morning.","her sabah.")} delay={0.3} /></em>
         </h2>
         <p className="reveal delay-2">
-          {tr("Eine Mischung, sechs Zutaten, null raffinierter Zucker. Von Hand gemischt und zu dir nach Hause geliefert.","One blend, six ingredients, zero refined sugar. Hand-blended and delivered to your door.","Tek harman, altı malzeme, sıfır rafine şeker. Elde harmanlanır ve kapına teslim edilir.")}
+          {tr("Eine Mischung, sieben Zutaten, null raffinierter Zucker. Von Hand gemischt und zu dir nach Hause geliefert.","One blend, seven ingredients, zero refined sugar. Hand-blended and delivered to your door.","Tek harman, yedi malzeme, sıfır rafine şeker. Elde harmanlanır ve kapına teslim edilir.")}
         </p>
         <div className="cta-row reveal delay-3">
           <button className="btn btn-primary" data-cur="btn" data-cur-label="Shop" onMouseMove={onMagnetMove} onClick={onShop}>{tr("Manduraa kaufen","Shop Manduraa","Manduraa al")} · €{price || 28}</button>
           <a href="#story-intro" className="btn btn-ghost" data-cur="btn" data-cur-label={tr("Lesen","Read","Oku")}>{tr("Die Story lesen","Read the story","Hikâyeyi oku")}</a>
         </div>
         <div className="final-subline reveal delay-3" aria-label={tr("Risiko-Umkehr","Risk reversal","Risk tersine")}>
-          <span>{tr("0 g raffinierter Zucker · 6 Zutaten","0 g refined sugar · 6 ingredients","0 g rafine şeker · 6 malzeme")}</span>
+          <span>{tr("0 g raffinierter Zucker · 7 Zutaten","0 g refined sugar · 7 ingredients","0 g rafine şeker · 7 malzeme")}</span>
           <span className="sep"></span>
           <span>{tr("30-Tage-Erste-Tasse-Versprechen","30-day first-cup promise","30 gün ilk fincan sözü")}</span>
           <span className="sep"></span>
@@ -2761,7 +2769,7 @@ function ReviewsV2() {
 
         <div className="hero-review reveal delay-1">
           <span className="open-q">"</span>
-          <blockquote>{tr("Mit Datteln gesüßt, nicht mit Zucker. Sechs Zutaten, von Hand gemischt in unserem Atelier. Du gehörst zu den Ersten, die sie probieren.","Sweetened with dates, not sugar. Six ingredients, hand-blended in our atelier. You're among the first to taste it.","Şekerle değil, hurmayla tatlandırılmış. Altı malzeme, atölyemizde elle harmanlanmış. Onu tadan ilk kişilerdensin.")}</blockquote>
+          <blockquote>{tr("Mit Datteln gesüßt, nicht mit Zucker. Sieben Zutaten, von Hand gemischt in unserem Atelier. Du gehörst zu den Ersten, die sie probieren.","Sweetened with dates, not sugar. Seven ingredients, hand-blended in our atelier. You're among the first to taste it.","Şekerle değil, hurmayla tatlandırılmış. Yedi malzeme, atölyemizde elle harmanlanmış. Onu tadan ilk kişilerdensin.")}</blockquote>
           <div className="author-row">
             <div className="author-text">
               <strong>— Esmee</strong>
@@ -2832,6 +2840,7 @@ function getSpec() {
   return [
   { name: tr("Medjool-Dattel","Medjool Date","Medjool Hurması"),          color: "#7A4A2B", pct: 25, gram: "62 g" },
   { name: tr("Marcona-Mandel","Marcona Almond","Marcona Bademi"),        color: "#D9B988", pct: 19, gram: "48 g" },
+  { name: tr("Kokosnuss-Sahne","Coconut Cream","Hindistan Cevizi Kreması"), color: "#E6D6BE", pct: 15, gram: "38 g" },
   { name: tr("Single-Origin-Arabica","Single-origin Arabica","Tek Kaynak Arabica"), color: "#3E2719", pct: 13, gram: "32 g" },
   { name: tr("Antep-Pistazie","Antep Pistachio","Antep Fıstığı"),       color: "#7A8C4F", pct: 10, gram: "26 g" },
   { name: tr("Kakaonib","Cocoa Nib","Kakao Nibi"),             color: "#4E3322", pct:  7, gram: "18 g" },
