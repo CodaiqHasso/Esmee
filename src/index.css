@@ -3971,6 +3971,108 @@ body.pre-locked { overflow: hidden; }
 .exit-toast .actions .shop:hover { background: var(--espresso); }
 .exit-toast .actions .dismiss { background: transparent; color: var(--grain); }
 .exit-toast .actions .dismiss:hover { color: var(--coffee); }
+.exit-toast .code-btn {
+  display: inline-flex; align-items: center; gap: 12px;
+  cursor: pointer;
+  transition: border-color .2s var(--ease), background .2s var(--ease);
+}
+.exit-toast .code-btn:hover { border-color: var(--copper, #B07A52); }
+.exit-toast .code-btn .code-hint {
+  font-family: var(--mono, ui-monospace, monospace);
+  font-size: 9px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--coffee, #2B1F17);
+  padding: 4px 9px; border-radius: 999px; background: rgba(43,31,23,.07);
+}
+.exit-toast .code-btn.copied { border-style: solid; border-color: var(--copper, #B07A52); }
+.exit-toast .code-btn.copied .code-hint { background: var(--coffee, #2B1F17); color: var(--cream, #F6ECDD); }
+
+/* ============================================================
+   COUPON POPUP — first-cup 10 € code (no email, copy + manual entry)
+   ============================================================ */
+.coupon-pop {
+  position: fixed;
+  left: 24px; bottom: 24px;
+  width: 340px; max-width: calc(100vw - 32px);
+  z-index: 120;
+  padding: 22px 24px 18px;
+  background: var(--cream, #F6ECDD);
+  border: 1px solid rgba(43,31,23,0.14);
+  border-radius: 18px;
+  box-shadow: 0 18px 50px -18px rgba(43,31,23,0.4);
+  opacity: 0; transform: translateY(16px) scale(.98);
+  pointer-events: none;
+  transition: opacity .45s var(--ease, ease), transform .45s var(--ease, ease);
+}
+.coupon-pop.in { opacity: 1; transform: none; pointer-events: auto; }
+.coupon-pop .cp-close {
+  position: absolute; top: 10px; right: 10px;
+  width: 26px; height: 26px; display: grid; place-items: center;
+  border: none; background: transparent; cursor: pointer;
+  border-radius: 50%; font-size: 13px; color: var(--grain, #4B362A);
+  transition: background .2s var(--ease, ease), color .2s var(--ease, ease);
+}
+.coupon-pop .cp-close:hover { background: rgba(43,31,23,0.08); color: var(--coffee, #2B1F17); }
+.coupon-pop .cp-kicker {
+  font-family: var(--mono, ui-monospace, monospace);
+  font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--copper-deep, #8B5A36);
+}
+.coupon-pop h5 {
+  margin: 8px 0 6px;
+  font-family: var(--serif, serif);
+  font-size: 24px; line-height: 1.15; font-weight: 500;
+  color: var(--coffee, #2B1F17);
+}
+.coupon-pop p {
+  margin: 0 0 14px;
+  font-family: var(--serif, serif);
+  font-size: 13px; line-height: 1.5;
+  color: var(--grain, #4B362A);
+}
+.coupon-pop .cp-code {
+  width: 100%;
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  margin-bottom: 10px; padding: 11px 14px;
+  background: var(--paper, #FFFBF5);
+  border: 1px dashed rgba(176,122,82,0.6);
+  border-radius: 12px; cursor: pointer;
+  transition: border-color .2s var(--ease, ease), background .2s var(--ease, ease);
+}
+.coupon-pop .cp-code:hover { border-color: var(--copper, #B07A52); }
+.coupon-pop .cp-code .code {
+  font-family: var(--mono, ui-monospace, monospace);
+  font-size: 16px; font-weight: 700; letter-spacing: 0.18em;
+  color: var(--copper-deep, #8B5A36);
+}
+.coupon-pop .cp-code .cp-copy {
+  font-family: var(--mono, ui-monospace, monospace);
+  font-size: 9px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--coffee, #2B1F17);
+  padding: 5px 9px; border-radius: 999px; background: rgba(43,31,23,0.07);
+  white-space: nowrap;
+}
+.coupon-pop .cp-code.copied { border-style: solid; border-color: var(--copper, #B07A52); }
+.coupon-pop .cp-code.copied .cp-copy { background: var(--coffee, #2B1F17); color: var(--cream, #F6ECDD); }
+.coupon-pop .cp-shop {
+  width: 100%; padding: 12px; border: none; cursor: pointer;
+  background: var(--coffee, #2B1F17); color: var(--cream, #F6ECDD);
+  border-radius: 999px;
+  font-family: var(--mono, ui-monospace, monospace);
+  font-size: 10px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase;
+  transition: background .2s var(--ease, ease);
+}
+.coupon-pop .cp-shop:hover { background: var(--espresso, #1A120C); }
+.coupon-pop .cp-foot {
+  margin-top: 12px; padding-top: 10px;
+  border-top: 1px solid rgba(43,31,23,0.08);
+  font-family: var(--mono, ui-monospace, monospace);
+  font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--grain, #4B362A);
+}
+@media (max-width: 760px) {
+  .coupon-pop { left: 14px; right: 14px; bottom: 14px; width: auto; padding: 18px 18px 14px; }
+  .coupon-pop h5 { font-size: 21px; }
+}
 
 /* ============================================================
    FEINTUNING — per-section polish

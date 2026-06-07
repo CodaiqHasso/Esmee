@@ -2921,18 +2921,88 @@ function SpecSheet() {
 }
 
 /* ---------- Exit-intent toast ---------- */
+/* ============================================================
+   COUPON POPUP — first-cup 10 € code, no email. Reveals the real
+   FIRSTCUP10 Shopify code with a copy button; the shopper enters it
+   themselves at checkout (no auto-apply by request).
+   ============================================================ */
+const FIRSTCUP_CODE = import.meta.env.VITE_SHOPIFY_DISCOUNT_CODE || "FIRSTCUP10";
+
+function CouponGate({ onShop }) {
+  useLang();
+  const [show, setShow] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    // Show once per browser; shared flag so the exit-intent popup never doubles up.
+    try { if (localStorage.getItem("esmee.coupon_seen")) return; } catch (e) {}
+    let armed = false;
+    let pauseTimer = 0;
+    const idleMs = 4500;     // user has paused this long
+    const minScroll = 1.2;   // viewport heights — past the hero
+    const arm = () => {
+      armed = true;
+      setShow(true);
+      try { localStorage.setItem("esmee.coupon_seen", "1"); } catch (e) {}
+      window.removeEventListener("scroll", onScroll);
+    };
+    const onScroll = () => {
+      if (armed) return;
+      if (window.scrollY < window.innerHeight * minScroll) return;
+      clearTimeout(pauseTimer);
+      pauseTimer = setTimeout(arm, idleMs);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    const fallback = setTimeout(() => { if (!armed) arm(); }, 180000);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      clearTimeout(pauseTimer);
+      clearTimeout(fallback);
+    };
+  }, []);
+
+  const dismiss = () => { setShow(false); setTimeout(() => setHidden(true), 400); };
+  const copy = () => {
+    try { navigator.clipboard?.writeText(FIRSTCUP_CODE); } catch (e) {}
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+  const goShop = () => { dismiss(); onShop && onShop(); };
+
+  if (hidden) return null;
+  return (
+    <aside className={"coupon-pop " + (show ? "in" : "")} aria-live="polite">
+      <button type="button" className="cp-close" onClick={dismiss} aria-label={tr("Schließen","Close","Kapat")}>✕</button>
+      <span className="cp-kicker">{tr("— Erste Tasse","— First cup","— İlk fincan")}</span>
+      <h5>{tr("10 € auf deine erste Manduraa.","€10 off your first Manduraa.","İlk Manduraa'na 10 € indirim.")}</h5>
+      <p>{tr("Kein Anmelden, kein Spam. Kopier den Code und gib ihn im Checkout ein.","No signup, no spam. Copy the code and enter it at checkout.","Kayıt yok, spam yok. Kodu kopyala ve ödemede gir.")}</p>
+      <button type="button" className={"cp-code " + (copied ? "copied" : "")} onClick={copy} aria-label={tr("Code kopieren","Copy code","Kodu kopyala")}>
+        <span className="code">{FIRSTCUP_CODE}</span>
+        <span className="cp-copy">{copied ? tr("Kopiert ✓","Copied ✓","Kopyalandı ✓") : tr("Kopieren","Copy","Kopyala")}</span>
+      </button>
+      <button type="button" className="cp-shop" onClick={goShop}>{tr("Jetzt einkaufen","Shop now","Şimdi alışveriş")} →</button>
+      <div className="cp-foot">{tr("Gültig 30 Tage · Eine pro Kundin · Versand inklusive ab €60","Valid 30 days · One per customer · Free shipping over €60","30 gün geçerli · Müşteri başına bir · €60 üzeri ücretsiz kargo")}</div>
+    </aside>
+  );
+}
+
 function ExitIntent({ onShop }) {
   useLang();
   const [open, setOpen] = useState(false);
   const [done, setDone] = useState(false);
+  const [copied, setCopied] = useState(false);
   useEffect(() => {
-    if (sessionStorage.getItem("esmee.exit")) { setDone(true); return; }
+    let seen = false;
+    try { seen = !!localStorage.getItem("esmee.coupon_seen"); } catch (e) {}
+    if (sessionStorage.getItem("esmee.exit") || seen) { setDone(true); return; }
     const onMove = (e) => {
       // Cursor leaves toward top of window
       if (e.clientY <= 4 && !done) {
         setOpen(true);
         setDone(true);
         sessionStorage.setItem("esmee.exit", "1");
+        try { localStorage.setItem("esmee.coupon_seen", "1"); } catch (err) {}
       }
     };
     document.addEventListener("mouseout", onMove);
@@ -2941,12 +3011,19 @@ function ExitIntent({ onShop }) {
   if (done && !open) return null;
   const close = () => setOpen(false);
   const goShop = () => { setOpen(false); onShop && onShop(); };
+  const copy = () => {
+    try { navigator.clipboard?.writeText(FIRSTCUP_CODE); } catch (e) {}
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
   return (
     <div className={"exit-toast " + (open ? "in" : "")}>
       <span className="kicker">{tr("— Bevor du gehst","— Before you go","— Gitmeden önce")}</span>
       <h5>{tr("10 €. Auf deinen ersten Beutel.","€10. On your first pouch.","10 €. İlk paketine.")}</h5>
-      <p>{tr("Eine kleine Einladung. Nutze den Code im Checkout — gültig für die nächsten 30 Tage, ohne Ablaufspielchen.","A small invitation. Use the code at checkout — valid for the next 30 days, no expiry games.","Küçük bir davet. Kodu ödemede kullan — önümüzdeki 30 gün geçerli, son kullanma oyunu yok.")}</p>
-      <span className="code">FIRSTCUP10</span>
+      <p>{tr("Eine kleine Einladung. Kopier den Code und gib ihn im Checkout ein — gültig für die nächsten 30 Tage.","A small invitation. Copy the code and enter it at checkout — valid for the next 30 days.","Küçük bir davet. Kodu kopyala ve ödemede gir — önümüzdeki 30 gün geçerli.")}</p>
+      <button type="button" className={"code code-btn " + (copied ? "copied" : "")} onClick={copy} aria-label={tr("Code kopieren","Copy code","Kodu kopyala")}>
+        {FIRSTCUP_CODE}<span className="code-hint">{copied ? tr("Kopiert ✓","Copied ✓","Kopyalandı ✓") : tr("Kopieren","Copy","Kopyala")}</span>
+      </button>
       <div className="actions">
         <button className="shop" data-cur="btn" data-cur-label={tr("Shop","Shop","Mağaza")} onClick={goShop}>{tr("Jetzt kaufen","Shop now","Şimdi al")} →</button>
         <button className="dismiss" data-cur="btn" data-cur-label={tr("Ausblenden","Hide","Gizle")} onClick={close}>{tr("Vielleicht später","Maybe later","Belki sonra")}</button>
@@ -3426,6 +3503,7 @@ function App() {
       <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} items={cart} onQty={setQty} onRemove={remove} onAddOne={nudgeAdd} onAddAddon={addAddon} onCheckout={handleCheckout} liveAddons={liveAddons} />
       <MiniBar visible={miniVisible && !cartOpen} variant={miniVariant} total={miniTotal} fromPrice={miniFrom} onShop={scrollToShop} onMagnetMove={onMagnetMove} />
       <RecoveryToast count={recovery} items={cart} onOpen={() => setCartOpen(true)} onDismiss={() => setRecovery(0)} />
+      <CouponGate onShop={scrollToShop} />
       <ExitIntent onShop={scrollToShop} />
       <WhatsAppWidget />
     </div>
