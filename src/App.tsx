@@ -113,26 +113,10 @@ const VARIANTS = [
   {
     id: "original",
     name: "Original",
-    sub: "with single-origin coffee",
+    sub: "decaf · date-sweetened",
     swatch: "linear-gradient(135deg,#C4A893,#9B7B61)",
     image: "/assets/lifestyle-cezve-powder.jpeg",
-    note: "A composed cup — roasted almonds, Medjool dates, pistachio and a quiet pour of arabica.",
-  },
-  {
-    id: "rose",
-    name: "Rose Cardamom",
-    sub: "with rose & green cardamom",
-    swatch: "linear-gradient(135deg,#E6C6B7,#B4837A)",
-    image: "/assets/pack-mauve.jpeg",
-    note: "Slow-bloomed rose petals laid over warm cardamom. A perfumed, contemplative cup.",
-  },
-  {
-    id: "decaf",
-    name: "Caffeine-free",
-    sub: "decaffeinated arabica",
-    swatch: "linear-gradient(135deg,#E2D2C2,#B59D87)",
-    image: "/assets/scene-5.jpg",
-    note: "All of the ritual, none of the lift. A nightcap of dates, almond and cocoa whisper.",
+    note: "A composed cup — almonds, hazelnuts, dates, pistachios, cocoa and a hint of decaf coffee.",
   },
 ];
 
@@ -147,49 +131,49 @@ const PRODUCT_GALLERY = [
 // Bulk packs — single purchase only (no subscriptions)
 function getPacks() {
   return [
-  { id: "1",  count: 1,  unit: 32, save: 0,  label: tr("1 Packung","1 pack","1 paket"),     sub: tr("≈ 16 Tassen","≈ 16 cups","≈ 16 fincan"),          badge: null },
-  { id: "3",  count: 3,  unit: 28, save: 12, label: tr("3 Packungen","3 packs","3 paket"),   sub: tr("≈ 48 Tassen","≈ 48 cups","≈ 48 fincan"),          badge: tr("Beliebt","Popular","Popüler"),        badgeStyle: "copper", mostLoved: true },
-  { id: "5",  count: 5,  unit: 25, save: 22, label: tr("5 Packungen","5 packs","5 paket"),   sub: tr("≈ 80 Tassen","≈ 80 cups","≈ 80 fincan"),        badge: tr("Bester Wert","Best value","En iyi değer"),       badgeStyle: "dark" },
-  { id: "10", count: 10, unit: 22, save: 31, label: tr("10+ Packungen","10+ packs","10+ paket"), sub: tr("≈ 160 Tassen","≈ 160 cups","≈ 160 fincan"),        badge: tr("Bestpreis","Best price","En iyi fiyat"), badgeStyle: "copper" },
+  { id: "1",  count: 1,  unit: 32, save: 0,  label: tr("1 Packung","1 pack","1 paket"),     sub: tr("≈ 12 Tassen","≈ 12 cups","≈ 12 fincan"),          badge: null },
+  { id: "3",  count: 3,  unit: 28, save: 12, label: tr("3 Packungen","3 packs","3 paket"),   sub: tr("≈ 36 Tassen","≈ 36 cups","≈ 36 fincan"),          badge: tr("Beliebt","Popular","Popüler"),        badgeStyle: "copper", mostLoved: true },
+  { id: "5",  count: 5,  unit: 25, save: 22, label: tr("5 Packungen","5 packs","5 paket"),   sub: tr("≈ 60 Tassen","≈ 60 cups","≈ 60 fincan"),        badge: tr("Bester Wert","Best value","En iyi değer"),       badgeStyle: "dark" },
+  { id: "10", count: 10, unit: 22, save: 31, label: tr("10+ Packungen","10+ packs","10+ paket"), sub: tr("≈ 120 Tassen","≈ 120 cups","≈ 120 fincan"),        badge: tr("Bestpreis","Best price","En iyi fiyat"), badgeStyle: "copper" },
   ];
 }
 
 function getIngredients() {
   return [
-  { name: tr("Medjool-Dattel","Medjool Date","Medjool Hurması"), short: tr("Dattel","Date","Hurma"), note: tr("Natürliche Süße","Natural sweetness","Doğal tatlılık"), color: "#7A4A2B", angle: 18, r: 46,
-    origin: tr("Jordantal · Jordanien","Jordan Valley · Jordan","Ürdün Vadisi · Ürdün"), season: tr("Herbst '25","Autumn '25","Sonbahar '25"), grams: tr("62 g / 250-g-Beutel","62 g / 250 g pouch","62 g / 250 g paket"), img: "/assets/scene-6.jpg",
+  { name: tr("Datteln","Dates","Hurma"), short: tr("Datteln","Dates","Hurma"), note: tr("Natürliche Süße","Natural sweetness","Doğal tatlılık"), color: "#7A4A2B", angle: 18, r: 46,
+    origin: tr("Naher Osten","Middle East","Orta Doğu"), season: tr("Kalium · Magnesium · Eisen","Potassium · magnesium · iron","Potasyum · magnezyum · demir"), grams: tr("Süße & Energie","Sweetness & energy","Tatlılık ve enerji"), img: "/assets/scene-6.jpg",
     lede: tr("Die einzige Süße in der Tasse.","The only sweetness in the cup.","Fincandaki tek tatlılık."),
-    body: tr("Sonnengetrocknet auf einer einzigen Farm im Jordantal von der Familie Al-Saadi. Wir verwenden die weiche Medjool-Sorte — von Hand zu einer Paste gepresst, die sich ohne jede Körnigkeit in der Mischung auflöst.","Sun-cured on a single farm in the Jordan Valley by the Al-Saadi family. We use the soft-grade Medjool — pressed by hand into a paste that dissolves into the blend without a trace of graininess.","Ürdün Vadisi'nde Al-Saadi ailesi tarafından tek bir çiftlikte güneşte kurutulur. Yumuşak Medjool çeşidini kullanırız — elle ezilerek, harmana hiç tanecik bırakmadan eriyen bir macun hâline getirilir.")
+    body: tr("Datteln sind die einzige Süße in Manduraa — und ein natürlicher Energiespender. Sie liefern Ballaststoffe, Kalium, Magnesium und Eisen sowie Antioxidantien, die die Zellen schützen. Eine nährstoffreiche Alternative zu raffiniertem Zucker.","Dates are the only sweetness in Manduraa — and a natural source of energy. They bring fibre, potassium, magnesium and iron, plus antioxidants that protect the cells. A nutrient-rich alternative to refined sugar.","Hurma, Manduraa'daki tek tatlılık — ve doğal bir enerji kaynağı. Lif, potasyum, magnezyum ve demir ile hücreleri koruyan antioksidanlar sağlar. Rafine şekere besin değeri yüksek bir alternatif.")
   },
-  { name: tr("Marcona-Mandel","Marcona Almond","Marcona Bademi"), short: tr("Mandel","Almond","Badem"), note: tr("Cremig & nussig","Creamy & nutty","Kremsi ve fındıksı"), color: "#D9B988", angle: 80, r: 48,
-    origin: tr("Alicante · Spanien","Alicante · Spain","Alicante · İspanya"), season: tr("Sommer '25","Summer '25","Yaz '25"), grams: tr("48 g / 250-g-Beutel","48 g / 250 g pouch","48 g / 250 g paket"), img: "/assets/scene-5.jpg",
+  { name: tr("Mandeln","Almonds","Badem"), short: tr("Mandeln","Almonds","Badem"), note: tr("Cremiger Körper","Creamy body","Kremsi gövde"), color: "#D9B988", angle: 80, r: 48,
+    origin: tr("Mittelmeerraum","Mediterranean","Akdeniz"), season: tr("Vitamin E · Magnesium · Protein","Vitamin E · magnesium · protein","E vitamini · magnezyum · protein"), grams: tr("Cremiger Körper","Creamy body","Kremsi gövde"), img: "/assets/scene-5.jpg",
     lede: tr("Macht die Tasse cremig.","Makes the cup creamy.","Fincanı kremsi yapar."),
-    body: tr("Kalt vermahlen, bis das Öl freigesetzt wird. Marcona gibt der Tasse ihr Mundgefühl — den runden, milchigen Körper, der dich auf Milch ganz verzichten lässt.","Cold-stone milled until the oil releases. Marcona gives the cup its mouthfeel — the round, milky body that lets you skip the dairy entirely.","Yağı açığa çıkana dek soğuk taşla öğütülür. Marcona, fincana ağız dolusu hissini verir — sütü tamamen atlamanı sağlayan yuvarlak, sütlü gövde.")
+    body: tr("Mandeln geben der Tasse ihren cremigen Körper. Sie liefern einfach ungesättigte Fette, die das Herz unterstützen, viel Vitamin E als Zellschutz, dazu Magnesium, Ballaststoffe und pflanzliches Protein.","Almonds give the cup its creamy body. They bring heart-friendly monounsaturated fats, plenty of cell-protecting vitamin E, plus magnesium, fibre and plant protein.","Badem, fincana kremsi gövdesini verir. Kalbi destekleyen tekli doymamış yağlar, hücre koruyucu bol E vitamini, ayrıca magnezyum, lif ve bitkisel protein sağlar.")
   },
-  { name: tr("Antep-Pistazie","Antep Pistachio","Antep Fıstığı"), short: tr("Pistazie","Pistachio","Fıstık"), note: tr("Nussig & salzig","Nutty & salty","Fındıksı ve tuzlu"), color: "#7A8C4F", angle: 142, r: 45,
-    origin: tr("Gaziantep · Türkei","Gaziantep · Türkiye","Gaziantep · Türkiye"), season: tr("Spätsommer '25","Late summer '25","Yaz sonu '25"), grams: tr("26 g / 250-g-Beutel","26 g / 250 g pouch","26 g / 250 g paket"), img: "/assets/scene-3.jpg",
+  { name: tr("Haselnüsse","Hazelnuts","Fındık"), short: tr("Haselnuss","Hazelnut","Fındık"), note: tr("Nussige Tiefe","Nutty depth","Fındıksı derinlik"), color: "#9C6B3F", angle: 142, r: 45,
+    origin: tr("Schwarzmeer-Region · Türkei","Black Sea region · Türkiye","Karadeniz · Türkiye"), season: tr("Vitamin E · Magnesium · Ballaststoffe","Vitamin E · magnesium · fibre","E vitamini · magnezyum · lif"), grams: tr("Nussige Tiefe","Nutty depth","Fındıksı derinlik"), img: "/assets/scene-2.jpg",
+    lede: tr("Nussige, runde Tiefe.","Nutty, rounded depth.","Fındıksı, yuvarlak derinlik."),
+    body: tr("Haselnüsse bringen eine warme, nussige Tiefe und einfach ungesättigte Fette, die das Herz unterstützen. Dazu Vitamin E als starkes Antioxidans, Magnesium, Ballaststoffe und pflanzliches Eiweiß.","Hazelnuts bring a warm, nutty depth and heart-friendly monounsaturated fats. Plus vitamin E as a strong antioxidant, magnesium, fibre and plant protein.","Fındık, sıcak ve fındıksı bir derinlik ile kalbi destekleyen tekli doymamış yağlar getirir. Güçlü bir antioksidan olan E vitamini, magnezyum, lif ve bitkisel protein de katar.")
+  },
+  { name: tr("Pistazien","Pistachios","Antep Fıstığı"), short: tr("Pistazien","Pistachios","Fıstık"), note: tr("Nussig & fein salzig","Nutty & lightly salty","Fındıksı ve hafif tuzlu"), color: "#7A8C4F", angle: 210, r: 47,
+    origin: tr("Antep · Türkei","Antep · Türkiye","Antep · Türkiye"), season: tr("Vitamin B6 · Kalium · Protein","Vitamin B6 · potassium · protein","B6 vitamini · potasyum · protein"), grams: tr("Feine Salzkante","Fine salt-edge","İnce tuz dokunuşu"), img: "/assets/scene-3.jpg",
     lede: tr("Nussig, leicht salzig.","Nutty, lightly salty.","Fındıksı, hafif tuzlu."),
-    body: tr("Aus den Antep-Hainen außerhalb von Gaziantep. Von Hand geschält, kalt geröstet, gerade so weit gemahlen, dass ihre Salzigkeit erhalten bleibt. Die Salzkante, die die Datteln wie Dessert schmecken lässt.","From the Antep groves outside Gaziantep. Hand-shelled, cold-roasted, milled just enough to keep their salinity intact. The salt-edge that makes the dates taste like dessert.","Gaziantep dışındaki Antep bahçelerinden. Elle ayıklanır, soğuk kavrulur, tuzluluğunu koruyacak kadar öğütülür. Hurmaları tatlı gibi tatlandıran o tuz dokunuşu.")
+    body: tr("Pistazien geben eine feine, leicht salzige Nussigkeit — die Kante, die die Datteln wie Dessert schmecken lässt. Reich an gesunden Fetten, Ballaststoffen, Protein, Vitamin B6 fürs Nervensystem und Kalium.","Pistachios add a fine, lightly salty nuttiness — the edge that makes the dates taste like dessert. Rich in healthy fats, fibre, protein, nerve-supporting vitamin B6 and potassium.","Fıstık, ince ve hafif tuzlu bir fındıksılık katar — hurmaları tatlı gibi gösteren o dokunuş. Sağlıklı yağlar, lif, protein, sinir sistemine iyi gelen B6 vitamini ve potasyum açısından zengindir.")
   },
-  { name: tr("Single-Origin-Arabica","Single-origin Arabica","Tek Kaynak Arabica"), short: tr("Arabica","Arabica","Arabica"), note: tr("Sanfter Koffein-Kick","Gentle caffeine lift","Hafif kafein"), color: "#3E2719", angle: 210, r: 47,
-    origin: tr("Haraz · Jemen","Haraz · Yemen","Haraz · Yemen"), season: tr("Frühling '25","Spring '25","İlkbahar '25"), grams: tr("32 g / 250-g-Beutel","32 g / 250 g pouch","32 g / 250 g paket"), img: "/assets/scene-1.jpg",
-    lede: tr("Nur ein Hauch Kaffee.","Just a hint of coffee.","Yalnızca bir tutam kahve."),
-    body: tr("Von den Haraz-Bergfarmen, gewaschen und in der Höhe langsam getrocknet. Wir verwenden weniger als 15 % der Mischung an Kaffee — genug Schwung, um ihn zu spüren, nicht genug, um abzustürzen.","From the Haraz mountain farms, washed and slow-dried at altitude. We pull less than 15% of the blend in coffee — enough lift to notice, not enough to crash.","Haraz dağ çiftliklerinden, yıkanmış ve yükseklerde yavaşça kurutulmuş. Harmanın %15'inden azını kahve olarak alırız — fark edilecek kadar canlılık, çökertmeyecek kadar az.")
-  },
-  { name: tr("Grüner Kardamom","Green Cardamom","Yeşil Kakule"), short: tr("Kardamom","Cardamom","Kakule"), note: tr("Aromatische Wärme","Aromatic warmth","Aromatik sıcaklık"), color: "#A48A53", angle: 272, r: 44,
-    origin: tr("Kerala · Indien","Kerala · India","Kerala · Hindistan"), season: tr("Ganzjährig","Year-round","Yıl boyu"), grams: tr("4 g / 250-g-Beutel","4 g / 250 g pouch","4 g / 250 g paket"), img: "/assets/scene-2.jpg",
-    lede: tr("Warm und aromatisch.","Warm and aromatic.","Sıcak ve aromatik."),
-    body: tr("Ganze Kapseln, am Morgen des Mischens zerstoßen. Nur vier Gramm pro Beutel — präsent genug, um die Dattel zu heben, leise genug, um nie zu überwältigen.","Whole pods crushed the morning of blending. Just four grams per pouch — present enough to lift the date, quiet enough never to overwhelm.","Bütün kapsüller, harmanlama sabahı dövülür. Paket başına yalnızca dört gram — hurmayı yükseltecek kadar var, asla bastırmayacak kadar sessiz.")
-  },
-  { name: tr("Kakaonib","Cocoa Nib","Kakao Nibi"), short: tr("Kakao","Cocoa","Kakao"), note: tr("Bitterer Kontrast","Bitter contrast","Acı kontrast"), color: "#4E3322", angle: 330, r: 46,
-    origin: tr("Tabasco · Mexiko","Tabasco · Mexico","Tabasco · Meksika"), season: tr("Winter '25","Winter '25","Kış '25"), grams: tr("18 g / 250-g-Beutel","18 g / 250 g pouch","18 g / 250 g paket"), img: "/assets/scene-4.jpg",
+  { name: tr("Kakao","Cocoa","Kakao"), short: tr("Kakao","Cocoa","Kakao"), note: tr("Bitterer Schoko-Ton","Bitter chocolate note","Acı çikolata"), color: "#4E3322", angle: 272, r: 46,
+    origin: tr("Edelkakao","Fine cocoa","Kakao"), season: tr("Flavonoide · Magnesium","Flavonoids · magnesium","Flavonoidler · magnezyum"), grams: tr("Schoko-Tiefe","Chocolate depth","Çikolata derinliği"), img: "/assets/scene-4.jpg",
     lede: tr("Ein bitterer Schoko-Ton.","A bitter chocolate note.","Acı bir çikolata notası."),
-    body: tr("Kakaonibs aus einer einzigen Kooperative in Tabasco, leicht geröstet, um die Schokolade ohne Süße hervorzubringen. Die bittere Linie, die die Tasse zusammenhält.","Cocoa nibs from a single co-op in Tabasco, lightly toasted to draw out the chocolate without sweetness. The bitter line that holds the cup together.","Tabasco'da tek bir kooperatiften kakao nibleri, çikolatayı tatlılık olmadan ortaya çıkarmak için hafifçe kavrulur. Fincanı bir arada tutan acı çizgi.")
+    body: tr("Kakao bringt einen bitteren Schokoladen-Ton und wertvolle Flavonoide — starke Antioxidantien, die Herz und Durchblutung unterstützen und sogar die Stimmung heben, weil sie Glückshormone fördern. Dazu Magnesium für Muskeln und Nerven.","Cocoa brings a bitter chocolate note and valuable flavonoids — strong antioxidants that support the heart and circulation and even lift the mood by encouraging feel-good hormones. Plus magnesium for muscles and nerves.","Kakao, acı bir çikolata notası ve değerli flavonoidler getirir — kalbi ve dolaşımı destekleyen, mutluluk hormonlarını artırarak ruh hâlini bile yükselten güçlü antioksidanlar. Ayrıca kaslar ve sinirler için magnezyum.")
   },
-  { name: tr("Kokosnuss-Sahne","Coconut Cream","Hindistan Cevizi Kreması"), short: tr("Kokos","Coconut","Kokos"), note: tr("Samtige Cremigkeit","Velvety creaminess","Kadifemsi kremsilik"), color: "#E6D6BE", angle: 36, r: 46,
-    origin: tr("Mindanao · Philippinen","Mindanao · Philippines","Mindanao · Filipinler"), season: tr("Ganzjährig","Year-round","Yıl boyu"), grams: tr("38 g / 250-g-Beutel","38 g / 250 g pouch","38 g / 250 g paket"), img: "/assets/lifestyle-cup-almonds.jpeg",
-    lede: tr("Macht die Tasse samtig.","Makes the cup velvety.","Fincanı kadifemsi yapar."),
-    body: tr("Schonend getrocknete Kokosnuss-Sahne, fein vermahlen. Sie rundet die Mischung ab und macht jede Tasse seidig — milchig cremig, ganz ohne Milch.","Gently dried coconut cream, finely milled. It rounds out the blend and makes every cup silky — milky and creamy, with no dairy at all.","Nazikçe kurutulmuş Hindistan cevizi kreması, ince öğütülmüş. Harmanı tamamlar ve her fincanı ipeksi yapar — sütsüz ama sütlü kremsilik.")
+  { name: tr("Entkoffeinierter Kaffee","Decaf Coffee","Kafeinsiz Kahve"), short: tr("Kaffee","Coffee","Kahve"), note: tr("Aroma ohne Koffein","Flavour, no caffeine","Kafeinsiz aroma"), color: "#3E2719", angle: 330, r: 47,
+    origin: tr("Hochland-Arabica","Highland arabica","Yüksek rakım arabica"), season: tr("Antioxidantien · 97 % koffeinfrei","Antioxidants · 97% caffeine-free","Antioksidan · %97 kafeinsiz"), grams: tr("Kein Herzrasen","No jitters","Çarpıntı yok"), img: "/assets/scene-1.jpg",
+    lede: tr("Kaffee-Aroma, ganz ohne Koffein.","Coffee aroma, with no caffeine.","Kahve aroması, kafeinsiz."),
+    body: tr("Entkoffeinierter Kaffee gibt das vertraute Aroma und wertvolle Antioxidantien — aber über 97 % des Koffeins sind entfernt. Kein Herzrasen, keine Nervosität, kein gestörter Schlaf. Auch am Abend und für koffeinempfindliche Menschen.","Decaf coffee gives the familiar aroma and valuable antioxidants — but over 97% of the caffeine is removed. No racing heart, no jitters, no disturbed sleep. Even in the evening and for caffeine-sensitive people.","Kafeinsiz kahve, tanıdık aromayı ve değerli antioksidanları verir — ama kafeinin %97'sinden fazlası alınmıştır. Çarpıntı yok, gerginlik yok, uyku bozukluğu yok. Akşam da, kafeine duyarlı kişiler için de uygun.")
+  },
+  { name: tr("Kokosmilchpulver","Coconut Milk Powder","Hindistan Cevizi Sütü Tozu"), short: tr("Kokos","Coconut","Kokos"), note: tr("Seidige Cremigkeit","Silky creaminess","İpeksi kremsilik"), color: "#E6D6BE", angle: 36, r: 46,
+    origin: tr("Kokosnuss","Coconut","Hindistan cevizi"), season: tr("MCT-Fette · laktosefrei","MCT fats · lactose-free","MCT yağları · laktozsuz"), grams: tr("Seidig, ohne Milch","Silky, no dairy","İpeksi, sütsüz"), img: "/assets/lifestyle-cup-almonds.jpeg",
+    lede: tr("Macht die Tasse seidig — ohne Milch.","Makes the cup silky — no dairy.","Fincanı ipeksi yapar — sütsüz."),
+    body: tr("Kokosmilchpulver macht jede Tasse seidig-cremig — ganz ohne Milch. Seine mittelkettigen Fettsäuren (MCT) liefern schnelle Energie, dazu kommen Kalium, Magnesium und Eisen. Laktosefrei und vegan.","Coconut milk powder makes every cup silky and creamy — with no dairy at all. Its medium-chain fatty acids (MCT) give quick energy, alongside potassium, magnesium and iron. Lactose-free and vegan.","Hindistan cevizi sütü tozu, her fincanı ipeksi ve kremsi yapar — hiç süt olmadan. Orta zincirli yağ asitleri (MCT) hızlı enerji verir; yanında potasyum, magnezyum ve demir. Laktozsuz ve vegan.")
   },
   ];
 }
@@ -197,7 +181,7 @@ function getIngredients() {
 function getBenefits() {
   return [
   { t: tr("Null raffinierter Zucker","Zero refined sugar","Sıfır rafine şeker"),   d: tr("Nur mit Medjool-Datteln gesüßt — keine Glukosespitzen, kein Absturz.","Sweetened only by Medjool dates — no glucose spikes, no crash.","Yalnızca Medjool hurmasıyla tatlandırılır — glikoz zirvesi yok, çöküş yok."), g: "leaf" },
-  { t: tr("Langsame Energie","Slow energy","Yavaş enerji"),          d: tr("Ein bedächtiger Aufguss Single-Origin-Arabica, ausbalanciert durch Mandelfett. Schwung, niemals Zittern.","A measured pour of single-origin arabica balanced by almond fat. Lift, never jitter.","Badem yağıyla dengelenmiş, ölçülü bir tek kaynak arabica. Canlılık, asla titreme."), g: "spark" },
+  { t: tr("Sanfte Energie, kein Koffein","Gentle energy, no caffeine","Nazik enerji, kafeinsiz"),          d: tr("Datteln, Mandeln und Haselnüsse geben langsame, gleichmäßige Energie — der Kaffee ist entkoffeiniert. Kein Zucker-Hoch, kein Koffein-Absturz.","Dates, almonds and hazelnuts give slow, steady energy — and the coffee is decaffeinated. No sugar high, no caffeine crash.","Hurma, badem ve fındık yavaş ve dengeli enerji verir — kahve ise kafeinsiz. Şeker yükselişi yok, kafein çöküşü yok."), g: "spark" },
   { t: tr("Nährstoffdichte","Nutrient density","Besin yoğunluğu"),     d: tr("Pistazie, Mandel und Dattel liefern Magnesium, Kalium und Ballaststoffe pro Tasse.","Pistachio, almond and date deliver magnesium, potassium and fibre per cup.","Fıstık, badem ve hurma her fincanda magnezyum, potasyum ve lif sağlar."), g: "drop" },
   { t: tr("Magenfreundlich","Gut-friendly","Mideye dost"),         d: tr("Milchfrei, vegan, säurearm. Magenschonender als Espresso.","Dairy-free, vegan, low-acid. Easier on the stomach than espresso.","Sütsüz, vegan, düşük asit. Espressodan mideye daha hafif."), g: "circle" },
   { t: tr("Von Hand gemischt","Blended by hand","Elde harmanlanır"),    d: tr("In kleinen Chargen in unserem Atelier gemischt. Eine Farm, eine Saison, eine Charge.","Blended in small batches in our atelier. Single farm, single season, single batch.","Atölyemizde küçük partiler hâlinde harmanlanır. Tek çiftlik, tek mevsim, tek parti."), g: "marker" },
@@ -220,16 +204,16 @@ function getTaste() {
   { name: tr("Röstung","Roast","Kavurma"),     val: 5 },
   { name: tr("Säure","Acidity","Asit"),   val: 2 },
   { name: tr("Aromatik","Aromatic","Aromatik"),  val: 6 },
-  { name: tr("Koffein","Caffeine","Kafein"),  val: 4 },
+  { name: tr("Koffein","Caffeine","Kafein"),  val: 1 },
   ];
 }
 
 function getFaqs() {
   return [
-  { q: tr("Was steckt eigentlich in Manduraa?","What's actually in Manduraa?","Manduraa'da aslında ne var?"), a: tr("Sieben Zutaten, mehr nicht: Medjool-Datteln, Marcona-Mandeln, Kokosnuss-Sahne, Single-Origin-Arabica-Kaffee, Antep-Pistazien, Kakaonibs und grüner Kardamom. Kein raffinierter Zucker, keine Sirupe, keine Aromen, keine Konservierungsstoffe. Vegan und glutenfrei.","Seven ingredients, nothing else: Medjool dates, Marcona almonds, coconut cream, single-origin arabica coffee, Antep pistachios, cocoa nibs and green cardamom. No refined sugar, no syrups, no flavourings, no preservatives. Vegan and gluten-free.","Yedi malzeme, başka hiçbir şey: Medjool hurması, Marcona bademi, Hindistan cevizi kreması, tek kaynak arabica kahve, Antep fıstığı, kakao nibleri ve yeşil kakule. Rafine şeker yok, şurup yok, aroma yok, koruyucu yok. Vegan ve glutensiz.") },
+  { q: tr("Was steckt eigentlich in Manduraa?","What's actually in Manduraa?","Manduraa'da aslında ne var?"), a: tr("Sieben Zutaten, mehr nicht: Datteln, Mandeln, Haselnüsse, Pistazien, Kakao, entkoffeinierter Kaffee und Kokosmilchpulver. Kein raffinierter Zucker, keine Sirupe, keine Aromen, keine Konservierungsstoffe. Vegan und glutenfrei.","Seven ingredients, nothing else: dates, almonds, hazelnuts, pistachios, cocoa, decaffeinated coffee and coconut milk powder. No refined sugar, no syrups, no flavourings, no preservatives. Vegan and gluten-free.","Yedi malzeme, başka hiçbir şey: hurma, badem, fındık, fıstık, kakao, kafeinsiz kahve ve Hindistan cevizi sütü tozu. Rafine şeker yok, şurup yok, aroma yok, koruyucu yok. Vegan ve glutensiz.") },
   { q: tr("Wie bereite ich es zu?","How do I prepare it?","Nasıl hazırlanır?"), a: tr("Ein gehäufter Löffel (7 g) pro kleine Tasse. 150 ml heißes — nicht kochendes — Wasser oder aufgeschäumte Milch dazugeben und zehn Sekunden rühren. Vor dem Trinken dreißig Sekunden ruhen lassen. Das ist das ganze Ritual.","One heaped spoon (7 g) per small cup. Add 150 ml of hot — not boiling — water or steamed milk and stir for ten seconds. Let it rest for thirty seconds before drinking. That's the entire ritual.","Her küçük fincan için bir tepeleme kaşık (7 g). 150 ml sıcak — kaynar değil — su ya da köpürtülmüş süt ekleyip on saniye karıştır. İçmeden önce otuz saniye dinlendir. Tüm ritüel bu kadar.") },
-  { q: tr("Enthält es Koffein?","Does it contain caffeine?","Kafein içeriyor mu?"), a: tr("Original enthält etwa halb so viel Koffein wie ein normaler Espresso — sanft, anhaltend. Wir bieten auch eine koffeinfreie Edition mit natürlich entkoffeiniertem Arabica an.","Original contains about half the caffeine of a regular espresso — gentle, sustained. We also offer a caffeine-free edition using naturally decaffeinated arabica.","Original, normal bir espressonun yaklaşık yarısı kadar kafein içerir — yumuşak, sürekli. Ayrıca doğal olarak kafeini alınmış arabica ile kafeinsiz bir edisyon da sunuyoruz.") },
-  { q: tr("Wie lange reicht ein Beutel?","How long does a pouch last?","Bir paket ne kadar yeter?"), a: tr("Ein 250-g-Beutel ergibt etwa 16 Tassen. Versiegelt an einem kühlen, dunklen Ort gelagert, bleibt er ab dem auf der Rückseite aufgedruckten Datum sechs Monate auf dem Höhepunkt.","A 250 g pouch makes roughly 16 cups. Stored sealed in a cool, dark place, it stays at peak for six months from the date stamped on the back.","250 g'lık bir paket yaklaşık 16 fincan yapar. Serin, karanlık bir yerde kapalı saklandığında, arkasında yazan tarihten itibaren altı ay boyunca en iyi durumda kalır.") },
+  { q: tr("Enthält es Koffein?","Does it contain caffeine?","Kafein içeriyor mu?"), a: tr("Kaum. Manduraa wird mit entkoffeiniertem Kaffee gemacht — über 97 % des Koffeins sind entfernt. Du bekommst das Kaffee-Aroma und die Antioxidantien, aber kein Herzrasen und keinen gestörten Schlaf. Auch abends und für koffeinempfindliche Menschen geeignet.","Barely. Manduraa is made with decaffeinated coffee — over 97% of the caffeine is removed. You get the coffee aroma and antioxidants, but no racing heart and no disturbed sleep. Suitable in the evening and for caffeine-sensitive people too.","Neredeyse hiç. Manduraa kafeinsiz kahveyle yapılır — kafeinin %97'sinden fazlası alınmıştır. Kahve aromasını ve antioksidanları alırsın ama çarpıntı ya da uyku bozukluğu olmaz. Akşam ve kafeine duyarlılar için de uygun.") },
+  { q: tr("Wie lange reicht ein Beutel?","How long does a pouch last?","Bir paket ne kadar yeter?"), a: tr("Ein 300-g-Beutel ergibt etwa 12 Tassen. Versiegelt an einem kühlen, dunklen Ort gelagert, bleibt er ab dem auf der Rückseite aufgedruckten Datum sechs Monate auf dem Höhepunkt.","A 300 g pouch makes roughly 12 cups. Stored sealed in a cool, dark place, it stays at peak for six months from the date stamped on the back.","300 g'lık bir paket yaklaşık 12 fincan yapar. Serin, karanlık bir yerde kapalı saklandığında, arkasında yazan tarihten itibaren altı ay boyunca en iyi durumda kalır.") },
   { q: tr("Wohin liefert ihr?","Where do you ship?","Nereye gönderiyorsunuz?"), a: tr("In die EU und das Vereinigte Königreich. Kostenlose Lieferung ab €60. Bestellungen werden innerhalb von 48 Stunden aus unserem Atelier versandt.","Across the EU and the UK. Complimentary delivery on orders over €60. Orders ship within 48 hours from our atelier.","AB'ye ve Birleşik Krallık'a. €60 üzeri siparişlerde ücretsiz teslimat. Siparişler atölyemizden 48 saat içinde gönderilir.") },
   { q: tr("Kann ich es zurückgeben?","Can I return it?","İade edebilir miyim?"), a: tr("Ja. Wenn dir deine erste Tasse nicht gefällt, schick den Beutel innerhalb von 30 Tagen zurück und wir erstatten dir den vollen Betrag. Keine Fragen, keine Hürden.","Yes. If you don't love your first cup, send the pouch back within 30 days and we'll refund you in full. No questions, no friction.","Evet. İlk fincanını sevmezsen, paketi 30 gün içinde geri gönder, tutarın tamamını iade edelim. Soru yok, zorluk yok.") },
   ];
@@ -767,9 +751,9 @@ function getScenes() {
     title: tr("Echte Zutaten,\nsonst nichts.", "Real ingredients,\nnothing else.", "Gerçek malzemeler,\nbaşka bir şey yok."),
     pos: "side-right",
     tags: [
-      { side: "l", x: "6vw", y: "30vh", label: tr("Medjool-Dattel", "Medjool Date", "Medjool Hurması") },
-      { side: "r", x: "8vw", y: "36vh", label: tr("Kakaonib", "Cocoa Nib", "Kakao Nibi") },
-      { side: "l", x: "9vw", y: "52vh", label: tr("Single-Origin-Arabica", "Single-origin Arabica", "Tek Kaynak Arabica") },
+      { side: "l", x: "6vw", y: "30vh", label: tr("Datteln", "Dates", "Hurma") },
+      { side: "r", x: "8vw", y: "36vh", label: tr("Kakao", "Cocoa", "Kakao") },
+      { side: "l", x: "9vw", y: "52vh", label: tr("Entkoffeinierter Kaffee", "Decaf Coffee", "Kafeinsiz Kahve") },
     ],
   },
   {
@@ -778,8 +762,8 @@ function getScenes() {
     title: tr("Dattel. Mandel.\nPistazie. Kaffee.", "Date. Almond.\nPistachio. Coffee.", "Hurma. Badem.\nFıstık. Kahve."),
     pos: "top",
     tags: [
-      { side: "l", x: "8vw", y: "34vh", label: tr("Marcona-Mandel", "Marcona Almond", "Marcona Bademi") },
-      { side: "r", x: "10vw", y: "44vh", label: tr("Antep-Pistazie", "Antep Pistachio", "Antep Fıstığı") },
+      { side: "l", x: "8vw", y: "34vh", label: tr("Haselnüsse", "Hazelnuts", "Fındık") },
+      { side: "r", x: "10vw", y: "44vh", label: tr("Pistazien", "Pistachios", "Fıstık") },
     ],
   },
   {
@@ -800,7 +784,7 @@ function getScenes() {
     src: "/assets/scene-6.jpg",
     kicker: "Edition № 01",
     title: "Manduraa.",
-    body: tr("Mit Datteln gesüßt, nicht mit Zucker.\n250 g · 7 Zutaten · 0 g zugesetzter Zucker.", "Sweetened with dates, not sugar.\n250 g · 7 ingredients · 0 sugar added.", "Şekerle değil, hurmayla tatlandırıldı.\n250 g · 7 malzeme · 0 g ilave şeker."),
+    body: tr("Mit Datteln gesüßt, nicht mit Zucker.\n300 g · 7 Zutaten · 0 g zugesetzter Zucker.", "Sweetened with dates, not sugar.\n300 g · 7 ingredients · 0 sugar added.", "Şekerle değil, hurmayla tatlandırıldı.\n300 g · 7 malzeme · 0 g ilave şeker."),
     pos: "bottom", cta: true,
   },
   ];
@@ -1004,11 +988,13 @@ function StoryIntro() {
             {tr(" geduldig mahlten — Zucker war den Gästen vorbehalten."," — because sugar was saved for guests."," öğüten kadınlar — çünkü şeker misafirler içindi.")}
           </p>
           <p className="reveal delay-3">
-            {tr("Wir haben die Geste eingefangen. Sieben Zutaten, nichts weiter. Die Mischung wird allein durch ","We bottled the gesture. Seven ingredients, nothing else. The blend is sweetened only by ","Bu jesti şişeye koyduk. Yedi malzeme, başka hiçbir şey. Harman yalnızca ")}
-            <HoverWord word={tr("Datteln aus dem Jordantal","Jordan Valley dates","Ürdün Vadisi hurmaları")} label={tr("Medjool-Dattel","Medjool Date","Medjool Hurması")} text={tr("Sonnengetrocknet auf einer einzigen Farm im Jordantal.","Sun-cured on a single farm in the Jordan Valley.","Ürdün Vadisi'nde tek bir çiftlikte güneşte kurutulmuş.")} img="/assets/scene-6.jpg" />
-            {tr(" gesüßt. Der Körper kommt von kalt vermahlener Marcona. Der Schwung, wenn du ihn willst, ist Single-Origin-",". The body comes from cold-stone Marcona. The lift, when you want it, is single-origin "," ile tatlandırılır. Gövde, soğuk taşla öğütülmüş Marcona'dan gelir. İstediğinde gelen canlılık ise tek kaynak ")}
-            <HoverWord word={tr("Arabica","arabica","arabica")} label={tr("Arabica · Jemen","Arabica · Yemen","Arabica · Yemen")} text={tr("Ein bedächtiger Aufguss von den Haraz-Bergfarmen.","A measured pour from the Haraz mountain farms.","Haraz dağ çiftliklerinden ölçülü bir demleme.")} img="/assets/scene-1.jpg" />
-            {tr(".",".",".")}
+            {tr("Wir haben die Geste eingefangen. Sieben Zutaten, nichts weiter. Gesüßt allein durch ","We bottled the gesture. Seven ingredients, nothing else. Sweetened only by ","Bu jesti şişeye koyduk. Yedi malzeme, başka hiçbir şey. Yalnızca ")}
+            <HoverWord word={tr("Datteln","dates","hurma")} label={tr("Datteln","Dates","Hurma")} text={tr("Die einzige Süße in der Tasse — natürlich, ohne raffinierten Zucker.","The only sweetness in the cup — natural, no refined sugar.","Fincandaki tek tatlılık — doğal, rafine şeker yok.")} img="/assets/scene-6.jpg" />
+            {tr(". Der cremige Körper kommt von ",". The creamy body comes from "," ile tatlandırılır. Kremsi gövde ")}
+            <HoverWord word={tr("Mandeln & Haselnüssen","almonds & hazelnuts","badem & fındıktan")} label={tr("Mandeln & Haselnüsse","Almonds & hazelnuts","Badem & fındık")} text={tr("Fein vermahlen — der runde, milchige Körper ganz ohne Milch.","Finely milled — the round, milky body with no dairy.","İnce öğütülmüş — sütsüz, yuvarlak ve sütlü gövde.")} img="/assets/scene-5.jpg" />
+            {tr(" und Kokosmilchpulver. Der Kaffee ist "," and coconut milk powder. The coffee is "," ve Hindistan cevizi sütü tozundan gelir. Kahve ise ")}
+            <HoverWord word={tr("entkoffeiniert","decaffeinated","kafeinsiz")} label={tr("Entkoffeinierter Kaffee","Decaf coffee","Kafeinsiz kahve")} text={tr("Über 97 % koffeinfrei — Aroma ohne Herzrasen.","Over 97% caffeine-free — aroma without the racing heart.","%97'den fazla kafeinsiz — çarpıntısız aroma.")} img="/assets/scene-1.jpg" />
+            {tr(" — das Aroma ohne das Koffein."," — the flavour without the caffeine."," — kafeinsiz aroma.")}
           </p>
           <div className="stats reveal delay-3">
             <div className="stat"><strong><Counter to={7} duration={1100} /></strong><span>{tr("Zutaten","Ingredients","Malzeme")}</span></div>
@@ -1266,9 +1252,9 @@ function IngredientModal({ ingredient, index, onClose }) {
               <p className="lede">"{ingredient.lede}"</p>
               <div className="facts">
                 <div className="fact"><span>{tr("Herkunft","Origin","Köken")}</span><strong>{ingredient.origin}</strong></div>
-                <div className="fact"><span>{tr("Saison","Season","Mevsim")}</span><strong>{ingredient.season}</strong></div>
-                <div className="fact"><span>{tr("Pro Beutel","Per pouch","Paket başına")}</span><strong>{ingredient.grams}</strong></div>
-                <div className="fact"><span>{tr("Bezug","Sourcing","Tedarik")}</span><strong>{tr("Eine Farm","Single-farm","Tek çiftlik")}</strong></div>
+                <div className="fact"><span>{tr("Nährstoffe","Nutrients","Besinler")}</span><strong>{ingredient.season}</strong></div>
+                <div className="fact"><span>{tr("Wirkung","Benefit","Etki")}</span><strong>{ingredient.grams}</strong></div>
+                <div className="fact"><span>{tr("Form","Form","Form")}</span><strong>{tr("Fein vermahlen","Finely milled","İnce öğütülmüş")}</strong></div>
               </div>
               <p className="body">{ingredient.body}</p>
               <button className="back" data-cur="btn" data-cur-label={tr("Schließen","Close","Kapat")} onClick={onClose}>← {tr("Zurück zum Orbit","Back to orbit","Yörüngeye dön")}</button>
@@ -1619,7 +1605,7 @@ function Shop({ onAdd, onMagnetMove, onTap, liveVariants, sellingPlans }) {
           <div className="stars">
             <span>{tr("Edition № 01 · 0 g raffinierter Zucker · Vegan · Glutenfrei","Edition № 01 · 0 g refined sugar · vegan · gluten-free","Edition № 01 · 0 g rafine şeker · vegan · glutensiz")}</span>
           </div>
-          <p className="lede">{tr("Geröstete Mandeln, Medjool-Datteln, Pistazie und ein Hauch Arabica-Kaffee. Mit Datteln gesüßt, nicht mit Zucker.","Roasted almonds, Medjool dates, pistachio and a hint of arabica coffee. Sweetened with dates, not sugar.","Kavrulmuş badem, Medjool hurması, fıstık ve bir tutam arabica kahve. Şekerle değil, hurmayla tatlandırılmış.")}</p>
+          <p className="lede">{tr("Mandeln, Haselnüsse, Datteln, Pistazien, Kakao und ein Hauch entkoffeinierter Kaffee. Mit Datteln gesüßt, nicht mit Zucker.","Almonds, hazelnuts, dates, pistachios, cocoa and a hint of decaffeinated coffee. Sweetened with dates, not sugar.","Badem, fındık, hurma, fıstık, kakao ve bir tutam kafeinsiz kahve. Şekerle değil, hurmayla tatlandırılmış.")}</p>
 
           <div className="price-row">
             <span className="price">€{m(unitPrice)}</span>
@@ -2316,7 +2302,7 @@ function AddonFeature({ addon, inCart, onAdd, onTap }) {
           <div className="af-body">
             <span className="af-eyebrow">{tr("Das passende Zubehör","The matching accessory","Uygun aksesuar")}</span>
             <h3 className="af-name">{addon.name || tr("Kupfer-Set — Messlöffel & Wassermesser","Copper set — measuring spoon & water gauge","Bakır set — ölçü kaşığı & su ölçer")}</h3>
-            <p className="af-sub">{addon.sub || tr("Handpoliertes Kupfer für die perfekte Tasse — ein Messlöffel für exakt 7 g und ein Wassermesser mit 150-ml-Markierung.","Hand-polished copper for the perfect cup — a measuring spoon for exactly 7 g and a water gauge marked at 150 ml.","Mükemmel fincan için elde parlatılmış bakır — tam 7 g için ölçü kaşığı ve 150 ml işaretli su ölçer.")}</p>
+            <p className="af-sub">{addon.sub || tr("Handpoliertes Kupfer für die perfekte Tasse — ein Messlöffel für exakt 25 g Manduraa und ein Wassermesser mit 45-ml-Markierung.","Hand-polished copper for the perfect cup — a measuring spoon for exactly 25 g of Manduraa and a 45 ml water gauge.","Mükemmel fincan için elde parlatılmış bakır — tam 25 g Manduraa için ölçü kaşığı ve 45 ml işaretli su ölçer.")}</p>
             <ul className="af-points">
               <li>{tr("Exakt 7 g pro Löffel","Exactly 7 g per scoop","Kaşık başına tam 7 g")}</li>
               <li>{tr("150-ml-Markierung","150 ml mark","150 ml işareti")}</li>
@@ -2634,7 +2620,7 @@ function getUnboxSteps() {
     kicker: tr("Schritt 04 — Die Enthüllung","Step 04 — The reveal","Adım 04 — Açığa çıkış"),
     title: tr("Der Beutel,\nin seinem Bett.","The pouch,\nin its bed.","Paket,\nyatağında."),
     body: tr("Gebettet in weiche, rosa getönte Wolle. Von Hand mit einem einzigen cremefarbenen Leinenband gebunden. Der Beutel ist schwerer, als die Schachtel vermuten ließ.","Laid in soft rose-tone wool. Hand-tied with a single cream linen ribbon. The pouch is heavier than the box suggested.","Yumuşak, pembe tonlu yüne yatırılmış. Tek bir krem keten kurdeleyle elle bağlanmış. Paket, kutunun ima ettiğinden daha ağır."),
-    meta: [[tr("Beutel","Pouch","Paket"), tr("250 g · wiederverschließbar","250 g · resealable","250 g · yeniden kapanabilir")], [tr("Bett","Bed","Yatak"), tr("Recycelte Wolle, Rosé","Recycled wool, rose","Geri dönüşüm yün, pembe")], [tr("Gebunden von","Tied by","Bağlayan"), tr("Esmee · immer","Esmee · always","Esmee · her zaman")]],
+    meta: [[tr("Beutel","Pouch","Paket"), tr("300 g · wiederverschließbar","300 g · resealable","300 g · yeniden kapanabilir")], [tr("Bett","Bed","Yatak"), tr("Recycelte Wolle, Rosé","Recycled wool, rose","Geri dönüşüm yün, pembe")], [tr("Gebunden von","Tied by","Bağlayan"), tr("Esmee · immer","Esmee · always","Esmee · her zaman")]],
   },
   {
     kicker: tr("Schritt 05 — Die Karte","Step 05 — The card","Adım 05 — Kart"),
@@ -2838,13 +2824,13 @@ function RecoveryToast({ count, items, onOpen, onDismiss }) {
 /* ---------- Spec sheet — As composed ---------- */
 function getSpec() {
   return [
-  { name: tr("Medjool-Dattel","Medjool Date","Medjool Hurması"),          color: "#7A4A2B", pct: 25, gram: "62 g" },
-  { name: tr("Marcona-Mandel","Marcona Almond","Marcona Bademi"),        color: "#D9B988", pct: 19, gram: "48 g" },
-  { name: tr("Kokosnuss-Sahne","Coconut Cream","Hindistan Cevizi Kreması"), color: "#E6D6BE", pct: 15, gram: "38 g" },
-  { name: tr("Single-Origin-Arabica","Single-origin Arabica","Tek Kaynak Arabica"), color: "#3E2719", pct: 13, gram: "32 g" },
-  { name: tr("Antep-Pistazie","Antep Pistachio","Antep Fıstığı"),       color: "#7A8C4F", pct: 10, gram: "26 g" },
-  { name: tr("Kakaonib","Cocoa Nib","Kakao Nibi"),             color: "#4E3322", pct:  7, gram: "18 g" },
-  { name: tr("Grüner Kardamom","Green Cardamom","Yeşil Kakule"),        color: "#A48A53", pct:  2, gram: "4 g"  },
+  { name: tr("Datteln","Dates","Hurma"),                       color: "#7A4A2B", pct: 30, gram: "90 g" },
+  { name: tr("Mandeln","Almonds","Badem"),                     color: "#D9B988", pct: 18, gram: "54 g" },
+  { name: tr("Kokosmilchpulver","Coconut Milk Powder","Hindistan Cevizi Sütü Tozu"), color: "#E6D6BE", pct: 14, gram: "42 g" },
+  { name: tr("Haselnüsse","Hazelnuts","Fındık"),               color: "#9C6B3F", pct: 12, gram: "36 g" },
+  { name: tr("Kakao","Cocoa","Kakao"),                         color: "#4E3322", pct: 10, gram: "30 g" },
+  { name: tr("Entkoffeinierter Kaffee","Decaf Coffee","Kafeinsiz Kahve"), color: "#3E2719", pct:  9, gram: "27 g" },
+  { name: tr("Pistazien","Pistachios","Antep Fıstığı"),        color: "#7A8C4F", pct:  7, gram: "21 g" },
   ];
 }
 function SpecSheet() {
@@ -2874,7 +2860,7 @@ function SpecSheet() {
             <SplitText text={tr("Das ganze Rezept,","The full recipe,","Tüm tarif,")} /> <em className="italic"><SplitText text={tr("aufgeschrieben.","written down.","yazıya dökülmüş.")} delay={0.3} /></em>
           </h2>
           <p className="reveal delay-2" style={{ margin: "22px auto 0", maxWidth: "52ch", fontSize: 15, lineHeight: 1.75, color: "var(--grain)" }}>
-            {tr("Wir zeigen, was die meisten verschweigen: die volle Rezeptur pro Gramm, jede Zahl pro Tasse. Edition № 01 · Manduraa Original · 250-g-Beutel.","We show what most hide: the full recipe by gram, every number per cup. Edition № 01 · Manduraa Original · 250 g pouch.","Çoğunun gizlediğini gösteriyoruz: gram gram tüm tarif, fincan başına her sayı. Edition № 01 · Manduraa Original · 250 g paket.")}
+            {tr("Wir zeigen, was die meisten verschweigen: die volle Rezeptur pro Gramm, jede Zahl pro Tasse. Edition № 01 · Manduraa · 300-g-Beutel.","We show what most hide: the full recipe by gram, every number per cup. Edition № 01 · Manduraa · 300 g pouch.","Çoğunun gizlediğini gösteriyoruz: gram gram tüm tarif, fincan başına her sayı. Edition № 01 · Manduraa · 300 g paket.")}
           </p>
         </div>
 
@@ -2882,7 +2868,7 @@ function SpecSheet() {
           <div className="pouch-card reveal">
             <div className="top">
               <BlurImg src="/assets/scene-6.jpg" alt={tr("Der Manduraa-Beutel, von Hand gebunden.","The Manduraa pouch, hand-tied.","Manduraa paketi, elle bağlanmış.")} />
-              <span className="lock-tag">№ 01 · 250 g</span>
+              <span className="lock-tag">№ 01 · 300 g</span>
             </div>
             <div className="body">
               <h3>Manduraa <em className="italic">Original</em></h3>
@@ -2890,14 +2876,14 @@ function SpecSheet() {
               <div className="badges">
                 <span className="badge">Vegan</span>
                 <span className="badge">{tr("Glutenfrei","Gluten-free","Glutensiz")}</span>
-                <span className="badge">{tr("Eine Farm","Single-farm","Tek çiftlik")}</span>
+                <span className="badge">{tr("Entkoffeiniert","Decaf","Kafeinsiz")}</span>
                 <span className="badge">{tr("Recycelbarer Beutel","Recyclable pouch","Geri dönüşümlü paket")}</span>
                 <span className="badge">{tr("Ohne Zusätze","No additives","Katkısız")}</span>
               </div>
             </div>
           </div>
           <div className="table-wrap reveal delay-1" ref={ref}>
-            <h3>{tr("Zutaten · 250-g-Beutel","Ingredients · 250 g pouch","İçindekiler · 250 g paket")}</h3>
+            <h3>{tr("Zutaten · 300-g-Beutel","Ingredients · 300 g pouch","İçindekiler · 300 g paket")}</h3>
             <span className="sub">{tr("— Edition N° 01 · Charge 124","— Edition N° 01 · Batch 124","— Edition N° 01 · Parti 124")}</span>
             <div className="ing-table">
               {SPEC.map((s, i) => (
@@ -2910,19 +2896,19 @@ function SpecSheet() {
               ))}
             </div>
             <div className="nutrition">
-              <h4>{tr("Pro Tasse · 7-g-Portion","Per cup · 7 g serving","Fincan başına · 7 g porsiyon")}</h4>
+              <h4>{tr("Durchschnittliche Nährwerte · pro 100 g","Average nutrition · per 100 g","Ortalama besin değerleri · 100 g başına")}</h4>
               <div className="nut-grid">
-                <div className="nut-cell"><span className="k">{tr("Energie","Energy","Enerji")}</span><span className="v">28<small>kcal</small></span></div>
-                <div className="nut-cell"><span className="k">{tr("Zucker","Sugars","Şeker")}</span><span className="v">2.6<small>{tr("g · aus Datteln","g · from dates","g · hurmadan")}</small></span></div>
+                <div className="nut-cell"><span className="k">{tr("Energie","Energy","Enerji")}</span><span className="v">432<small>{tr("kcal · 1808 kJ","kcal · 1808 kJ","kcal · 1808 kJ")}</small></span></div>
+                <div className="nut-cell"><span className="k">{tr("Kohlenhydrate","Carbohydrates","Karbonhidrat")}</span><span className="v">78.6<small>g</small></span></div>
+                <div className="nut-cell"><span className="k">{tr("davon Zucker","of which sugars","şeker")}</span><span className="v">18.4<small>{tr("g · aus Datteln","g · from dates","g · hurmadan")}</small></span></div>
                 <div className="nut-cell"><span className="k">{tr("Raffinierter Zucker","Refined sugar","Rafine şeker")}</span><span className="v">0<small>g</small></span></div>
-                <div className="nut-cell"><span className="k">{tr("Koffein","Caffeine","Kafein")}</span><span className="v">38<small>mg</small></span></div>
-                <div className="nut-cell"><span className="k">{tr("Protein","Protein","Protein")}</span><span className="v">0.9<small>g</small></span></div>
-                <div className="nut-cell"><span className="k">{tr("Fett","Fat","Yağ")}</span><span className="v">1.4<small>{tr("g · gute Fette","g · good fats","g · iyi yağlar")}</small></span></div>
-                <div className="nut-cell"><span className="k">{tr("Ballaststoffe","Fibre","Lif")}</span><span className="v">0.8<small>g</small></span></div>
-                <div className="nut-cell"><span className="k">{tr("Magnesium","Magnesium","Magnezyum")}</span><span className="v">14<small>{tr("mg · 4 % RM","mg · 4% RI","mg · %4 RI")}</small></span></div>
+                <div className="nut-cell"><span className="k">{tr("Eiweiß","Protein","Protein")}</span><span className="v">5.6<small>g</small></span></div>
+                <div className="nut-cell"><span className="k">{tr("Fett","Fat","Yağ")}</span><span className="v">10.6<small>{tr("g · gute Fette","g · good fats","g · iyi yağlar")}</small></span></div>
+                <div className="nut-cell"><span className="k">{tr("ges. Fettsäuren","Saturated fat","Doymuş yağ")}</span><span className="v">2.0<small>g</small></span></div>
+                <div className="nut-cell"><span className="k">{tr("Salz","Salt","Tuz")}</span><span className="v">0.33<small>g</small></span></div>
               </div>
               <div className="footer-row">
-                <span><strong>{tr("Allergene:","Allergens:","Alerjenler:")}</strong> {tr("Mandeln, Pistazien.","almonds, pistachios.","badem, fıstık.")}</span>
+                <span><strong>{tr("Allergene:","Allergens:","Alerjenler:")}</strong> {tr("Mandeln, Haselnüsse, Pistazien.","almonds, hazelnuts, pistachios.","badem, fındık, fıstık.")}</span>
                 <span><strong>{tr("Mindestens haltbar bis:","Best by:","Son kullanma:")}</strong> 06 / 2026</span>
               </div>
             </div>
@@ -3231,9 +3217,9 @@ function FooterV2() {
           <div>
             <h4>{tr("Produkt","Product","Ürün")}</h4>
             <ul>
-              <li><a href="#shop">Manduraa Original<span className="arr">↗</span></a></li>
-              <li><a href="#shop">Rose Cardamom<span className="arr">↗</span></a></li>
-              <li><a href="#shop">{tr("Koffeinfrei","Caffeine-free","Kafeinsiz")}<span className="arr">↗</span></a></li>
+              <li><a href="#shop">Manduraa<span className="arr">↗</span></a></li>
+              <li><a href="#universe">{tr("Zutaten","Ingredients","Malzemeler")}<span className="arr">↗</span></a></li>
+              <li><a href="#zubehoer">{tr("Kupfer-Set","Copper set","Bakır set")}<span className="arr">↗</span></a></li>
               <li><a href="#shop">{tr("Mengenpakete","Bulk packs","Toplu paketler")}<span className="arr">↗</span></a></li>
             </ul>
           </div>
@@ -3422,7 +3408,7 @@ function App() {
   // Featured Copper set (measuring spoon & water gauge) — live Shopify add-on
   // when connected, otherwise a safe display fallback.
   const copperAddon = (liveAddons || []).find(a => /kupfer|copper/i.test(String(a.id))) ||
-    { id: "kupfer-set", name: null, sub: null, price: 39 };
+    { id: "kupfer-set", name: null, sub: null, price: 19.90 };
   const copperInCart = cart.some(it => it.addonId === copperAddon.id);
   const cartCount = cart.reduce((s, it) => s + it.qty * it.packCount, 0);
 
