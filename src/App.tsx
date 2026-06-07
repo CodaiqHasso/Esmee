@@ -3514,7 +3514,6 @@ function App() {
         <StoryIntro />
         <IngredientUniverse />
         <SpecSheet />
-        <TasteProfile />
         <Vs />
         <Benefits />
         <Ritual />
