@@ -191,7 +191,7 @@ function getBenefits() {
 
 function getRitual() {
   return [
-  { n: "I",  t: tr("Dosieren","Measure","Ölç"),  c: tr("Ein gehäufter Löffel Manduraa für jede kleine Tasse. Wir nehmen 7 Gramm.","One heaped spoon of Manduraa for every small cup. We use 7 grams.","Her küçük fincan için bir tepeleme kaşık Manduraa. Biz 7 gram kullanırız."), img: "/assets/scene-6.jpg" },
+  { n: "I",  t: tr("Dosieren","Measure","Ölç"),  c: tr("Ein Kupfer-Messlöffel Manduraa pro Tasse — 25 g, auf 45 ml Wasser.","One copper measuring spoon of Manduraa per cup — 25 g, to 45 ml of water.","Her fincan için bir bakır ölçü kaşığı Manduraa — 25 g, 45 ml suya."), img: "/assets/scene-6.jpg" },
   { n: "II", t: tr("Aufgießen","Pour","Dök"),     c: tr("Milch oder Wasser auf 78° erhitzen — niemals kochen. Langsam aufgießen.","Steam — never boil — your milk or water to 78°. Pour over slowly.","Sütü ya da suyu 78°'ye ısıt — asla kaynatma. Yavaşça üzerine dök."), img: "/assets/scene-3.jpg" },
   { n: "III",t: tr("Ruhen","Rest","Dinlendir"),     c: tr("Einen Atemzug warten. Die Datteln setzen lassen. Der erste Schluck soll sich gefunden anfühlen.","Wait a breath. Let the dates settle. The first sip should feel found.","Bir nefes bekle. Hurmaların dibe çökmesini bekle. İlk yudum bir keşif gibi hissettirmeli."), img: "/assets/scene-4.jpg" },
   ];
@@ -1238,10 +1238,11 @@ function IngredientModal({ ingredient, index, onClose }) {
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [open, onClose]);
-  return (
+  return createPortal(
     <>
       <div className={"ing-modal-overlay " + (open ? "open" : "")} onClick={onClose} />
       <div className={"ing-modal " + (open ? "open" : "")} role="dialog" aria-hidden={!open}>
+        <button type="button" className="ing-close" onClick={onClose} aria-label={tr("Schließen","Close","Kapat")}>✕</button>
         {ingredient && (
           <>
             <div className="ing-hero" style={{ backgroundImage: `url(${ingredient.img})` }}>
@@ -1263,7 +1264,8 @@ function IngredientModal({ ingredient, index, onClose }) {
           </>
         )}
       </div>
-    </>
+    </>,
+    document.body
   );
 }
 

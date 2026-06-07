@@ -1710,7 +1710,7 @@ img.blur-load.loaded { filter: blur(0); transform: scale(1); }
 .ing-modal {
   position: fixed; left: 50%; top: 50%;
   transform: translate(-50%, -50%) scale(.94);
-  width: min(720px, calc(100vw - 32px));
+  width: min(540px, calc(100vw - 32px));
   max-height: calc(100vh - 64px);
   z-index: 111;
   background: var(--paper);
@@ -1724,10 +1724,20 @@ img.blur-load.loaded { filter: blur(0); transform: scale(1); }
 }
 @media (max-width: 720px) { .ing-modal { grid-template-columns: 1fr; max-height: 86vh; overflow-y: auto; } }
 .ing-modal.open { opacity: 1; transform: translate(-50%, -50%) scale(1); pointer-events: auto; }
+.ing-modal .ing-close {
+  position: absolute; top: 12px; right: 12px; z-index: 3;
+  width: 34px; height: 34px; display: grid; place-items: center;
+  border: none; cursor: pointer; border-radius: 50%;
+  background: rgba(252,246,236,.92); color: var(--coffee);
+  font-size: 15px; line-height: 1;
+  box-shadow: var(--sh-soft, 0 4px 14px rgba(43,31,23,.2));
+  transition: background .2s var(--ease), transform .2s var(--ease);
+}
+.ing-modal .ing-close:hover { background: #fff; transform: scale(1.06); }
 .ing-modal .ing-hero {
   position: relative;
   background-size: cover; background-position: center;
-  min-height: 340px;
+  min-height: 210px;
 }
 .ing-modal .ing-hero .stamp {
   position: absolute; left: 18px; top: 18px;
@@ -1738,21 +1748,21 @@ img.blur-load.loaded { filter: blur(0); transform: scale(1); }
   box-shadow: var(--sh-soft);
 }
 .ing-modal .ing-body {
-  padding: clamp(28px, 4vw, 44px);
-  display: flex; flex-direction: column; gap: 18px;
+  padding: clamp(20px, 3vw, 30px);
+  display: flex; flex-direction: column; gap: 12px;
   overflow-y: auto;
 }
 .ing-modal .ing-eyebrow { font-size: 10px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--copper); font-weight: 500; }
 .ing-modal h3 {
   font-family: var(--serif); font-weight: 300;
-  font-size: clamp(32px, 4vw, 48px); line-height: 1.05; letter-spacing: -0.018em;
+  font-size: clamp(24px, 3vw, 34px); line-height: 1.05; letter-spacing: -0.018em;
   margin: 0;
 }
-.ing-modal .lede { font-family: var(--serif); font-style: italic; font-size: 18px; line-height: 1.5; color: var(--grain); }
-.ing-modal .facts { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; padding: 18px 0; border-top: 1px solid rgba(43,31,23,.08); border-bottom: 1px solid rgba(43,31,23,.08); }
-.ing-modal .facts .fact span { display: block; font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--grain); margin-bottom: 4px; }
-.ing-modal .facts .fact strong { font-family: var(--serif); font-size: 22px; color: var(--coffee); font-weight: 400; }
-.ing-modal .body { font-size: 14px; line-height: 1.75; color: var(--coffee); margin: 0; }
+.ing-modal .lede { font-family: var(--serif); font-style: italic; font-size: 15px; line-height: 1.45; color: var(--grain); margin: 0; }
+.ing-modal .facts { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 14px 0; border-top: 1px solid rgba(43,31,23,.08); border-bottom: 1px solid rgba(43,31,23,.08); }
+.ing-modal .facts .fact span { display: block; font-size: 9px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--grain); margin-bottom: 3px; }
+.ing-modal .facts .fact strong { font-family: var(--serif); font-size: 16px; color: var(--coffee); font-weight: 400; }
+.ing-modal .body { font-size: 13.5px; line-height: 1.65; color: var(--coffee); margin: 0; }
 .ing-modal .back {
   margin-top: auto;
   align-self: flex-start;
