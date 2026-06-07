@@ -981,7 +981,7 @@ function StoryIntro() {
           </h2>
           <p className="reveal delay-2">
             {tr("Manduraa ist kein Kaffee und keine Schokolade — etwas dazwischen. Eine stille Tradition, weitergegeben in den Küchen zwischen ","Manduraa isn't coffee, and it isn't chocolate — something in between. A quiet tradition passed down in kitchens from ","Manduraa ne kahve ne de çikolata — ikisinin arasında bir şey. Mutfaklarda nesiller boyu aktarılan sessiz bir gelenek: ")}
-            <HoverWord word={tr("Beirut","Beirut","Beyrut")} label={tr("Beirut · Libanon","Beirut · Lebanon","Beyrut · Lübnan")} text={tr("Wo die Dattelsirup-Tradition noch in kupfernen Töpfen lebt.","Where the date-syrup tradition still lives in copper saucepans.","Hurma pekmezi geleneğinin hâlâ bakır tencerelerde yaşadığı yer.")} img="/assets/scene-2.jpg" />
+            <HoverWord word={tr("Elazığ","Elazığ","Elazığ")} label={tr("Elazığ · Anatolien","Elazığ · Anatolia","Elazığ · Anadolu")} text={tr("Esmes Heimat — wo die Tradition begann.","Esme's home — where the tradition began.","Esme'nin memleketi — geleneğin başladığı yer.")} img="/assets/scene-2.jpg" />
             {tr(" und "," to ","'tan ")}
             <HoverWord word="Antakya" label={tr("Antakya · Türkei","Antakya · Türkiye","Antakya · Türkiye")} text={tr("Der Pistazien-Gürtel — Antep-Verwandte der Tasse.","The pistachio belt — Antep cousins of the cup.","Antep fıstığı kuşağı — fincanın Antep akrabaları.")} img="/assets/scene-3.jpg" />
             {tr(": Frauen, die Datteln von Hand zu Sirup einkochten und ",": women who cooked dates into syrup by hand and patiently ground ","'ya kadar datilleri elleriyle pekmeze çeviren, sabırla ")}
@@ -3286,7 +3286,7 @@ function FooterV2() {
         </div>
 
         <div className="bottom">
-          <span>{tr("© 2026 — Von Hand gemischt · in Tradition von Beirut & Antakya","© 2026 — Hand-blended · in the tradition of Beirut & Antakya","© 2026 — Elde harmanlandı · Beyrut & Antakya geleneğinde")}</span>
+          <span>{tr("© 2026 — Von Hand gemischt · in Tradition von Elazığ & Anatolien","© 2026 — Hand-blended · in the tradition of Elazığ & Anatolia","© 2026 — Elde harmanlandı · Elazığ & Anadolu geleneğinde")}</span>
           <span className="pay">
             <span className="pay-label">{tr("Wir akzeptieren","We accept","Kabul ettiklerimiz")}</span>
             <PaymentIcons />
