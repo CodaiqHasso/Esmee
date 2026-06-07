@@ -1313,20 +1313,20 @@ function Vs() {
   }, []);
   useLang();
   const themItems = [
-    tr("10–20 g raffinierter Zucker oder Sirup zugesetzt","10–20 g refined sugar or syrup added","10–20 g rafine şeker veya şurup ilave"),
-    tr("Scharfer Koffein-Peak, Absturz um 15 Uhr","Sharp caffeine spike, 3pm crash","Sert kafein zirvesi, 15:00 çöküşü"),
+    tr("Koffein — Nervosität, Herzrasen, Schlafprobleme","Caffeine — jitters, racing heart, poor sleep","Kafein — gerginlik, çarpıntı, uyku sorunu"),
+    tr("Oft mit Zucker — kalorienreich, belastet den Stoffwechsel","Often with sugar — high in calories, taxes the metabolism","Sık sık şekerli — kalorili, metabolizmayı yorar"),
     tr("Säurehaltig; hart auf nüchternen Magen","Acidic; harsh on an empty stomach","Asitli; aç mideye sert"),
-    tr("Leere Kalorien, keine Nährstoffdichte","Empty calories, no nutrient density","Boş kalori, besin yoğunluğu yok"),
-    tr("Industrielle Röstungen, anonyme Herkunft","Industrial roasts, anonymous origin","Endüstriyel kavurmalar, anonim köken"),
-    tr("Zuckerschuld bis 16 Uhr","Sugar guilt by 4pm","16:00'da şeker pişmanlığı"),
+    tr("Künstliche Zusätze, wenig Nährstoffe","Artificial additives, few nutrients","Yapay katkılar, az besin"),
+    tr("Zucker fördert Entzündungen & Übergewicht","Sugar fuels inflammation & weight gain","Şeker iltihabı ve kiloyu körükler"),
+    tr("Nicht für jeden gut verträglich","Not gentle on everyone","Herkese iyi gelmez"),
   ];
   const usItems = [
-    tr("0 g raffinierter Zucker — mit Medjool-Datteln gesüßt","0 g refined sugar — sweetened by Medjool dates","0 g rafine şeker — Medjool hurmasıyla tatlandırılmış"),
-    tr("Anhaltende, ausgewogene Energie aus Mandelfett","Sustained, balanced energy from almond fat","Badem yağından sürekli, dengeli enerji"),
-    tr("Säurearm, magenschonend","Low-acid, gentle on the stomach","Düşük asit, mideye nazik"),
-    tr("Ballaststoffe, Magnesium und Kalium pro Tasse","Fibre, magnesium and potassium per cup","Her fincanda lif, magnezyum ve potasyum"),
-    tr("Eine Farm, eine Charge, eine Saison","Single-farm, single-batch, single-season","Tek çiftlik, tek parti, tek mevsim"),
-    tr("Ein Ritual, das du ohne Reue wiederholen kannst","A ritual you can repeat without flinching","Hiç çekinmeden tekrarlayabileceğin bir ritüel"),
+    tr("Entkoffeiniert — kein Herzrasen, kein gestörter Schlaf","Decaf — no racing heart, no disturbed sleep","Kafeinsiz — çarpıntı yok, uyku bozulmaz"),
+    tr("0 g zugesetzter Zucker — natürlich gesüßt durch Datteln","0 g added sugar — naturally sweetened by dates","0 g ilave şeker — hurmayla doğal tatlandırma"),
+    tr("Sanft & gut verträglich, auch für Koffeinempfindliche","Gentle & well tolerated, even if caffeine-sensitive","Nazik ve iyi gelir, kafeine duyarlılar için bile"),
+    tr("Reich an natürlichen Nährstoffen: Mandeln, Datteln, Kakao","Rich in natural nutrients: almonds, dates, cocoa","Doğal besinlerle dolu: badem, hurma, kakao"),
+    tr("Unterstützt Herz, Immunsystem & Verdauung","Supports heart, immunity & digestion","Kalbi, bağışıklığı ve sindirimi destekler"),
+    tr("Nussig, natürlich süß, vollmundig & vielfältig","Nutty, naturally sweet, full-bodied & varied","Fındıksı, doğal tatlı, dolgun ve çeşitli"),
   ];
   // Dash icon (—) for them, check (✓) drawn for us
   const Dash = () => (
@@ -1347,7 +1347,7 @@ function Vs() {
         <div className="section-head">
           <span className="eyebrow reveal">{tr("— Manduraa vs. der Rest","— Manduraa vs. the rest","— Manduraa vs. gerisi")}</span>
           <h2 className="reveal delay-1" key={tr("de","en","tr")}>
-            <SplitText text={tr("Energie ohne","Energy without","Çöküş")} /> <em className="italic"><SplitText text={tr("den Absturz","the crash","yaşatmayan")} delay={0.3} /></em> <SplitText text={tr("am Nachmittag.","at 3pm.","enerji.")} delay={0.45} />
+            <SplitText text={tr("Kaffeegenuss","Coffee comfort","Kahve keyfi,")} /> <em className="italic"><SplitText text={tr("ohne","without","ama")} delay={0.3} /></em> <SplitText text={tr("die Nebenwirkungen.","the downsides.","yan etkisi yok.")} delay={0.45} />
           </h2>
         </div>
         <div className="vs-grid reveal delay-2" ref={ref}>
