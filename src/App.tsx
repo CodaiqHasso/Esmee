@@ -1267,6 +1267,38 @@ function IngredientModal({ ingredient, index, onClose }) {
 }
 
 /* ============================================================
+   FOUNDER STORY — Esme (the real brand origin)
+   ============================================================ */
+function FounderStory() {
+  useLang();
+  const ref = useRef(null);
+  useEffect(() => {
+    const el = ref.current; if (!el) return;
+    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { el.classList.add("in"); io.disconnect(); } }, { threshold: 0.15 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  return (
+    <section id="esme" className="block founder" ref={ref}>
+      <div className="container founder-grid">
+        <div className="founder-media reveal" style={{ backgroundImage: "url(/assets/lifestyle-cup-pouches.jpeg)" }}>
+          <span className="founder-cap">{tr("Elazığ → heute","Elazığ → today","Elazığ → bugün")}</span>
+        </div>
+        <div className="founder-text">
+          <span className="eyebrow reveal">{tr("— Unsere Geschichte","— Our story","— Hikâyemiz")}</span>
+          <h2 className="reveal delay-1" key={tr("de","en","tr")}><SplitText text="Esme." /></h2>
+          <p className="founder-lede reveal delay-1">{tr("Manche Namen bleiben nicht in der Vergangenheit — sie weisen den Weg.","Some names don't stay in the past — they point the way forward.","Bazı isimler geçmişte kalmaz — yolu gösterir.")}</p>
+          <p className="reveal delay-2">{tr("Meine Großmutter Esme war eine der starken Frauen aus Elazığ. Früh verwitwet, heiratete sie nie wieder — und zog eine Familie von elf Kindern groß. Das Leben prüfte sie hart, doch sie blieb aufrecht.","My grandmother Esme was one of the strong women of Elazığ. Widowed young, she never remarried — and raised a family of eleven children. Life tested her hard, yet she never broke.","Anneannem Esme, Elazığ'ın güçlü kadınlarından biriydi. Genç yaşta dul kaldı, bir daha evlenmedi — ve on bir çocuklu bir aileyi büyüttü. Hayat onu çok sınadı ama o hiç yıkılmadı.")}</p>
+          <p className="reveal delay-2">{tr("Ihre Kraft schöpfte sie aus Liebe, Glauben und Fleiß. Sie lehrte uns, mit wenig zufrieden zu sein, zu teilen und den Wert jeder Arbeit zu schätzen.","Her strength came from love, faith and hard work. She taught us to be content with little, to share, and to value every effort.","Gücünü sevgisinden, inancından ve çalışkanlığından aldı. Bize azla yetinmeyi, paylaşmayı ve her emeğin kıymetini bilmeyi öğretti.")}</p>
+          <p className="reveal delay-3">{tr("Aus dieser Energie entstand Manduraa. In jedem Schluck steckt ihre Geschichte — von Arbeit, von Liebe und von der Kraft, die aus tiefen Wurzeln kommt.","Manduraa was born from that energy. In every sip lives her story — of work, of love, and of the strength that comes from deep roots.","Manduraa işte bu enerjiden doğdu. Her yudumunda onun hikâyesi var — emeğin, sevginin ve köklerden gelen gücün.")}</p>
+          <p className="founder-sign reveal delay-3"><span>{tr("Heute lassen wir ihren Namen weiterleben.","Today we keep her name alive.","Bugün onun adını yaşatıyoruz.")}</span><em>— Zeynep · {tr("Esmes Enkelin","Esme's granddaughter","Esme'nin torunu")}</em></p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ============================================================
    VS COMPARISON
    ============================================================ */
 function Vs() {
@@ -3482,6 +3514,7 @@ function App() {
         <IngredientUniverse />
         <Vs />
         <Benefits />
+        <FounderStory />
         <Shop onAdd={addToCart} onMagnetMove={onMagnetMove} onTap={audio.playTap} liveVariants={liveVariants} sellingPlans={sellingPlans} />
         <AddonFeature
           addon={copperAddon}
