@@ -3443,7 +3443,7 @@ function App() {
   // Featured Copper set (measuring spoon & water gauge) — live Shopify add-on
   // when connected, otherwise a safe display fallback.
   const copperAddon = (liveAddons || []).find(a => /kupfer|copper/i.test(String(a.id))) ||
-    { id: "kupfer-set", name: null, sub: null, price: 19.90 };
+    { id: "kupfer-set", name: null, sub: null, price: 24.90 };
   const copperInCart = cart.some(it => it.addonId === copperAddon.id);
   const cartCount = cart.reduce((s, it) => s + it.qty * it.packCount, 0);
 
