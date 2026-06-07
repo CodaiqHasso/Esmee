@@ -184,7 +184,7 @@ function getBenefits() {
   { t: tr("Sanfte Energie, kein Koffein","Gentle energy, no caffeine","Nazik enerji, kafeinsiz"),          d: tr("Datteln, Mandeln und Haselnüsse geben langsame, gleichmäßige Energie — der Kaffee ist entkoffeiniert. Kein Zucker-Hoch, kein Koffein-Absturz.","Dates, almonds and hazelnuts give slow, steady energy — and the coffee is decaffeinated. No sugar high, no caffeine crash.","Hurma, badem ve fındık yavaş ve dengeli enerji verir — kahve ise kafeinsiz. Şeker yükselişi yok, kafein çöküşü yok."), g: "spark" },
   { t: tr("Nährstoffdichte","Nutrient density","Besin yoğunluğu"),     d: tr("Pistazie, Mandel und Dattel liefern Magnesium, Kalium und Ballaststoffe pro Tasse.","Pistachio, almond and date deliver magnesium, potassium and fibre per cup.","Fıstık, badem ve hurma her fincanda magnezyum, potasyum ve lif sağlar."), g: "drop" },
   { t: tr("Magenfreundlich","Gut-friendly","Mideye dost"),         d: tr("Milchfrei, vegan, säurearm. Magenschonender als Espresso.","Dairy-free, vegan, low-acid. Easier on the stomach than espresso.","Sütsüz, vegan, düşük asit. Espressodan mideye daha hafif."), g: "circle" },
-  { t: tr("Von Hand gemischt","Blended by hand","Elde harmanlanır"),    d: tr("In kleinen Chargen in unserem Atelier gemischt. Eine Farm, eine Saison, eine Charge.","Blended in small batches in our atelier. Single farm, single season, single batch.","Atölyemizde küçük partiler hâlinde harmanlanır. Tek çiftlik, tek mevsim, tek parti."), g: "marker" },
+  { t: tr("Von Hand gemischt","Blended by hand","Elde harmanlanır"),    d: tr("In kleinen Chargen in unserer Manufaktur gemischt. Frisch, in kleinen Mengen.","Blended in small batches in our workshop. Fresh, in small quantities.","Mutfağımızda küçük partiler hâlinde harmanlanır. Taze, küçük miktarlarda."), g: "marker" },
   { t: tr("In 90 Sekunden fertig","Ready in 90 seconds","90 saniyede hazır"),  d: tr("Ein Löffel, heißes Wasser oder Milch. Keine Mühle. Kein Aufwand.","One scoop, hot water or milk. No grinder. No fuss.","Bir ölçek, sıcak su ya da süt. Değirmen yok. Zahmet yok."), g: "clock" },
   ];
 }
@@ -215,7 +215,7 @@ function getFaqs() {
   { q: tr("Enthält es Koffein?","Does it contain caffeine?","Kafein içeriyor mu?"), a: tr("Kaum. Manduraa wird mit entkoffeiniertem Kaffee gemacht — über 97 % des Koffeins sind entfernt. Du bekommst das Kaffee-Aroma und die Antioxidantien, aber kein Herzrasen und keinen gestörten Schlaf. Auch abends und für koffeinempfindliche Menschen geeignet.","Barely. Manduraa is made with decaffeinated coffee — over 97% of the caffeine is removed. You get the coffee aroma and antioxidants, but no racing heart and no disturbed sleep. Suitable in the evening and for caffeine-sensitive people too.","Neredeyse hiç. Manduraa kafeinsiz kahveyle yapılır — kafeinin %97'sinden fazlası alınmıştır. Kahve aromasını ve antioksidanları alırsın ama çarpıntı ya da uyku bozukluğu olmaz. Akşam ve kafeine duyarlılar için de uygun.") },
   { q: tr("Welche Größen gibt es?","What sizes are available?","Hangi boyutlar var?"), a: tr("Manduraa gibt es derzeit im 300-g-Beutel für 19,90 €. Zwei weitere Größen kommen demnächst: 175 g für 12,99 € und 400 g für 29,99 €.","Manduraa currently comes in a 300 g pouch for €19.90. Two more sizes are coming soon: 175 g for €12.99 and 400 g for €29.99.","Manduraa şu anda 19,90 € fiyatla 300 g pakette. Yakında iki boyut daha geliyor: 12,99 € için 175 g ve 29,99 € için 400 g.") },
   { q: tr("Wie lange reicht ein Beutel?","How long does a pouch last?","Bir paket ne kadar yeter?"), a: tr("Ein 300-g-Beutel ergibt etwa 12 Tassen. Versiegelt an einem kühlen, dunklen Ort gelagert, bleibt er ab dem auf der Rückseite aufgedruckten Datum sechs Monate auf dem Höhepunkt.","A 300 g pouch makes roughly 12 cups. Stored sealed in a cool, dark place, it stays at peak for six months from the date stamped on the back.","300 g'lık bir paket yaklaşık 12 fincan yapar. Serin, karanlık bir yerde kapalı saklandığında, arkasında yazan tarihten itibaren altı ay boyunca en iyi durumda kalır.") },
-  { q: tr("Wohin liefert ihr?","Where do you ship?","Nereye gönderiyorsunuz?"), a: tr("In die EU und das Vereinigte Königreich. Kostenlose Lieferung ab €60. Bestellungen werden innerhalb von 48 Stunden aus unserem Atelier versandt.","Across the EU and the UK. Complimentary delivery on orders over €60. Orders ship within 48 hours from our atelier.","AB'ye ve Birleşik Krallık'a. €60 üzeri siparişlerde ücretsiz teslimat. Siparişler atölyemizden 48 saat içinde gönderilir.") },
+  { q: tr("Wohin liefert ihr?","Where do you ship?","Nereye gönderiyorsunuz?"), a: tr("In die EU und das Vereinigte Königreich. Kostenlose Lieferung ab €60. Bestellungen werden innerhalb von 48 Stunden aus unserer Manufaktur versandt.","Across the EU and the UK. Complimentary delivery on orders over €60. Orders ship within 48 hours from our workshop.","AB'ye ve Birleşik Krallık'a. €60 üzeri siparişlerde ücretsiz teslimat. Siparişler mutfağımızdan 48 saat içinde gönderilir.") },
   { q: tr("Kann ich es zurückgeben?","Can I return it?","İade edebilir miyim?"), a: tr("Ja. Wenn dir deine erste Tasse nicht gefällt, schick den Beutel innerhalb von 30 Tagen zurück und wir erstatten dir den vollen Betrag. Keine Fragen, keine Hürden.","Yes. If you don't love your first cup, send the pouch back within 30 days and we'll refund you in full. No questions, no friction.","Evet. İlk fincanını sevmezsen, paketi 30 gün içinde geri gönder, tutarın tamamını iade edelim. Soru yok, zorluk yok.") },
   ];
 }
@@ -972,7 +972,7 @@ function StoryIntro() {
     <section id="story-intro" className="block story-intro">
       <div className="container grid">
         <div>
-          <span className="eyebrow reveal">{tr("— Eine Notiz aus dem Atelier","— A note from the atelier","— Atölyeden bir not")}</span>
+          <span className="eyebrow reveal">{tr("— Eine Notiz aus der Manufaktur","— A note from the workshop","— Mutfaktan bir not")}</span>
           <h2 className="reveal delay-1" key={tr("de","en","tr")}>
             <SplitText text={tr("Ein Rezept aus den Küchen","A recipe from the kitchens","Büyükannelerimizin mutfağından")} />
             <br/>
@@ -1006,7 +1006,7 @@ function StoryIntro() {
         <div className="reveal delay-1">
           <div className="frame aspect-3x4 parallax" data-cur="img" data-cur-label={tr("Ansehen","View","Gör")}>
             <BlurImg src="/assets/scene-4.jpg" alt={tr("Eine stille Porzellantasse Manduraa, sanft dampfend.","A still porcelain cup of Manduraa, steaming softly.","Hafifçe tüten, durgun bir porselen Manduraa fincanı.")} />
-            <span className="caption">{tr("Atelier — Mischung Nr. 04","Atelier — Blend no. 04","Atölye — Harman No. 04")}</span>
+            <span className="caption">{tr("Manufaktur — Mischung Nr. 04","Workshop — Blend no. 04","Mutfak — Harman No. 04")}</span>
             <span className="floating-tag"><span className="pulse"></span>{tr("Von Hand gemischt","Hand-blended","Elde harmanlanmış")}</span>
           </div>
         </div>
@@ -2091,7 +2091,7 @@ function TasteProfile() {
 function TrustBand() {
   useLang();
   const items = [
-    { t: tr("Versand in 48 Stunden","48-hour shipping","48 saatte kargo"), d: tr("Aus unserem Atelier in die EU & UK.","From our atelier to the EU & UK.","Atölyemizden AB & İngiltere'ye."),
+    { t: tr("Versand in 48 Stunden","48-hour shipping","48 saatte kargo"), d: tr("Aus unserer Manufaktur in die EU & UK.","From our workshop to the EU & UK.","Mutfağımızdan AB & İngiltere'ye."),
       svg: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M3 13 V 7 H 14 V 17 H 3 Z"/><path d="M14 10 H 19 L 21 13 V 17 H 14 Z"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg> },
     { t: tr("Sichere Bezahlung","Secure payment","Güvenli ödeme"), d: "Apple Pay, Klarna, Visa, AmEx, SEPA.",
       svg: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 11 H 21"/></svg> },
@@ -2751,7 +2751,7 @@ function getMosaic() {
   { img: "/assets/scene-4.jpg", badge: tr("Wochenende","weekend","hafta sonu"), cls: "" },
   { img: "/assets/scene-5.jpg", badge: tr("20:00 Absacker","20:00 nightcap","20:00 gece içkisi"), cls: "wide" },
   { img: "/assets/scene-6.jpg", badge: tr("erste Tasse","first cup","ilk fincan"), cls: "" },
-  { img: "/assets/scene-1.jpg", badge: tr("Atelier","atelier","atölye"), cls: "tall" },
+  { img: "/assets/scene-1.jpg", badge: tr("Manufaktur","workshop","mutfak"), cls: "tall" },
   ];
 }
 function ReviewsV2() {
@@ -2790,7 +2790,7 @@ function ReviewsV2() {
 
         <div className="hero-review reveal delay-1">
           <span className="open-q">"</span>
-          <blockquote>{tr("Mit Datteln gesüßt, nicht mit Zucker. Sieben Zutaten, von Hand gemischt in unserem Atelier. Du gehörst zu den Ersten, die sie probieren.","Sweetened with dates, not sugar. Seven ingredients, hand-blended in our atelier. You're among the first to taste it.","Şekerle değil, hurmayla tatlandırılmış. Yedi malzeme, atölyemizde elle harmanlanmış. Onu tadan ilk kişilerdensin.")}</blockquote>
+          <blockquote>{tr("Mit Datteln gesüßt, nicht mit Zucker. Sieben Zutaten, von Hand gemischt in unserer Manufaktur. Du gehörst zu den Ersten, die sie probieren.","Sweetened with dates, not sugar. Seven ingredients, hand-blended in our workshop. You're among the first to taste it.","Şekerle değil, hurmayla tatlandırılmış. Yedi malzeme, mutfağımızda elle harmanlanmış. Onu tadan ilk kişilerdensin.")}</blockquote>
           <div className="author-row">
             <div className="author-text">
               <strong>— Esmee</strong>
@@ -2907,7 +2907,7 @@ function SpecSheet() {
             </div>
             <div className="body">
               <h3>Manduraa <em className="italic">Original</em></h3>
-              <p>{tr("Eine Charge, eine Saison. Von Hand in unserem Atelier gemischt und mit cremefarbenem Leinenband gebunden.","Single-batch, single-season. Hand-blended in our atelier and tied with cream linen ribbon.","Tek parti, tek mevsim. Atölyemizde elle harmanlanmış ve krem keten kurdeleyle bağlanmış.")}</p>
+              <p>{tr("Eine Charge, eine Saison. Von Hand in unserer Manufaktur gemischt und mit cremefarbenem Leinenband gebunden.","Single-batch, single-season. Hand-blended in our workshop and tied with cream linen ribbon.","Tek parti, tek mevsim. Mutfağımızda elle harmanlanmış ve krem keten kurdeleyle bağlanmış.")}</p>
               <div className="badges">
                 <span className="badge">Vegan</span>
                 <span className="badge">{tr("Glutenfrei","Gluten-free","Glutensiz")}</span>
@@ -3215,7 +3215,7 @@ function FooterV2() {
         <div className="clock-row">
           <span className="green">
             <span className="pulse"></span>
-            {onShift ? tr("Atelier im Dienst","Atelier on shift","Atölye vardiyada") : tr("Atelier schläft · zurück um 09:00 CET","Atelier sleeps · back at 09:00 CET","Atölye uyuyor · 09:00 CET'te döner")}
+            {onShift ? tr("Manufaktur im Dienst","Workshop on shift","Mutfak vardiyada") : tr("Manufaktur schläft · zurück um 09:00 CET","Workshop sleeps · back at 09:00 CET","Mutfak uyuyor · 09:00 CET'te döner")}
             <span className="clock">{hh}:{mm} CET</span>
           </span>
           <span>{tr("In kleinen Chargen gemischt","Blended in small batches","Küçük partilerde harmanlanır")}</span>
@@ -3229,7 +3229,7 @@ function FooterV2() {
         <div className="nl-card">
           <div className="nl-text">
             <span className="nl-kicker">{tr("— Post von Esmee","— Letters from Esmee","— Esmee'den mektup")}</span>
-            <h3>{tr("Briefe aus dem Atelier.","Letters from the atelier.","Atölyeden mektuplar.")}</h3>
+            <h3>{tr("Briefe aus der Manufaktur.","Letters from the workshop.","Mutfaktan mektuplar.")}</h3>
             <p>{tr("Eine kurze Notiz ab und zu: die Geschichte hinter Manduraa, neue Größen und leise Empfehlungen für deine Tasse. Kein Spam.","An occasional short note: the story behind Manduraa, new sizes and quiet tips for your cup. No spam.","Ara sıra kısa bir not: Manduraa'nın hikâyesi, yeni boyutlar ve fincanın için küçük öneriler. Spam yok.")}</p>
           </div>
           {!sent ? (
@@ -3282,7 +3282,7 @@ function FooterV2() {
               <li><a href="#">Instagram<span className="arr">↗</span></a></li>
               <li><a href="#">TikTok<span className="arr">↗</span></a></li>
               <li><a href="#">Pinterest<span className="arr">↗</span></a></li>
-              <li><a href="#">{tr("Spotify · Atelier-Playlist","Spotify · atelier playlist","Spotify · atölye çalma listesi")}<span className="arr">↗</span></a></li>
+              <li><a href="#">{tr("Spotify · Manufaktur-Playlist","Spotify · workshop playlist","Spotify · mutfak çalma listesi")}<span className="arr">↗</span></a></li>
             </ul>
           </div>
         </div>
