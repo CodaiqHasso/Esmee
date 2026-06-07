@@ -3513,8 +3513,11 @@ function App() {
         <ReviewsRibbon />
         <StoryIntro />
         <IngredientUniverse />
+        <SpecSheet />
+        <TasteProfile />
         <Vs />
         <Benefits />
+        <Ritual />
         <FounderStory />
         <Shop onAdd={addToCart} onMagnetMove={onMagnetMove} onTap={audio.playTap} liveVariants={liveVariants} sellingPlans={sellingPlans} />
         <AddonFeature
@@ -3523,9 +3526,6 @@ function App() {
           onAdd={() => addAddon({ ...copperAddon, name: copperAddon.name || "Kupfer-Set — Messlöffel & Wassermesser", icon: addonIcon(copperAddon.id) })}
           onTap={audio.playTap}
         />
-        <SpecSheet />
-        <Ritual />
-        <TasteProfile />
         <ReviewsV2 />
         <TrustBand />
         <Faq />
