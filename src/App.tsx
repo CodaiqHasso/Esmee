@@ -984,19 +984,19 @@ function StoryIntro() {
         <div>
           <span className="eyebrow reveal">{tr("— Eine Notiz aus dem Atelier","— A note from the atelier","— Atölyeden bir not")}</span>
           <h2 className="reveal delay-1" key={tr("de","en","tr")}>
-            <SplitText text={tr("Die Tasse, die unsere Großmütter","The cup our grandmothers","Büyükannelerimizin o fincanı")} />
+            <SplitText text={tr("Ein Rezept aus den Küchen","A recipe from the kitchens","Büyükannelerimizin mutfağından")} />
             <br/>
-            <em className="italic"><SplitText text={tr("nie die Zeit hatten,","never had time","yazmaya hiç")} delay={0.3} /></em>
-            <SplitText text={tr(" sie aufzuschreiben.","  to write down.","  vakitleri olmadı.")} delay={0.55} />
+            <em className="italic"><SplitText text={tr("unserer Großmütter —","of our grandmothers —","eski bir tarif —")} delay={0.3} /></em>
+            <SplitText text={tr(" neu aufgegossen."," poured anew."," yeniden demlendi.")} delay={0.55} />
           </h2>
           <p className="reveal delay-2">
-            {tr("Manduraa ist kein Kaffee und nicht ganz eine Schokolade. Es ist die stille Zeremonie, die wir Jahr für Jahr in Küchen von ","Manduraa is not a coffee, and not quite a chocolate. It is the quiet ceremony we kept watching, year after year, in kitchens from ","Manduraa ne bir kahve ne de tam bir çikolata. Yıllar boyu mutfaklarda izlediğimiz o sessiz tören: ")}
+            {tr("Manduraa ist kein Kaffee und keine Schokolade — etwas dazwischen. Eine stille Tradition, weitergegeben in den Küchen zwischen ","Manduraa isn't coffee, and it isn't chocolate — something in between. A quiet tradition passed down in kitchens from ","Manduraa ne kahve ne de çikolata — ikisinin arasında bir şey. Mutfaklarda nesiller boyu aktarılan sessiz bir gelenek: ")}
             <HoverWord word={tr("Beirut","Beirut","Beyrut")} label={tr("Beirut · Libanon","Beirut · Lebanon","Beyrut · Lübnan")} text={tr("Wo die Dattelsirup-Tradition noch in kupfernen Töpfen lebt.","Where the date-syrup tradition still lives in copper saucepans.","Hurma pekmezi geleneğinin hâlâ bakır tencerelerde yaşadığı yer.")} img="/assets/scene-2.jpg" />
-            {tr(" bis "," to "," — ")}
+            {tr(" und "," to ","'tan ")}
             <HoverWord word="Antakya" label={tr("Antakya · Türkei","Antakya · Türkiye","Antakya · Türkiye")} text={tr("Der Pistazien-Gürtel — Antep-Verwandte der Tasse.","The pistachio belt — Antep cousins of the cup.","Antep fıstığı kuşağı — fincanın Antep akrabaları.")} img="/assets/scene-3.jpg" />
-            {tr(": die Frauen, die Datteln mit ihren Händen zu Sirup verwandelten, die geduldig ",": the women who turned dates into syrup with their hands, who ground "," datilleri elleriyle pekmeze çeviren, şeker misafirlere ayrıldığı için sabırla ")}
+            {tr(": Frauen, die Datteln von Hand zu Sirup einkochten und ",": women who cooked dates into syrup by hand and patiently ground ","'ya kadar datilleri elleriyle pekmeze çeviren, sabırla ")}
             <HoverWord word={tr("Mandeln","almonds","bademleri")} label={tr("Marcona-Mandel","Marcona Almond","Marcona Bademi")} text={tr("Die butterige spanische Mandel. Kalt vermahlen in die Mischung.","The buttery Spanish almond. Cold-stone milled into the blend.","Tereyağsı İspanyol bademi. Soğuk taşla harmana öğütülür.")} img="/assets/scene-5.jpg" />
-            {tr(" mahlten, weil Zucker für die Gäste war."," patiently because sugar was for guests."," öğüten kadınlar.")}
+            {tr(" geduldig mahlten — Zucker war den Gästen vorbehalten."," — because sugar was saved for guests."," öğüten kadınlar — çünkü şeker misafirler içindi.")}
           </p>
           <p className="reveal delay-3">
             {tr("Wir haben die Geste eingefangen. Sechs Zutaten, nichts weiter. Die Mischung wird allein durch ","We bottled the gesture. Six ingredients, nothing else. The blend is sweetened only by ","Bu jesti şişeye koyduk. Altı malzeme, başka hiçbir şey. Harman yalnızca ")}
