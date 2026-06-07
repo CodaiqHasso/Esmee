@@ -1730,7 +1730,7 @@ function Shop({ onAdd, onMagnetMove, onTap, liveVariants, sellingPlans }) {
                 <label className="gift-field">
                   <span className="lbl">{tr("Botschaft","Message","Mesaj")} <small>({160 - giftMsg.length})</small></span>
                   <textarea
-                    placeholder={tr("Eine kurze, ruhige Botschaft. Wir schreiben sie auf Bauwoll-Karton mit Wachssiegel.","A short, quiet message. We write it on cotton card with a wax seal.","Kısa, sakin bir mesaj. Onu mühür mumlu pamuk kartona yazarız.")}
+                    placeholder={tr("Eine kurze, ruhige Botschaft. Wir schreiben sie auf Baumwoll-Karton mit Wachssiegel.","A short, quiet message. We write it on cotton card with a wax seal.","Kısa, sakin bir mesaj. Onu mühür mumlu pamuk kartona yazarız.")}
                     value={giftMsg}
                     onChange={e => setGiftMsg(e.target.value.slice(0, 160))}
                     rows={2}
@@ -2151,7 +2151,7 @@ function GuaranteeStrip() {
                 <>İlk yudum seni <em className="italic">şaşırtmazsa</em>,<br/>bu e-postaya yanıt ver.</>)}
           </h3>
           <p>
-            {tr("30 Tage. Kein Fragebogen, kein Versandlabel-Theater. Ich erstatte dich persönlich — bis zur Tasche, die du schon halb leer hast. Wer Tradition verkauft, darf bei der Rückgabe nicht kleinlich werden.","30 days. No questionnaire, no shipping-label theatre. I'll refund you personally — even the pouch you've already half-emptied. Anyone who sells tradition shouldn't be stingy about returns.","30 gün. Anket yok, kargo etiketi tiyatrosu yok. Seni bizzat iade ederim — yarısını bitirdiğin paketi bile. Gelenek satan, iadede cimri olmamalı.")}
+            {tr("30 Tage. Kein Fragebogen, kein Versandlabel-Theater. Ich erstatte dir persönlich den vollen Betrag — auch für den Beutel, den du schon halb geleert hast. Wer Tradition verkauft, darf bei der Rückgabe nicht kleinlich sein.","30 days. No questionnaire, no shipping-label theatre. I'll refund you personally — even the pouch you've already half-emptied. Anyone who sells tradition shouldn't be stingy about returns.","30 gün. Anket yok, kargo etiketi tiyatrosu yok. Tutarı sana bizzat iade ederim — yarısını bitirdiğin paket için bile. Gelenek satan, iadede cimri olmamalı.")}
           </p>
           <div className="g-meta">
             <div className="g-sig">
@@ -2223,7 +2223,7 @@ function getAddons() {
   {
     id: "card",
     name: tr("Hand­geschriebene Karte","Handwritten card","El yazısı kart"),
-    sub: tr("Bauwoll-Karton · Wachssiegel · Esmee-Signatur","Cotton card · wax seal · Esmee signature","Pamuk karton · mum mühür · Esmee imzası"),
+    sub: tr("Baumwoll-Karton · Wachssiegel · Esmee-Signatur","Cotton card · wax seal · Esmee signature","Pamuk karton · mum mühür · Esmee imzası"),
     price: 6,
     icon: (
       <svg viewBox="0 0 36 36" width="32" height="32" fill="none" stroke="#B07A52" strokeWidth="1.4" strokeLinecap="round">
@@ -2449,7 +2449,7 @@ function CartDrawer({ open, onClose, items, onQty, onRemove, onAddOne, onAddAddo
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 5 V 19 M5 12 H 19"/></svg>
               </span>
               <div className="nudge-text">
-                <div className="head">{tr("Füge 1 Beutel hinzu","Add 1 more pouch","1 paket daha ekle")} &mdash; {tr("spare €","save €","kargoda €")}{Math.round(remaining)}{tr(" beim Versand."," in shipping."," tasarruf et.")}</div>
+                <div className="head">{tr("Füge 1 Beutel hinzu","Add 1 more pouch","1 paket daha ekle")} &mdash; {tr("sichere dir kostenlosen Versand.","unlock free shipping.","ücretsiz kargonun kilidini aç.")}</div>
                 <div className="sub">{tr("Nur noch €","Just €","Ücretsiz kargoya yalnızca €")}{Math.round(remaining)}{tr(" bis zum kostenlosen Versand."," more for free shipping."," kaldı.")}</div>
               </div>
               <button className="nudge-cta" data-cur="btn" data-cur-label={tr("Hinzufügen","Add","Ekle")} onClick={onAddOne}>+ {tr("Hinzufügen","Add","Ekle")}</button>
@@ -2836,7 +2836,6 @@ function getSpec() {
   { name: tr("Antep-Pistazie","Antep Pistachio","Antep Fıstığı"),       color: "#7A8C4F", pct: 10, gram: "26 g" },
   { name: tr("Kakaonib","Cocoa Nib","Kakao Nibi"),             color: "#4E3322", pct:  7, gram: "18 g" },
   { name: tr("Grüner Kardamom","Green Cardamom","Yeşil Kakule"),        color: "#A48A53", pct:  2, gram: "4 g"  },
-  { name: tr("Meersalz · Spur","Sea salt · trace","Deniz tuzu · eser"),      color: "#E2D2C2", pct:  0.3, gram: "<1 g" },
   ];
 }
 function SpecSheet() {
