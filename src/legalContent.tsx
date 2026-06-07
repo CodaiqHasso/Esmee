@@ -1,7 +1,8 @@
 // @ts-nocheck
 /* Legal page content (German). Each entry: { title, render(company) }.
-   NOTE: HRB-Nummer and USt-IdNr are placeholders — please fill in once the
-   UG is registered, and have the texts reviewed by a lawyer. */
+   Company data (Esmee Mocca, Einzelunternehmen) lives in Legal.tsx COMPANY.
+   NOTE: have the texts reviewed by a lawyer before launch; confirm whether the
+   BZSt number should be public and whether a USt-IdNr applies. */
 import React from "react";
 
 const STAND = "Stand: Juni 2026";
@@ -13,14 +14,12 @@ export const PAGES = {
       <>
         <h2>Angaben gemäß § 5 DDG</h2>
         <p>
-          {c.name}<br />
+          {c.name} – {c.form}<br />
+          Inhaberin: {c.owner}<br />
           {c.street}<br />
           {c.city}<br />
           {c.country}
         </p>
-
-        <h2>Vertreten durch</h2>
-        <p>Geschäftsführerin: {c.ceo}</p>
 
         <h2>Kontakt</h2>
         <p>
@@ -28,17 +27,11 @@ export const PAGES = {
           E-Mail: <a href={`mailto:${c.email}`}>{c.email}</a>
         </p>
 
-        <h2>Registereintrag</h2>
+        <h2>Umsatzsteuerliche Angaben</h2>
         <p>
-          Eintragung im Handelsregister.<br />
-          Registergericht: Amtsgericht Düsseldorf<br />
-          Registernummer: HRB [bitte ergänzen]
-        </p>
-
-        <h2>Umsatzsteuer-ID</h2>
-        <p>
-          Umsatzsteuer-Identifikationsnummer gemäß § 27 a Umsatzsteuergesetz:<br />
-          [bitte ergänzen]
+          Wirtschafts-Identifikationsnummer (BZSt): {c.ustId}<br />
+          Eine Umsatzsteuer-Identifikationsnummer (USt-IdNr. gemäß § 27 a UStG) wird,
+          soweit erforderlich, nachgereicht.
         </p>
 
         <h2>Verbraucherstreitbeilegung / Universalschlichtungsstelle</h2>
@@ -91,18 +84,18 @@ export const PAGES = {
 
         <h2>Versandkosten</h2>
         <p>
-          Standardversand innerhalb Deutschlands: 4,90 €.<br />
-          Ab einem Bestellwert von 60 € liefern wir innerhalb Deutschlands versandkostenfrei.<br />
-          Versandkosten in andere Länder werden im Bestellprozess vor Abschluss der Bestellung
-          angezeigt. Alle Preise verstehen sich inklusive der gesetzlichen Mehrwertsteuer.
+          Alle Preise verstehen sich inklusive der gesetzlichen Mehrwertsteuer, zuzüglich
+          Versandkosten. Die genauen Versandkosten werden dir im Bestellprozess vor Abschluss der
+          Bestellung deutlich angezeigt. Tipp: Wer mehrere Artikel in einer Bestellung zusammenfasst,
+          spart Versandkosten.
         </p>
 
         <h2>Lieferzeit</h2>
         <p>
-          Bestellungen werden in der Regel innerhalb von 48 Stunden nach Zahlungseingang aus unserem
-          Lager versandt. Die Zustellung innerhalb Deutschlands dauert üblicherweise 1–3 Werktage,
-          innerhalb der EU 3–7 Werktage. Abweichende Lieferzeiten werden ggf. auf der Produktseite
-          angegeben.
+          Sofern nicht anders angegeben, sind alle Artikel sofort versandfertig. Die Lieferung erfolgt
+          in der Regel innerhalb von 3–4 Werktagen, spätestens innerhalb von 4 Werktagen nach
+          Vertragsschluss bzw. Zahlungseingang. An Feiertagen kann es zu Abweichungen kommen. Fällt das
+          Fristende auf einen Samstag, Sonntag oder Feiertag, endet die Frist am nächsten Werktag.
         </p>
 
         <h2>Zahlungsarten</h2>
@@ -294,8 +287,8 @@ export const PAGES = {
         <h2>1. Verantwortlicher</h2>
         <p>
           Verantwortlich für die Datenverarbeitung auf dieser Website ist:<br />
-          {c.name}, {c.street}, {c.city}<br />
-          Geschäftsführerin: {c.ceo}<br />
+          {c.name} – {c.form}, Inhaberin: {c.owner}<br />
+          {c.street}, {c.city}<br />
           Telefon: {c.phone} · E-Mail: <a href={`mailto:${c.email}`}>{c.email}</a>
         </p>
 

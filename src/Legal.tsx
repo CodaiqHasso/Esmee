@@ -6,13 +6,16 @@ import React, { useEffect } from "react";
 import { PAGES } from "./legalContent";
 
 const COMPANY = {
-  name: "Esmee UG (haftungsbeschränkt)",
+  name: "Esmee Mocca",
+  form: "Einzelunternehmen",
+  owner: "Zeynep İnanlı",
   street: "Königsallee 63–65",
   city: "40215 Düsseldorf",
   country: "Deutschland",
   phone: "+90 531 567 08 38",
   email: "info@esmee-drinks.de",
   ceo: "Zeynep İnanlı",
+  ustId: "59623701827",
 };
 
 const NAV = [
