@@ -70,6 +70,14 @@ export const PAGES = {
           jeweiligen Autors bzw. Erstellers.
         </p>
 
+        <h2>Bildnachweise</h2>
+        <p>
+          Zutaten-Fotos über Wikimedia Commons: Datteln © J.P.Lon (CC BY-SA 4.0);
+          Haselnüsse © Fir0002 (CC BY-SA 3.0); Kakao © Pkraemer (CC BY-SA 4.0);
+          Kokosnuss © Ivar Leidus (CC BY-SA 4.0); Mandeln & Kaffee (gemeinfrei);
+          Pistazien (CC0). Übrige Bilder © Esmee Mocca.
+        </p>
+
         <p className="legal-stand">{STAND}</p>
       </>
     ),
