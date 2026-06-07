@@ -7171,3 +7171,11 @@ section.universe, section.story-intro, section.unbox, section.ritual {
   .founder-grid { grid-template-columns: 1fr; gap: 24px; }
   .founder-media { aspect-ratio: 16 / 10; max-height: 320px; }
 }
+
+/* HERO (mobile): cues cross-fade in place. Without this they were position:
+   relative and stacked, so later cues (e.g. "Die Mischung") slid down the
+   screen and collided with the bottom buy bar. Anchor them all consistently. */
+@media (max-width: 720px) {
+  .story-stage .stage-text .cue { position: absolute; left: 0; right: 0; margin: 0 auto; top: 15vh; bottom: auto; }
+  .story-stage .stage-text .cue.bottom { top: auto; bottom: 23vh; }
+}
