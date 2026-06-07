@@ -607,10 +607,11 @@ section.block { padding: clamp(80px, 12vh, 140px) var(--rail); }
 }
 .universe .ing-chip:hover { transform: translate(-50%, -50%) scale(1.05); box-shadow: var(--sh-medium); }
 .universe .ing-chip .swatch {
-  width: 32px; height: 32px; border-radius: 50%;
+  width: 40px; height: 40px; border-radius: 50%;
   background-size: cover; background-position: center;
+  background-color: var(--ring, #e8ddd0);
   flex-shrink: 0;
-  box-shadow: inset 0 0 0 1px rgba(43,31,23,.08);
+  box-shadow: 0 0 0 2px #fff, 0 0 0 3.5px var(--ring, rgba(43,31,23,.18)), 0 3px 8px rgba(43,31,23,.2);
 }
 .universe .ing-chip .name {
   font-family: var(--serif);
@@ -6518,6 +6519,43 @@ section.universe, section.story-intro, section.unbox, section.ritual {
 @media (max-width: 900px) and (prefers-reduced-motion: reduce) {
   .universe .orbit-inner, .universe .orbit-svg { animation: none; }
   .universe .ing-chip { animation: none; transform: translate(-50%, -50%); }
+}
+@media (max-width: 900px) {
+  /* slightly larger photo tokens so each ingredient reads on the compact orbit */
+  .universe .ing-chip .swatch { width: 26px; height: 26px; }
+}
+
+/* ============================================================
+   ORBIT CENTRE — mosaic of all six ingredient photos + count badge
+   (overrides the single-image centre defined further up)
+   ============================================================ */
+.universe .orbit-core { display: grid; place-items: center; overflow: hidden; }
+.universe .orbit-core .core-mosaic {
+  position: absolute; inset: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+}
+.universe .orbit-core .core-mosaic .cm-cell {
+  background-size: cover; background-position: center;
+}
+.universe .orbit-core::after {
+  content: ""; position: absolute; inset: 0; z-index: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 50%, rgba(43,31,23,.62), rgba(43,31,23,.18) 52%, rgba(43,31,23,0) 76%);
+  box-shadow: inset 0 0 0 3px rgba(255,251,245,.85);
+}
+.universe .orbit-core .core-badge {
+  position: relative; z-index: 2;
+  display: flex; flex-direction: column; align-items: center; gap: 1px;
+  font-family: var(--mono);
+  font-size: 8.5px; letter-spacing: .24em; text-transform: uppercase;
+  color: var(--cream); text-shadow: 0 1px 8px rgba(0,0,0,.55);
+  pointer-events: none;
+}
+.universe .orbit-core .core-badge strong {
+  font-family: var(--serif);
+  font-size: clamp(22px, 4.5vw, 34px); font-weight: 500; letter-spacing: 0; line-height: 1;
 }
 
 /* ============================================================

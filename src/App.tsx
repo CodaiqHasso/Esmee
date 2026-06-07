@@ -1008,7 +1008,7 @@ function StoryIntro() {
           <div className="stats reveal delay-3">
             <div className="stat"><strong><Counter to={6} duration={1100} /></strong><span>{tr("Zutaten","Ingredients","Malzeme")}</span></div>
             <div className="stat"><strong><Counter to={0} duration={1100} suffix="g" /></strong><span>{tr("Raffinierter Zucker","Refined sugar","Rafine şeker")}</span></div>
-            <div className="stat"><strong><Counter to={1} duration={1100} prefix="0" /></strong><span>{tr("Atelier","Atelier","Atölye")}</span></div>
+            <div className="stat"><strong><Counter to={90} duration={1100} suffix="s" /></strong><span>{tr("In der Tasse","In the cup","Fincanda")}</span></div>
           </div>
         </div>
         <div className="reveal delay-1">
@@ -1157,7 +1157,7 @@ function IngredientUniverse() {
         }}
         onClick={(e) => { e.stopPropagation(); setSelected(idx); }}
       >
-        <span className="swatch" style={{ background: ing.color }} />
+        <span className="swatch" style={{ backgroundImage: `url(${ing.img})`, "--ring": ing.color }} />
         <div>
           <div className="name"><span className="nm-full">{ing.name}</span><span className="nm-short">{ing.short || ing.name}</span></div>
           <span className="note">{ing.note}</span>
@@ -1206,7 +1206,12 @@ function IngredientUniverse() {
             {INGREDIENTS.map((ing, i) => placeChip(ing, i))}
           </div>
           <div className="orbit-core">
-            <BlurImg src="/assets/pack-flat-layout.jpeg" alt="Manduraa pouch" />
+            <div className="core-mosaic" aria-hidden="true">
+              {INGREDIENTS.map((ing, i) => (
+                <span key={i} className="cm-cell" style={{ backgroundImage: `url(${ing.img})` }} />
+              ))}
+            </div>
+            <span className="core-badge"><strong>{INGREDIENTS.length}</strong>{tr("Zutaten","ingredients","malzeme")}</span>
           </div>
           <span className="hint">{tr("ziehen zum Drehen · Chip antippen","drag to rotate · click any chip","döndürmek için sürükle · çipe tıkla")}</span>
         </div>
