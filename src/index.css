@@ -6381,6 +6381,51 @@ section.universe, section.story-intro, section.unbox, section.ritual {
 }
 .email-gate .eg-form button:hover{ background: var(--espresso, #1A120C); }
 
+.email-gate .eg-form button:disabled{ opacity: 0.6; cursor: default; }
+.email-gate .eg-form input:disabled{ opacity: 0.6; }
+
+.email-gate .eg-consent{
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+.email-gate .eg-consent input{
+  appearance: none;
+  -webkit-appearance: none;
+  flex: 0 0 auto;
+  width: 16px;
+  height: 16px;
+  margin-top: 1px;
+  border: 1px solid rgba(43, 31, 23, 0.35);
+  border-radius: 4px;
+  background: var(--paper, #FFFBF5);
+  cursor: pointer;
+  transition: border-color .2s var(--ease, ease), background .2s var(--ease, ease);
+}
+.email-gate .eg-consent input:checked{
+  background: var(--coffee, #2B1F17);
+  border-color: var(--coffee, #2B1F17);
+}
+.email-gate .eg-consent input:checked::after{
+  content: "";
+  display: block;
+  width: 4px; height: 8px;
+  margin: 2px auto 0;
+  border: solid var(--cream, #F6ECDD);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+.email-gate .eg-consent input[aria-invalid="true"]{ border-color: #a4503d; }
+.email-gate .eg-consent span{
+  font-family: var(--serif, serif);
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: var(--grain, #4B362A);
+}
+.email-gate .eg-consent a{ color: var(--copper-deep, #8B5A36); text-decoration: underline; }
+
 .email-gate .eg-err{
   display: block;
   margin-top: 8px;

@@ -2825,13 +2825,17 @@ function RecoveryToast({ count, items, onOpen, onDismiss }) {
 /* ============================================================
    EMAIL GATE (T-21) — soft inline capture for first-cup discount
    ============================================================ */
+const FIRSTCUP_CODE = import.meta.env.VITE_SHOPIFY_DISCOUNT_CODE || "FIRSTCUP10";
+
 function EmailGate({ onShop }) {
   useLang();
   const [show, setShow] = useState(false);
   const [done, setDone] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [email, setEmail] = useState("");
-  const [err, setErr] = useState(false);
+  const [consent, setConsent] = useState(false);
+  const [err, setErr] = useState("");        // "" | "email" | "consent" | "network"
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     // Don't re-prompt if user already engaged or dismissed.
@@ -2871,18 +2875,38 @@ function EmailGate({ onShop }) {
     setTimeout(() => setHidden(true), 400);
     try { localStorage.setItem("esmee.firstcup", "dismissed"); } catch (e) {}
   };
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault();
-    if (!email.includes("@") || email.length < 5) { setErr(true); return; }
-    setErr(false);
-    setDone(true);
-    try { localStorage.setItem("esmee.firstcup", "captured"); } catch (e) {}
-    try { localStorage.setItem("esmee.firstcup_email", email); } catch (e) {}
-    // Keep visible briefly with "thanks" state, then auto-dismiss
-    setTimeout(() => {
-      setShow(false);
-      setTimeout(() => setHidden(true), 400);
-    }, 3500);
+    if (loading) return;
+    if (!email.includes("@") || email.length < 5) { setErr("email"); return; }
+    if (!consent) { setErr("consent"); return; }
+    setErr("");
+    setLoading(true);
+    try {
+      const res = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, consent: true }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data.ok) {
+        // Invalid email is the only error worth re-asking for; everything else
+        // is server-side — keep the lead locally and don't block the visitor.
+        if (data.error === "invalid_email") { setErr("email"); setLoading(false); return; }
+        throw new Error(data.error || "request_failed");
+      }
+      try { localStorage.setItem("esmee.firstcup", "captured"); } catch (e) {}
+      try { localStorage.setItem("esmee.firstcup_email", email); } catch (e) {}
+      setLoading(false);
+      setDone(true);
+      setTimeout(() => {
+        setShow(false);
+        setTimeout(() => setHidden(true), 400);
+      }, 6000);
+    } catch (e) {
+      setLoading(false);
+      setErr("network");
+    }
   };
 
   if (hidden) return null;
@@ -2899,13 +2923,34 @@ function EmailGate({ onShop }) {
               type="email"
               placeholder={tr("deine@mail.de","you@email.com","sen@eposta.com")}
               value={email}
-              onChange={e => { setEmail(e.target.value); setErr(false); }}
+              onChange={e => { setEmail(e.target.value); if (err === "email") setErr(""); }}
               autoComplete="email"
-              aria-invalid={err}
+              aria-invalid={err === "email"}
+              disabled={loading}
             />
-            <button type="submit">{tr("Code holen","Get the code","Kodu al")} →</button>
+            <button type="submit" disabled={loading}>
+              {loading ? tr("Sende …","Sending …","Gönderiliyor …") : <>{tr("Code holen","Get the code","Kodu al")} →</>}
+            </button>
           </form>
-          {err && <span className="eg-err">{tr("Bitte eine gültige E-Mail eintragen.","Please enter a valid email.","Lütfen geçerli bir e-posta gir.")}</span>}
+          <label className="eg-consent">
+            <input
+              type="checkbox"
+              checked={consent}
+              onChange={e => { setConsent(e.target.checked); if (err === "consent") setErr(""); }}
+              aria-invalid={err === "consent"}
+            />
+            <span>
+              {tr(
+                "Ja, schickt mir den Code und gelegentlich Post zu Manduraa. Abmeldung jederzeit. ",
+                "Yes, send me the code and the occasional note about Manduraa. Unsubscribe anytime. ",
+                "Evet, kodu ve ara sıra Manduraa haberlerini gönderin. İstediğin zaman çıkabilirsin. ",
+              )}
+              <a href="/datenschutz" target="_blank" rel="noopener">{tr("Datenschutz","Privacy","Gizlilik")}</a>
+            </span>
+          </label>
+          {err === "email" && <span className="eg-err">{tr("Bitte eine gültige E-Mail eintragen.","Please enter a valid email.","Lütfen geçerli bir e-posta gir.")}</span>}
+          {err === "consent" && <span className="eg-err">{tr("Bitte die Einwilligung bestätigen.","Please confirm your consent.","Lütfen onayı işaretle.")}</span>}
+          {err === "network" && <span className="eg-err">{tr("Kurz hakte etwas — bitte erneut versuchen.","Something hiccuped — please try again.","Bir sorun oldu — lütfen tekrar dene.")}</span>}
           <div className="eg-foot">
             <span>{tr("Einlösbar 30 Tage · Eine pro Kundin · Versand inklusive ab €60","Valid 30 days · One per customer · Free shipping over €60","30 gün geçerli · Müşteri başına bir · €60 üzeri ücretsiz kargo")}</span>
           </div>
@@ -2913,7 +2958,7 @@ function EmailGate({ onShop }) {
       ) : (
         <div className="eg-thanks">
           <span className="eg-kicker">{tr("— Willkommen","— Welcome","— Hoş geldin")}</span>
-          <h5>{tr("Dein Code:","Your code:","Kodun:")} <span className="code">FIRSTCUP10</span></h5>
+          <h5>{tr("Dein Code:","Your code:","Kodun:")} <span className="code">{FIRSTCUP_CODE}</span></h5>
           <p>{tr("Wir haben ihn dir auch per Mail geschickt. Einlösbar im Checkout, gültig 30 Tage.","We've also emailed it to you. Redeemable at checkout, valid 30 days.","Sana e-posta ile de gönderdik. Ödemede kullanılır, 30 gün geçerli.")}</p>
           <button className="eg-shop" onClick={() => { dismiss(); onShop && onShop(); }}>{tr("Manduraa entdecken","Discover Manduraa","Manduraa'yı keşfet")} →</button>
         </div>
