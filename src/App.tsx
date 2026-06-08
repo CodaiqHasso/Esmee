@@ -813,9 +813,26 @@ function ScrollStory({ onSteamIntensity, heroFrom }) {
     tryPlay();
     const onVis = () => { if (!document.hidden) tryPlay(); };
     const onTouch = () => tryPlay();
+    // The bg video has pointer-events:none, so any pause/stall is browser-driven
+    // (iOS often pauses bg video on scroll) — resume it.
+    const onPause = () => tryPlay();
+    const onStall = () => tryPlay();
+    const onEnded = () => { try { v.currentTime = 0; } catch (e) {} tryPlay(); };
+    v.addEventListener("pause", onPause);
+    v.addEventListener("stalled", onStall);
+    v.addEventListener("waiting", onStall);
+    v.addEventListener("ended", onEnded);
     document.addEventListener("visibilitychange", onVis);
-    window.addEventListener("touchstart", onTouch, { once: true, passive: true });
-    return () => { document.removeEventListener("visibilitychange", onVis); window.removeEventListener("touchstart", onTouch); };
+    window.addEventListener("touchstart", onTouch, { passive: true });
+    // Resume whenever the hero scrolls back into view.
+    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) tryPlay(); }, { threshold: 0.05 });
+    io.observe(v);
+    return () => {
+      v.removeEventListener("pause", onPause); v.removeEventListener("stalled", onStall);
+      v.removeEventListener("waiting", onStall); v.removeEventListener("ended", onEnded);
+      document.removeEventListener("visibilitychange", onVis); window.removeEventListener("touchstart", onTouch);
+      io.disconnect();
+    };
   }, []);
 
   useEffect(() => {
@@ -3156,15 +3173,9 @@ function SugarTracker() {
 /* ---------- Footer v2 ---------- */
 function FooterV2() {
   useLang();
-  const [now, setNow] = useState(() => new Date());
   const [email, setEmail] = useState("");
   const [sent, setSent] = useState(false);
   const wrapRef = useRef(null);
-  // Clock
-  useEffect(() => {
-    const id = setInterval(() => setNow(new Date()), 30000);
-    return () => clearInterval(id);
-  }, []);
   // Outline-fill on scroll — only while the footer is on-screen
   useEffect(() => {
     const el = wrapRef.current; if (!el) return;
@@ -3189,10 +3200,6 @@ function FooterV2() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => { window.removeEventListener("scroll", onScroll); io.disconnect(); cancelAnimationFrame(raf); };
   }, []);
-  const local = new Date(now.getTime() + (1 * 60 * 60 * 1000) - (now.getTimezoneOffset() * 60 * 1000));
-  const hh = String(local.getUTCHours()).padStart(2, "0");
-  const mm = String(local.getUTCMinutes()).padStart(2, "0");
-  const onShift = +hh >= 8 && +hh < 18;
   const submit = (e) => {
     e.preventDefault();
     if (!email.includes("@")) return;
@@ -3202,11 +3209,6 @@ function FooterV2() {
     <footer className="foot-v2" ref={wrapRef}>
       <div className="inner">
         <div className="clock-row">
-          <span className="green">
-            <span className="pulse"></span>
-            {onShift ? tr("Manufaktur im Dienst","Workshop on shift","Mutfak vardiyada") : tr("Manufaktur schläft · zurück um 09:00 CET","Workshop sleeps · back at 09:00 CET","Mutfak uyuyor · 09:00 CET'te döner")}
-            <span className="clock">{hh}:{mm} CET</span>
-          </span>
           <span>{tr("In kleinen Chargen gemischt","Blended in small batches","Küçük partilerde harmanlanır")}</span>
         </div>
 

@@ -7282,3 +7282,18 @@ section.universe, section.story-intro, section.unbox, section.ritual {
   /* Allergens / best-by stack instead of cramming on one row */
   .spec .footer-row { flex-direction: column; gap: 6px; }
 }
+
+/* HERO video on mobile: a landscape clip in a tall viewport would be heavily
+   cropped (over-zoomed) with cover — so show the whole frame (contain) on a
+   backdrop matched to the video's own warm edge tone, with a bottom scrim for
+   the headline. */
+@media (max-width: 720px) {
+  .story-stage .hero-video {
+    object-fit: contain;
+    background: #AE8161;
+    object-position: center 44%;
+  }
+  .story-stage .hero-video-scrim {
+    background: linear-gradient(180deg, rgba(20,12,7,.12) 0%, rgba(20,12,7,0) 30%, rgba(20,12,7,0) 56%, rgba(20,12,7,.58) 100%);
+  }
+}
