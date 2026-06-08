@@ -810,6 +810,7 @@ function ScrollStory({ onSteamIntensity, heroFrom }) {
       const rect = el.getBoundingClientRect();
       const top = rect.top + window.scrollY;
       const h = el.offsetHeight - window.innerHeight;
+      if (h <= 0) { onSteamIntensity && onSteamIntensity(0.6); return; }   // pure single-screen hero: no scrub
       const p = Math.max(0, Math.min(1, (window.scrollY - top) / h));
       const N = SCENES.length;
       const playhead = p * (N - 1);
@@ -886,55 +887,19 @@ function ScrollStory({ onSteamIntensity, heroFrom }) {
         />
         <div className="hero-video-scrim" aria-hidden="true" />
         <SteamCanvas getIntensity={getIntensity} />
-        {/* CRO: Hero buy-strip — highlights + price + ATC over the first scene */}
-        <div className={"hero-buystrip " + (cue === 0 ? "in" : "")} aria-hidden={cue !== 0}>
-          <div className="hb-row hb-row-top">
-            <span className="hb-stars" aria-label={tr("Produkt-Highlights","Product highlights","Ürün öne çıkanları")}>
-              <span className="hb-rate">{tr("0 g raffinierter Zucker · 7 Zutaten · Vegan","0 g refined sugar · 7 ingredients · vegan","0 g rafine şeker · 7 malzeme · vegan")}</span>
-            </span>
-            <span className="hb-trust">
-              <span>{tr("30 Tage Geld-zurück","30-day money-back","30 gün iade")}</span>
-              <span className="hb-dot"></span>
-              <span>{tr("Versand in 48 h","Ships in 48 h","48 saatte kargo")}</span>
-              <span className="hb-dot"></span>
-              <span>{tr("Gratis ab €60","Free over €60","€60 üzeri ücretsiz")}</span>
-            </span>
+        {/* Pure hero — video + one headline + buy button */}
+        <div className="hero-pur">
+          <span className="hp-kicker">esmee · manduraa</span>
+          <h1 className="hp-title">{tr("Sieben Zutaten.\nEine Tasse.","Seven ingredients.\nOne cup.","Yedi malzeme.\nBir fincan.")}</h1>
+          <p className="hp-sub">{tr("Mit Datteln gesüßt · entkoffeiniert · 0 g raffinierter Zucker","Sweetened with dates · decaf · 0 g refined sugar","Hurmayla tatlandırıldı · kafeinsiz · 0 g rafine şeker")}</p>
+          <div className="hp-cta">
+            <button className="hp-buy" data-cur="btn" data-cur-label="Shop" onClick={scrollToShop}>{tr("In den Warenkorb","Add to cart","Sepete ekle")} <span aria-hidden="true">→</span></button>
+            <button className="hp-ghost" onClick={() => { const el = document.getElementById("story-intro"); if (el) window.scrollTo({ top: el.offsetTop - 80, behavior: "smooth" }); }}>{tr("Story ansehen","Watch the story","Hikâyeyi izle")}</button>
           </div>
-          <div className="hb-row hb-row-bot">
-            <div className="hb-meta">
-              <span className="hb-edition">Esmee · Edition № 01</span>
-              <span className="hb-name">Manduraa · {tr("ab","from","şu fiyattan")} <em>€{heroFrom || 22}</em>/{tr("Beutel","pouch","paket")}</span>
-            </div>
-            <div className="hb-cta-wrap">
-              <button className="hb-cta" data-cur="btn" data-cur-label="Shop" onClick={scrollToShop}>
-                {tr("In den Warenkorb","Add to cart","Sepete ekle")} <span className="hb-cta-arrow">→</span>
-              </button>
-              <button className="hb-cta-ghost" onClick={() => { const el = document.getElementById("story-intro"); if (el) window.scrollTo({ top: el.offsetTop - 80, behavior: "smooth" }); }}>
-                {tr("Story ansehen","Watch the story","Hikâyeyi izle")}
-              </button>
-            </div>
-          </div>
-        </div>
-        <div className="stage-text">
-          {SCENES.map((s, i) => {
-            const cls = ["cue", s.pos === "side-right" ? "side-right" : s.pos === "bottom" ? "bottom" : "top", cue === i ? "in" : ""];
-            return (
-              <div key={i} className={cls.join(" ")}>
-                <div className="kicker">{s.kicker}</div>
-                <h2 className="head" style={{ whiteSpace: "pre-line" }}>{s.title}</h2>
-                {s.body && <p className="body" style={{ whiteSpace: "pre-line" }}>{s.body}</p>}
-                {s.sub && <div className="sub">{s.sub}</div>}
-                {s.cta && (
-                  <button className="reveal-cta" data-cur="btn" data-cur-label="Shop" onClick={scrollToShop}>
-                    {tr("Manduraa entdecken","Discover Manduraa","Manduraa'yı keşfet")} →
-                  </button>
-                )}
-              </div>
-            );
-          })}
+          <span className="hp-price">Manduraa · {tr("ab","from","")} €{heroFrom || 19} / {tr("Beutel","pouch","paket")}</span>
         </div>
         <div className="scroll-hint">
-          <span>{tr("Scrolle, langsam","Scroll, slowly","Yavaşça kaydır")}</span>
+          <span>{tr("Mehr entdecken","Discover more","Keşfet")}</span>
           <span className="bar"></span>
         </div>
       </div>

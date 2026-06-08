@@ -275,13 +275,13 @@ h1, h2, h3 { margin: 0; }
 /* ---------- SCROLL STORY (cinematic film crossfade) ---------- */
 .story {
   position: relative;
-  height: 620vh;
+  height: 100vh;
   background: #0E0905;
 }
 /* Shorter cinematic on mobile so the intro isn't a scroll-marathon
    (scene transitions scale with this height automatically). */
 @media (max-width: 720px) {
-  .story { height: 420vh; }
+  .story { height: 100vh; }
 }
 .story-stage {
   position: sticky; top: 0;
@@ -7195,4 +7195,58 @@ section.universe, section.story-intro, section.unbox, section.ritual {
   position: absolute; inset: 0; z-index: 1;
   pointer-events: none;
   background: linear-gradient(180deg, rgba(20,12,7,.34) 0%, rgba(20,12,7,.05) 28%, rgba(20,12,7,.12) 66%, rgba(20,12,7,.48) 100%);
+}
+
+/* ============================================================
+   PURE HERO — video bg + single headline + buy button
+   ============================================================ */
+.hero-pur {
+  position: absolute; z-index: 6;
+  left: clamp(20px, 6vw, 84px);
+  bottom: clamp(48px, 12vh, 120px);
+  max-width: 560px;
+  display: flex; flex-direction: column; align-items: flex-start; gap: 14px;
+  color: var(--cream, #F6ECDD);
+  text-shadow: 0 2px 22px rgba(0,0,0,.5);
+}
+.hero-pur .hp-kicker {
+  font-family: var(--mono, ui-monospace, monospace);
+  font-size: 11px; letter-spacing: .34em; text-transform: uppercase; opacity: .9;
+}
+.hero-pur .hp-title {
+  font-family: var(--serif, serif); font-weight: 300;
+  font-size: clamp(40px, 6vw, 84px); line-height: .98; letter-spacing: -0.01em;
+  white-space: pre-line; margin: 0;
+}
+.hero-pur .hp-sub {
+  font-family: var(--serif, serif); font-size: clamp(14px, 1.6vw, 18px);
+  line-height: 1.45; opacity: .94; margin: 0;
+}
+.hero-pur .hp-cta { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 4px; }
+.hero-pur .hp-buy {
+  background: var(--cream, #F6ECDD); color: var(--coffee, #2B1F17);
+  border: none; cursor: pointer; padding: 14px 26px; border-radius: 999px;
+  font-family: var(--mono, ui-monospace, monospace); font-size: 11px; font-weight: 700;
+  letter-spacing: .2em; text-transform: uppercase;
+  display: inline-flex; gap: 8px; align-items: center;
+  transition: transform .2s var(--ease, ease), background .2s var(--ease, ease);
+}
+.hero-pur .hp-buy:hover { transform: translateY(-1px); background: #fff; }
+.hero-pur .hp-ghost {
+  background: transparent; color: var(--cream, #F6ECDD);
+  border: 1px solid rgba(246,236,221,.5); cursor: pointer;
+  padding: 14px 22px; border-radius: 999px;
+  font-family: var(--mono, ui-monospace, monospace); font-size: 11px; font-weight: 600;
+  letter-spacing: .2em; text-transform: uppercase;
+  transition: border-color .2s var(--ease, ease), background .2s var(--ease, ease);
+}
+.hero-pur .hp-ghost:hover { border-color: var(--cream, #F6ECDD); background: rgba(246,236,221,.12); }
+.hero-pur .hp-price {
+  font-family: var(--mono, ui-monospace, monospace);
+  font-size: 10px; letter-spacing: .18em; text-transform: uppercase; opacity: .85;
+}
+@media (max-width: 720px) {
+  .hero-pur { left: 0; right: 0; padding: 0 22px; max-width: none; bottom: clamp(96px, 18vh, 180px); }
+  .hero-pur .hp-title { font-size: clamp(34px, 11vw, 56px); }
+  .hero-pur .hp-cta { width: 100%; }
 }
