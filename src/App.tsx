@@ -131,10 +131,10 @@ const PRODUCT_GALLERY = [
 // Bulk packs — single purchase only (no subscriptions)
 function getPacks() {
   return [
-  { id: "1",  count: 1,  unit: 32, save: 0,  label: tr("1 Packung","1 pack","1 paket"),     sub: tr("≈ 12 Tassen","≈ 12 cups","≈ 12 fincan"),          badge: null },
-  { id: "3",  count: 3,  unit: 28, save: 12, label: tr("3 Packungen","3 packs","3 paket"),   sub: tr("≈ 36 Tassen","≈ 36 cups","≈ 36 fincan"),          badge: tr("Beliebt","Popular","Popüler"),        badgeStyle: "copper", mostLoved: true },
-  { id: "5",  count: 5,  unit: 25, save: 22, label: tr("5 Packungen","5 packs","5 paket"),   sub: tr("≈ 60 Tassen","≈ 60 cups","≈ 60 fincan"),        badge: tr("Bester Wert","Best value","En iyi değer"),       badgeStyle: "dark" },
-  { id: "10", count: 10, unit: 22, save: 31, label: tr("10+ Packungen","10+ packs","10+ paket"), sub: tr("≈ 120 Tassen","≈ 120 cups","≈ 120 fincan"),        badge: tr("Bestpreis","Best price","En iyi fiyat"), badgeStyle: "copper" },
+  { id: "1",  count: 1,  unit: 32, save: 0,  label: tr("1 Packung","1 pack","1 paket"),     sub: tr("≈ 10 Tassen","≈ 10 cups","≈ 10 fincan"),          badge: null },
+  { id: "3",  count: 3,  unit: 28, save: 12, label: tr("3 Packungen","3 packs","3 paket"),   sub: tr("≈ 30 Tassen","≈ 30 cups","≈ 30 fincan"),          badge: tr("Beliebt","Popular","Popüler"),        badgeStyle: "copper", mostLoved: true },
+  { id: "5",  count: 5,  unit: 25, save: 22, label: tr("5 Packungen","5 packs","5 paket"),   sub: tr("≈ 50 Tassen","≈ 50 cups","≈ 50 fincan"),        badge: tr("Bester Wert","Best value","En iyi değer"),       badgeStyle: "dark" },
+  { id: "10", count: 10, unit: 22, save: 31, label: tr("10+ Packungen","10+ packs","10+ paket"), sub: tr("≈ 100 Tassen","≈ 100 cups","≈ 100 fincan"),        badge: tr("Bestpreis","Best price","En iyi fiyat"), badgeStyle: "copper" },
   ];
 }
 
@@ -218,8 +218,8 @@ function getFaqs() {
   { q: tr("Was steckt eigentlich in Manduraa?","What's actually in Manduraa?","Manduraa'da aslında ne var?"), a: tr("Acht Zutaten, mehr nicht: Datteln, Mandeln, Haselnüsse, Pistazien, Kakao, entkoffeinierter Kaffee, Kokosmilchpulver und grüner Kardamom. Kein raffinierter Zucker, keine Sirupe, keine Aromen, keine Konservierungsstoffe. Vegan und glutenfrei.","Eight ingredients, nothing else: dates, almonds, hazelnuts, pistachios, cocoa, decaffeinated coffee, coconut milk powder and green cardamom. No refined sugar, no syrups, no flavourings, no preservatives. Vegan and gluten-free.","Sekiz malzeme, başka hiçbir şey: hurma, badem, fındık, fıstık, kakao, kafeinsiz kahve, Hindistan cevizi sütü tozu ve yeşil kakule. Rafine şeker yok, şurup yok, aroma yok, koruyucu yok. Vegan ve glutensiz.") },
   { q: tr("Wie bereite ich es zu?","How do I prepare it?","Nasıl hazırlanır?"), a: tr("Ein gehäufter Löffel (7 g) pro kleine Tasse. 150 ml heißes — nicht kochendes — Wasser oder aufgeschäumte Milch dazugeben und zehn Sekunden rühren. Vor dem Trinken dreißig Sekunden ruhen lassen. Das ist das ganze Ritual.","One heaped spoon (7 g) per small cup. Add 150 ml of hot — not boiling — water or steamed milk and stir for ten seconds. Let it rest for thirty seconds before drinking. That's the entire ritual.","Her küçük fincan için bir tepeleme kaşık (7 g). 150 ml sıcak — kaynar değil — su ya da köpürtülmüş süt ekleyip on saniye karıştır. İçmeden önce otuz saniye dinlendir. Tüm ritüel bu kadar.") },
   { q: tr("Enthält es Koffein?","Does it contain caffeine?","Kafein içeriyor mu?"), a: tr("Kaum. Manduraa wird mit entkoffeiniertem Kaffee gemacht — über 97 % des Koffeins sind entfernt. Du bekommst das Kaffee-Aroma und die Antioxidantien, aber kein Herzrasen und keinen gestörten Schlaf. Auch abends und für koffeinempfindliche Menschen geeignet.","Barely. Manduraa is made with decaffeinated coffee — over 97% of the caffeine is removed. You get the coffee aroma and antioxidants, but no racing heart and no disturbed sleep. Suitable in the evening and for caffeine-sensitive people too.","Neredeyse hiç. Manduraa kafeinsiz kahveyle yapılır — kafeinin %97'sinden fazlası alınmıştır. Kahve aromasını ve antioksidanları alırsın ama çarpıntı ya da uyku bozukluğu olmaz. Akşam ve kafeine duyarlılar için de uygun.") },
-  { q: tr("Welche Größen gibt es?","What sizes are available?","Hangi boyutlar var?"), a: tr("Manduraa gibt es derzeit im 300-g-Beutel für 19,90 €. Zwei weitere Größen kommen demnächst: 175 g für 12,99 € und 400 g für 29,99 €.","Manduraa currently comes in a 300 g pouch for €19.90. Two more sizes are coming soon: 175 g for €12.99 and 400 g for €29.99.","Manduraa şu anda 19,90 € fiyatla 300 g pakette. Yakında iki boyut daha geliyor: 12,99 € için 175 g ve 29,99 € için 400 g.") },
-  { q: tr("Wie lange reicht ein Beutel?","How long does a pouch last?","Bir paket ne kadar yeter?"), a: tr("Ein 300-g-Beutel ergibt etwa 12 Tassen. Versiegelt an einem kühlen, dunklen Ort gelagert, bleibt er ab dem auf der Rückseite aufgedruckten Datum sechs Monate auf dem Höhepunkt.","A 300 g pouch makes roughly 12 cups. Stored sealed in a cool, dark place, it stays at peak for six months from the date stamped on the back.","300 g'lık bir paket yaklaşık 12 fincan yapar. Serin, karanlık bir yerde kapalı saklandığında, arkasında yazan tarihten itibaren altı ay boyunca en iyi durumda kalır.") },
+  { q: tr("Welche Größen gibt es?","What sizes are available?","Hangi boyutlar var?"), a: tr("Manduraa gibt es in zwei Größen: 250 g und 500 g. Den jeweiligen Preis siehst du oben im Shop.","Manduraa comes in two sizes: 250 g and 500 g. You'll see each price in the shop above.","Manduraa iki boyutta gelir: 250 g ve 500 g. Her boyutun fiyatını yukarıdaki mağazada görürsün.") },
+  { q: tr("Wie lange reicht ein Beutel?","How long does a pouch last?","Bir paket ne kadar yeter?"), a: tr("Ein 250-g-Beutel ergibt etwa 10 Tassen, ein 500-g-Beutel etwa 20. Versiegelt an einem kühlen, dunklen Ort gelagert, bleibt er ab dem auf der Rückseite aufgedruckten Datum sechs Monate auf dem Höhepunkt.","A 250 g pouch makes roughly 12 cups. Stored sealed in a cool, dark place, it stays at peak for six months from the date stamped on the back.","250 g'lık bir paket yaklaşık 12 fincan yapar. Serin, karanlık bir yerde kapalı saklandığında, arkasında yazan tarihten itibaren altı ay boyunca en iyi durumda kalır.") },
   { q: tr("Wohin liefert ihr?","Where do you ship?","Nereye gönderiyorsunuz?"), a: tr("In die EU und das Vereinigte Königreich. Kostenlose Lieferung ab €60. Bestellungen werden innerhalb von 48 Stunden aus unserer Manufaktur versandt.","Across the EU and the UK. Complimentary delivery on orders over €60. Orders ship within 48 hours from our workshop.","AB'ye ve Birleşik Krallık'a. €60 üzeri siparişlerde ücretsiz teslimat. Siparişler mutfağımızdan 48 saat içinde gönderilir.") },
   { q: tr("Kann ich es zurückgeben?","Can I return it?","İade edebilir miyim?"), a: tr("Ja. Wenn dir deine erste Tasse nicht gefällt, schick den Beutel innerhalb von 30 Tagen zurück und wir erstatten dir den vollen Betrag. Keine Fragen, keine Hürden.","Yes. If you don't love your first cup, send the pouch back within 30 days and we'll refund you in full. No questions, no friction.","Evet. İlk fincanını sevmezsen, paketi 30 gün içinde geri gönder, tutarın tamamını iade edelim. Soru yok, zorluk yok.") },
   ];
@@ -790,7 +790,7 @@ function getScenes() {
     src: "/assets/scene-6.jpg",
     kicker: "Edition № 01",
     title: "Manduraa.",
-    body: tr("Mit Datteln gesüßt, nicht mit Zucker.\n300 g · 8 Zutaten · 0 g zugesetzter Zucker.", "Sweetened with dates, not sugar.\n300 g · 8 ingredients · 0 sugar added.", "Şekerle değil, hurmayla tatlandırıldı.\n300 g · 8 malzeme · 0 g ilave şeker."),
+    body: tr("Mit Datteln gesüßt, nicht mit Zucker.\n250 g · 8 Zutaten · 0 g zugesetzter Zucker.", "Sweetened with dates, not sugar.\n250 g · 8 ingredients · 0 sugar added.", "Şekerle değil, hurmayla tatlandırıldı.\n250 g · 8 malzeme · 0 g ilave şeker."),
     pos: "bottom", cta: true,
   },
   ];
@@ -2666,7 +2666,7 @@ function getUnboxSteps() {
     kicker: tr("Schritt 04 — Die Enthüllung","Step 04 — The reveal","Adım 04 — Açığa çıkış"),
     title: tr("Der Beutel,\nin seinem Bett.","The pouch,\nin its bed.","Paket,\nyatağında."),
     body: tr("Gebettet in weiche, rosa getönte Wolle. Von Hand mit einem einzigen cremefarbenen Leinenband gebunden. Der Beutel ist schwerer, als die Schachtel vermuten ließ.","Laid in soft rose-tone wool. Hand-tied with a single cream linen ribbon. The pouch is heavier than the box suggested.","Yumuşak, pembe tonlu yüne yatırılmış. Tek bir krem keten kurdeleyle elle bağlanmış. Paket, kutunun ima ettiğinden daha ağır."),
-    meta: [[tr("Beutel","Pouch","Paket"), tr("300 g · wiederverschließbar","300 g · resealable","300 g · yeniden kapanabilir")], [tr("Bett","Bed","Yatak"), tr("Recycelte Wolle, Rosé","Recycled wool, rose","Geri dönüşüm yün, pembe")], [tr("Gebunden von","Tied by","Bağlayan"), tr("Esmee · immer","Esmee · always","Esmee · her zaman")]],
+    meta: [[tr("Beutel","Pouch","Paket"), tr("250 g · wiederverschließbar","250 g · resealable","250 g · yeniden kapanabilir")], [tr("Bett","Bed","Yatak"), tr("Recycelte Wolle, Rosé","Recycled wool, rose","Geri dönüşüm yün, pembe")], [tr("Gebunden von","Tied by","Bağlayan"), tr("Esmee · immer","Esmee · always","Esmee · her zaman")]],
   },
   {
     kicker: tr("Schritt 05 — Die Karte","Step 05 — The card","Adım 05 — Kart"),
@@ -2870,14 +2870,14 @@ function RecoveryToast({ count, items, onOpen, onDismiss }) {
 /* ---------- Spec sheet — As composed ---------- */
 function getSpec() {
   return [
-  { name: tr("Datteln","Dates","Hurma"),                       color: "#7A4A2B", pct: 29, gram: "87 g" },
-  { name: tr("Mandeln","Almonds","Badem"),                     color: "#D9B988", pct: 18, gram: "54 g" },
-  { name: tr("Kokosmilchpulver","Coconut Milk Powder","Hindistan Cevizi Sütü Tozu"), color: "#E6D6BE", pct: 14, gram: "42 g" },
-  { name: tr("Haselnüsse","Hazelnuts","Fındık"),               color: "#9C6B3F", pct: 11, gram: "33 g" },
-  { name: tr("Kakao","Cocoa","Kakao"),                         color: "#4E3322", pct: 10, gram: "30 g" },
-  { name: tr("Entkoffeinierter Kaffee","Decaf Coffee","Kafeinsiz Kahve"), color: "#3E2719", pct:  9, gram: "27 g" },
-  { name: tr("Pistazien","Pistachios","Antep Fıstığı"),        color: "#7A8C4F", pct:  7, gram: "21 g" },
-  { name: tr("Grüner Kardamom","Green Cardamom","Yeşil Kakule"), color: "#8A9A5B", pct:  2, gram: "6 g"  },
+  { name: tr("Datteln","Dates","Hurma"),                       color: "#7A4A2B", pct: 29, gram: "72 g" },
+  { name: tr("Mandeln","Almonds","Badem"),                     color: "#D9B988", pct: 18, gram: "45 g" },
+  { name: tr("Kokosmilchpulver","Coconut Milk Powder","Hindistan Cevizi Sütü Tozu"), color: "#E6D6BE", pct: 14, gram: "35 g" },
+  { name: tr("Haselnüsse","Hazelnuts","Fındık"),               color: "#9C6B3F", pct: 11, gram: "28 g" },
+  { name: tr("Kakao","Cocoa","Kakao"),                         color: "#4E3322", pct: 10, gram: "25 g" },
+  { name: tr("Entkoffeinierter Kaffee","Decaf Coffee","Kafeinsiz Kahve"), color: "#3E2719", pct:  9, gram: "22 g" },
+  { name: tr("Pistazien","Pistachios","Antep Fıstığı"),        color: "#7A8C4F", pct:  7, gram: "18 g" },
+  { name: tr("Grüner Kardamom","Green Cardamom","Yeşil Kakule"), color: "#8A9A5B", pct:  2, gram: "5 g"  },
   ];
 }
 function SpecSheet() {
@@ -2907,7 +2907,7 @@ function SpecSheet() {
             <SplitText text={tr("Das ganze Rezept,","The full recipe,","Tüm tarif,")} /> <em className="italic"><SplitText text={tr("aufgeschrieben.","written down.","yazıya dökülmüş.")} delay={0.3} /></em>
           </h2>
           <p className="reveal delay-2" style={{ margin: "22px auto 0", maxWidth: "52ch", fontSize: 15, lineHeight: 1.75, color: "var(--grain)" }}>
-            {tr("Wir zeigen, was die meisten verschweigen: die volle Rezeptur pro Gramm, jede Zahl pro Tasse. Edition № 01 · Manduraa · 300-g-Beutel.","We show what most hide: the full recipe by gram, every number per cup. Edition № 01 · Manduraa · 300 g pouch.","Çoğunun gizlediğini gösteriyoruz: gram gram tüm tarif, fincan başına her sayı. Edition № 01 · Manduraa · 300 g paket.")}
+            {tr("Wir zeigen, was die meisten verschweigen: die volle Rezeptur pro Gramm, jede Zahl pro Tasse. Edition № 01 · Manduraa · 250-g-Beutel.","We show what most hide: the full recipe by gram, every number per cup. Edition № 01 · Manduraa · 250 g pouch.","Çoğunun gizlediğini gösteriyoruz: gram gram tüm tarif, fincan başına her sayı. Edition № 01 · Manduraa · 250 g paket.")}
           </p>
         </div>
 
@@ -2915,7 +2915,7 @@ function SpecSheet() {
           <div className="pouch-card reveal">
             <div className="top">
               <BlurImg src="/assets/scene-6.jpg" alt={tr("Der Manduraa-Beutel, von Hand gebunden.","The Manduraa pouch, hand-tied.","Manduraa paketi, elle bağlanmış.")} />
-              <span className="lock-tag">№ 01 · 300 g</span>
+              <span className="lock-tag">№ 01 · 250 g</span>
             </div>
             <div className="body">
               <h3>Manduraa <em className="italic">Original</em></h3>
@@ -2930,7 +2930,7 @@ function SpecSheet() {
             </div>
           </div>
           <div className="table-wrap reveal delay-1" ref={ref}>
-            <h3>{tr("Zutaten · 300-g-Beutel","Ingredients · 300 g pouch","İçindekiler · 300 g paket")}</h3>
+            <h3>{tr("Zutaten · 250-g-Beutel","Ingredients · 250 g pouch","İçindekiler · 250 g paket")}</h3>
             <span className="sub">{tr("— Edition N° 01 · Charge 124","— Edition N° 01 · Batch 124","— Edition N° 01 · Parti 124")}</span>
             <div className="ing-table">
               {SPEC.map((s, i) => (
