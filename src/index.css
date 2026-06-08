@@ -7191,6 +7191,13 @@ section.universe, section.story-intro, section.unbox, section.ritual {
   pointer-events: none;
   background: #0E0905;
 }
+.story-stage .hero-video::-webkit-media-controls,
+.story-stage .hero-video::-webkit-media-controls-start-playback-button,
+.story-stage .hero-video::-webkit-media-controls-play-button,
+.story-stage .hero-video::-webkit-media-controls-panel {
+  display: none !important;
+  -webkit-appearance: none;
+}
 .story-stage .hero-video-scrim {
   position: absolute; inset: 0; z-index: 1;
   pointer-events: none;

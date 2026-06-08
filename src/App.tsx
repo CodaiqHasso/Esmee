@@ -799,6 +799,24 @@ function ScrollStory({ onSteamIntensity, heroFrom }) {
   const intensityRef = useRef(0);
   const [cue, setCue] = useState(0);
   const lastCue = useRef(-1);
+  const videoRef = useRef(null);
+
+  // iOS needs the `muted` attribute really present (React doesn't reflect it
+  // reliably) plus an explicit play() to autoplay inline without a play button.
+  useEffect(() => {
+    const v = videoRef.current; if (!v) return;
+    v.muted = true; v.defaultMuted = true;
+    v.setAttribute("muted", "");
+    v.setAttribute("playsinline", "");
+    v.setAttribute("webkit-playsinline", "");
+    const tryPlay = () => { const p = v.play(); if (p && p.catch) p.catch(() => {}); };
+    tryPlay();
+    const onVis = () => { if (!document.hidden) tryPlay(); };
+    const onTouch = () => tryPlay();
+    document.addEventListener("visibilitychange", onVis);
+    window.addEventListener("touchstart", onTouch, { once: true, passive: true });
+    return () => { document.removeEventListener("visibilitychange", onVis); window.removeEventListener("touchstart", onTouch); };
+  }, []);
 
   useEffect(() => {
     let raf = 0;
@@ -875,6 +893,7 @@ function ScrollStory({ onSteamIntensity, heroFrom }) {
     <div id="story" className="story" ref={stageRef}>
       <div className="story-stage">
         <video
+          ref={videoRef}
           className="hero-video"
           src="/assets/hero.mp4"
           poster="/assets/hero-poster.jpg"
@@ -883,6 +902,8 @@ function ScrollStory({ onSteamIntensity, heroFrom }) {
           loop
           playsInline
           preload="auto"
+          controls={false}
+          disablePictureInPicture
           aria-hidden="true"
         />
         <div className="hero-video-scrim" aria-hidden="true" />
