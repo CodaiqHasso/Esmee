@@ -281,7 +281,8 @@ h1, h2, h3 { margin: 0; }
 /* Shorter cinematic on mobile so the intro isn't a scroll-marathon
    (scene transitions scale with this height automatically). */
 @media (max-width: 720px) {
-  .story { height: 100vh; }
+  .story { height: 72vh; }
+  .story-stage { height: 72vh; }
 }
 .story-stage {
   position: sticky; top: 0;
@@ -6769,7 +6770,7 @@ section.universe, section.story-intro, section.unbox, section.ritual {
    address-bar show/hide doesn't reflow it mid-scroll. */
 @supports (height: 100dvh) {
   @media (max-width: 720px) {
-    .story-stage { height: 100dvh; }
+    .story, .story-stage { height: 72dvh; }
   }
 }
 
@@ -7288,12 +7289,15 @@ section.universe, section.story-intro, section.unbox, section.ritual {
    backdrop matched to the video's own warm edge tone, with a bottom scrim for
    the headline. */
 @media (max-width: 720px) {
+  /* Shorter hero → use the full bleed (cover); some zoom is fine, but the video
+     stays large instead of a small contained band. */
   .story-stage .hero-video {
-    object-fit: contain;
+    object-fit: cover;
     background: #AE8161;
-    object-position: center 44%;
+    object-position: center center;
   }
   .story-stage .hero-video-scrim {
-    background: linear-gradient(180deg, rgba(20,12,7,.12) 0%, rgba(20,12,7,0) 30%, rgba(20,12,7,0) 56%, rgba(20,12,7,.58) 100%);
+    background: linear-gradient(180deg, rgba(20,12,7,.18) 0%, rgba(20,12,7,0) 32%, rgba(20,12,7,0) 52%, rgba(20,12,7,.6) 100%);
   }
+  .hero-pur { bottom: clamp(48px, 8vh, 96px); }
 }
