@@ -7257,3 +7257,28 @@ section.universe, section.story-intro, section.unbox, section.ritual {
   .hero-pur .hp-title { font-size: clamp(34px, 11vw, 56px); }
   .hero-pur .hp-cta { width: 100%; }
 }
+
+/* ============================================================
+   SPEC SHEET — mobile optimisation (ingredient rows + nutrition)
+   ============================================================ */
+@media (max-width: 600px) {
+  /* Two-line rows: swatch · name · gram on top, % bar full-width below */
+  .spec .ing-row {
+    grid-template-columns: 18px 1fr auto;
+    grid-template-areas: "sw nm gram" "bar bar bar";
+    column-gap: 12px; row-gap: 10px;
+    padding: 14px 0;
+  }
+  .spec .ing-row .sw   { grid-area: sw; }
+  .spec .ing-row .nm   { grid-area: nm; font-size: 16px; }
+  .spec .ing-row .gram { grid-area: gram; min-width: 0; font-size: 15px; }
+  .spec .ing-row .pct  { grid-area: bar; width: 100%; height: 5px; }
+
+  /* Nutrition heading: don't clip — tighter tracking, allow wrap */
+  .spec .nutrition h4 { letter-spacing: 0.18em; line-height: 1.5; }
+  .spec .nut-cell { padding: 12px 13px; }
+  .spec .nut-cell .v { font-size: 19px; }
+
+  /* Allergens / best-by stack instead of cramming on one row */
+  .spec .footer-row { flex-direction: column; gap: 6px; }
+}
