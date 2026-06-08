@@ -873,15 +873,18 @@ function ScrollStory({ onSteamIntensity, heroFrom }) {
   return (
     <div id="story" className="story" ref={stageRef}>
       <div className="story-stage">
-        {SCENES.map((s, i) => (
-          <div
-            key={i}
-            ref={el => { sceneRefs.current[i] = el; }}
-            className="scene"
-            style={{ backgroundImage: `url(${s.src})`, zIndex: i + 1, opacity: i === 0 ? 1 : 0 }}
-            aria-hidden={cue !== i}
-          />
-        ))}
+        <video
+          className="hero-video"
+          src="/assets/hero.mp4"
+          poster="/assets/hero-poster.jpg"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          aria-hidden="true"
+        />
+        <div className="hero-video-scrim" aria-hidden="true" />
         <SteamCanvas getIntensity={getIntensity} />
         {/* CRO: Hero buy-strip — highlights + price + ATC over the first scene */}
         <div className={"hero-buystrip " + (cue === 0 ? "in" : "")} aria-hidden={cue !== 0}>

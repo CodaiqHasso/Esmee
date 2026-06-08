@@ -7179,3 +7179,20 @@ section.universe, section.story-intro, section.unbox, section.ritual {
   .story-stage .stage-text .cue { position: absolute; left: 0; right: 0; margin: 0 auto; top: 15vh; bottom: auto; }
   .story-stage .stage-text .cue.bottom { top: auto; bottom: 23vh; }
 }
+
+/* ============================================================
+   HERO BACKGROUND VIDEO — autoplay, muted, looped, no controls
+   ============================================================ */
+.story-stage .hero-video {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
+  background: #0E0905;
+}
+.story-stage .hero-video-scrim {
+  position: absolute; inset: 0; z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(20,12,7,.34) 0%, rgba(20,12,7,.05) 28%, rgba(20,12,7,.12) 66%, rgba(20,12,7,.48) 100%);
+}
