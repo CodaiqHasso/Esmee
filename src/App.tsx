@@ -109,14 +109,26 @@ function discountCodesForCart(cart) {
    ============================================================ */
 
 /* ---------- DATA ---------- */
+// Two pouch sizes — drives the displayed price. On the live site the real
+// Shopify variants override this; offline this is the fallback.
 const VARIANTS = [
   {
-    id: "original",
-    name: "Original",
-    sub: "decaf · date-sweetened",
+    id: "250",
+    name: "250 g",
+    sub: "19,90 €",
+    price: 19.90,
     swatch: "linear-gradient(135deg,#C4A893,#9B7B61)",
     image: "/assets/lifestyle-cezve-powder.jpeg",
-    note: "A composed cup — almonds, hazelnuts, dates, pistachios, cocoa and a hint of decaf coffee.",
+    note: "decaf · date-sweetened",
+  },
+  {
+    id: "500",
+    name: "500 g",
+    sub: "29,90 €",
+    price: 29.90,
+    swatch: "linear-gradient(135deg,#B58A66,#8A5E3C)",
+    image: "/assets/lifestyle-cup-pouches.jpeg",
+    note: "decaf · date-sweetened",
   },
 ];
 
@@ -218,7 +230,7 @@ function getFaqs() {
   { q: tr("Was steckt eigentlich in Manduraa?","What's actually in Manduraa?","Manduraa'da aslında ne var?"), a: tr("Acht Zutaten, mehr nicht: Datteln, Mandeln, Haselnüsse, Pistazien, Kakao, entkoffeinierter Kaffee, Kokosmilchpulver und grüner Kardamom. Kein raffinierter Zucker, keine Sirupe, keine Aromen, keine Konservierungsstoffe. Vegan und glutenfrei.","Eight ingredients, nothing else: dates, almonds, hazelnuts, pistachios, cocoa, decaffeinated coffee, coconut milk powder and green cardamom. No refined sugar, no syrups, no flavourings, no preservatives. Vegan and gluten-free.","Sekiz malzeme, başka hiçbir şey: hurma, badem, fındık, fıstık, kakao, kafeinsiz kahve, Hindistan cevizi sütü tozu ve yeşil kakule. Rafine şeker yok, şurup yok, aroma yok, koruyucu yok. Vegan ve glutensiz.") },
   { q: tr("Wie bereite ich es zu?","How do I prepare it?","Nasıl hazırlanır?"), a: tr("Ein gehäufter Löffel (7 g) pro kleine Tasse. 150 ml heißes — nicht kochendes — Wasser oder aufgeschäumte Milch dazugeben und zehn Sekunden rühren. Vor dem Trinken dreißig Sekunden ruhen lassen. Das ist das ganze Ritual.","One heaped spoon (7 g) per small cup. Add 150 ml of hot — not boiling — water or steamed milk and stir for ten seconds. Let it rest for thirty seconds before drinking. That's the entire ritual.","Her küçük fincan için bir tepeleme kaşık (7 g). 150 ml sıcak — kaynar değil — su ya da köpürtülmüş süt ekleyip on saniye karıştır. İçmeden önce otuz saniye dinlendir. Tüm ritüel bu kadar.") },
   { q: tr("Enthält es Koffein?","Does it contain caffeine?","Kafein içeriyor mu?"), a: tr("Kaum. Manduraa wird mit entkoffeiniertem Kaffee gemacht — über 97 % des Koffeins sind entfernt. Du bekommst das Kaffee-Aroma und die Antioxidantien, aber kein Herzrasen und keinen gestörten Schlaf. Auch abends und für koffeinempfindliche Menschen geeignet.","Barely. Manduraa is made with decaffeinated coffee — over 97% of the caffeine is removed. You get the coffee aroma and antioxidants, but no racing heart and no disturbed sleep. Suitable in the evening and for caffeine-sensitive people too.","Neredeyse hiç. Manduraa kafeinsiz kahveyle yapılır — kafeinin %97'sinden fazlası alınmıştır. Kahve aromasını ve antioksidanları alırsın ama çarpıntı ya da uyku bozukluğu olmaz. Akşam ve kafeine duyarlılar için de uygun.") },
-  { q: tr("Welche Größen gibt es?","What sizes are available?","Hangi boyutlar var?"), a: tr("Manduraa gibt es in zwei Größen: 250 g und 500 g. Den jeweiligen Preis siehst du oben im Shop.","Manduraa comes in two sizes: 250 g and 500 g. You'll see each price in the shop above.","Manduraa iki boyutta gelir: 250 g ve 500 g. Her boyutun fiyatını yukarıdaki mağazada görürsün.") },
+  { q: tr("Welche Größen gibt es?","What sizes are available?","Hangi boyutlar var?"), a: tr("Manduraa gibt es in zwei Größen: 250 g für 19,90 € und 500 g für 29,90 €. Die Größe wählst du oben im Shop.","Manduraa comes in two sizes: 250 g for €19.90 and 500 g for €29.90. Pick the size in the shop above.","Manduraa iki boyutta gelir: 19,90 € için 250 g ve 29,90 € için 500 g. Boyutu yukarıdaki mağazadan seçersin.") },
   { q: tr("Wie lange reicht ein Beutel?","How long does a pouch last?","Bir paket ne kadar yeter?"), a: tr("Ein 250-g-Beutel ergibt etwa 10 Tassen, ein 500-g-Beutel etwa 20. Versiegelt an einem kühlen, dunklen Ort gelagert, bleibt er ab dem auf der Rückseite aufgedruckten Datum sechs Monate auf dem Höhepunkt.","A 250 g pouch makes roughly 12 cups. Stored sealed in a cool, dark place, it stays at peak for six months from the date stamped on the back.","250 g'lık bir paket yaklaşık 12 fincan yapar. Serin, karanlık bir yerde kapalı saklandığında, arkasında yazan tarihten itibaren altı ay boyunca en iyi durumda kalır.") },
   { q: tr("Wohin liefert ihr?","Where do you ship?","Nereye gönderiyorsunuz?"), a: tr("In die EU und das Vereinigte Königreich. Kostenlose Lieferung ab €60. Bestellungen werden innerhalb von 48 Stunden aus unserer Manufaktur versandt.","Across the EU and the UK. Complimentary delivery on orders over €60. Orders ship within 48 hours from our workshop.","AB'ye ve Birleşik Krallık'a. €60 üzeri siparişlerde ücretsiz teslimat. Siparişler mutfağımızdan 48 saat içinde gönderilir.") },
   { q: tr("Kann ich es zurückgeben?","Can I return it?","İade edebilir miyim?"), a: tr("Ja. Wenn dir deine erste Tasse nicht gefällt, schick den Beutel innerhalb von 30 Tagen zurück und wir erstatten dir den vollen Betrag. Keine Fragen, keine Hürden.","Yes. If you don't love your first cup, send the pouch back within 30 days and we'll refund you in full. No questions, no friction.","Evet. İlk fincanını sevmezsen, paketi 30 gün içinde geri gönder, tutarın tamamını iade edelim. Soru yok, zorluk yok.") },
@@ -1456,14 +1468,21 @@ function Benefits() {
    ============================================================ */
 function Shop({ onAdd, onMagnetMove, onTap, liveVariants, sellingPlans }) {
   useLang();
-  // Live Shopify catalog drives the display; demo VARIANTS are the offline fallback.
-  const variants = (liveVariants && liveVariants.length) ? liveVariants : VARIANTS;
+  // Always show the two pouch sizes. If the live Shopify product already has
+  // ≥2 variants, use those directly. Otherwise present the two sizes and borrow
+  // a live merchandiseId per size (matched by "250"/"500", else the first live
+  // variant) so checkout still works until the size variants exist in Shopify.
+  const live = (liveVariants && liveVariants.length) ? liveVariants : null;
+  const variants = (live && live.length >= 2) ? live : VARIANTS.map(v => {
+    const match = live && live.find(l => String(l.name || l.title || "").replace(/\s+/g, "").includes(v.id));
+    const fb = live && live[0];
+    return { ...v, merchandiseId: (match || fb || {}).merchandiseId,
+             price: (match && typeof match.price === "number") ? match.price : v.price };
+  });
   const singleVariant = variants.length === 1;
   const [variant, setVariant] = useState(variants[0]);
   const [activeImg, setActiveImg] = useState(0); // product gallery index
-  useEffect(() => {
-    if (liveVariants && liveVariants.length) setVariant(liveVariants[0]);
-  }, [liveVariants]);
+  useEffect(() => { setVariant(variants[0]); }, [liveVariants]);
   const PACKS = getPacks();
   const [packId, setPackId] = useState("1");
   const pack = PACKS.find(p => p.id === packId) || PACKS[1];
@@ -1786,7 +1805,7 @@ function Shop({ onAdd, onMagnetMove, onTap, liveVariants, sellingPlans }) {
 
           {!singleVariant && (
             <div className="option-block">
-              <div className="option-label"><span>{tr("Edition","Edition","Edisyon")}</span><em>{variant.name}</em></div>
+              <div className="option-label"><span>{tr("Größe","Size","Boyut")}</span><em>{variant.name}</em></div>
               <div className="variant-row">
                 {variants.map(v => (
                   <button key={v.id} className={"v-chip " + (v.id === variant.id ? "active" : "")} data-cur="btn" data-cur-label={tr("Wählen","Pick","Seç")} onClick={() => chooseVariant(v)}>
