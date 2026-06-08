@@ -1021,7 +1021,7 @@ function StoryIntro() {
             {tr(" — das Aroma ohne das Koffein."," — the flavour without the caffeine."," — kafeinsiz aroma.")}
           </p>
           <div className="stats reveal delay-3">
-            <div className="stat"><strong><Counter to={7} duration={1100} /></strong><span>{tr("Zutaten","Ingredients","Malzeme")}</span></div>
+            <div className="stat"><strong><Counter to={8} duration={1100} /></strong><span>{tr("Zutaten","Ingredients","Malzeme")}</span></div>
             <div className="stat"><strong><Counter to={0} duration={1100} suffix="g" /></strong><span>{tr("Raffinierter Zucker","Refined sugar","Rafine şeker")}</span></div>
             <div className="stat"><strong><Counter to={90} duration={1100} suffix="s" /></strong><span>{tr("In der Tasse","In the cup","Fincanda")}</span></div>
           </div>
@@ -1810,7 +1810,7 @@ function Shop({ onAdd, onMagnetMove, onTap, liveVariants, sellingPlans }) {
                 {variants.map(v => (
                   <button key={v.id} className={"v-chip " + (v.id === variant.id ? "active" : "")} data-cur="btn" data-cur-label={tr("Wählen","Pick","Seç")} onClick={() => chooseVariant(v)}>
                     <span className="v-name">{v.name}</span>
-                    <span className="v-sub">{v.sub}</span>
+                    <span className="v-sub">{typeof v.price === "number" ? "€" + v.price.toFixed(2).replace(".", ",") : (v.sub && v.sub !== v.name ? v.sub : "")}</span>
                   </button>
                 ))}
               </div>
