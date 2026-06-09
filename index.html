@@ -1,33 +1,155 @@
 <!doctype html>
-<html lang="en">
+<html lang="de">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <link rel="icon" type="image/png" href="/assets/logo-esmee.png" />
     <link rel="apple-touch-icon" href="/assets/logo-esmee.png" />
     <meta name="theme-color" content="#1A120C" />
-    <meta name="description" content="Esmee · Manduraa — a modern, luxe one-product ritual. Tradition, distilled. Sweetened with dates, not sugar." />
-    <title>Esmee — Manduraa · Tradition, distilled.</title>
+
+    <!-- Primary meta (German is the default language) -->
+    <title>Esmee Manduraa – mit Datteln gesüßt, entkoffeiniert | 8 Zutaten</title>
+    <meta name="description" content="Manduraa von Esmee: ein traditionsinspiriertes Heißgetränk aus 8 Zutaten – mit Datteln gesüßt statt Zucker, entkoffeiniert und vegan. Mandeln, Haselnüsse, Pistazien, Kakao & Kardamom. Jetzt ab 19,90 €." />
+    <meta name="keywords" content="Manduraa, Esmee, Heißgetränk, mit Datteln gesüßt, entkoffeiniert, vegan, ohne raffinierten Zucker, Dattel-Getränk, Kaffeealternative, Kardamom Getränk, Mandel Kakao Getränk" />
+    <meta name="author" content="Esmee Mocca · Zeynep İnanlı" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow" />
+    <link rel="canonical" href="https://esmee-drinks.de/" />
 
     <!-- Open Graph / social -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Esmee" />
-    <meta property="og:title" content="Esmee — Manduraa · Tradition, distilled." />
-    <meta property="og:description" content="A modern, luxe one-product ritual. Eight ingredients, zero refined sugar. Hand-blended in small batches." />
-    <meta property="og:image" content="/assets/poster-cinematic.jpeg" />
+    <meta property="og:locale" content="de_DE" />
+    <meta property="og:locale:alternate" content="en_US" />
+    <meta property="og:locale:alternate" content="tr_TR" />
+    <meta property="og:url" content="https://esmee-drinks.de/" />
+    <meta property="og:title" content="Esmee Manduraa – mit Datteln gesüßt, entkoffeiniert" />
+    <meta property="og:description" content="Ein traditionsinspiriertes Heißgetränk aus 8 Zutaten – mit Datteln gesüßt statt Zucker, entkoffeiniert und vegan. Jetzt ab 19,90 €." />
+    <meta property="og:image" content="https://esmee-drinks.de/assets/poster-cinematic.jpeg" />
+    <meta property="og:image:alt" content="Eine dampfende Tasse Esmee Manduraa neben den Beuteln." />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Esmee — Manduraa · Tradition, distilled." />
-    <meta name="twitter:description" content="A modern, luxe one-product ritual. Eight ingredients, zero refined sugar." />
-    <meta name="twitter:image" content="/assets/poster-cinematic.jpeg" />
+    <meta name="twitter:title" content="Esmee Manduraa – mit Datteln gesüßt, entkoffeiniert" />
+    <meta name="twitter:description" content="Ein traditionsinspiriertes Heißgetränk aus 8 Zutaten – mit Datteln gesüßt statt Zucker, entkoffeiniert und vegan." />
+    <meta name="twitter:image" content="https://esmee-drinks.de/assets/poster-cinematic.jpeg" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&display=swap"
       rel="stylesheet"
     />
+
+    <!-- Structured data: Organization, WebSite, Product, FAQ -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://esmee-drinks.de/#organization",
+          "name": "Esmee Mocca",
+          "alternateName": "Esmee · Manduraa",
+          "url": "https://esmee-drinks.de/",
+          "logo": "https://esmee-drinks.de/assets/logo-esmee.png",
+          "founder": { "@type": "Person", "name": "Zeynep İnanlı" },
+          "email": "esmee@esmeezeyn.com",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Königsallee 63–65",
+            "postalCode": "40215",
+            "addressLocality": "Düsseldorf",
+            "addressCountry": "DE"
+          }
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://esmee-drinks.de/#website",
+          "url": "https://esmee-drinks.de/",
+          "name": "Esmee Manduraa",
+          "inLanguage": "de",
+          "publisher": { "@id": "https://esmee-drinks.de/#organization" }
+        },
+        {
+          "@type": "Product",
+          "@id": "https://esmee-drinks.de/#product",
+          "name": "Esmee Manduraa",
+          "image": [
+            "https://esmee-drinks.de/assets/poster-cinematic.jpeg",
+            "https://esmee-drinks.de/assets/lifestyle-cup-pouches.jpeg"
+          ],
+          "description": "Ein traditionsinspiriertes Heißgetränk aus acht Zutaten – Mandeln, Datteln, Pistazien, Kakao, entkoffeinierter Kaffee, Haselnüsse, Kardamom und Kokosmilch. Mit Datteln gesüßt statt Zucker, entkoffeiniert und vegan.",
+          "brand": { "@type": "Brand", "name": "Esmee" },
+          "category": "Heißgetränk",
+          "offers": {
+            "@type": "AggregateOffer",
+            "priceCurrency": "EUR",
+            "lowPrice": "19.90",
+            "highPrice": "29.90",
+            "offerCount": "2",
+            "availability": "https://schema.org/InStock",
+            "url": "https://esmee-drinks.de/",
+            "seller": { "@id": "https://esmee-drinks.de/#organization" }
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "@id": "https://esmee-drinks.de/#faq",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Was ist Manduraa?",
+              "acceptedAnswer": { "@type": "Answer", "text": "Manduraa ist ein traditionsinspiriertes Heißgetränk aus acht Zutaten: Mandeln, Datteln, Pistazien, Kakao, entkoffeinierter Kaffee, Haselnüsse, Kardamom und Kokosmilch. Es ist mit Datteln gesüßt statt mit Zucker, entkoffeiniert und vegan." },
+              "inLanguage": "de"
+            },
+            {
+              "@type": "Question",
+              "name": "Welche Größen gibt es?",
+              "acceptedAnswer": { "@type": "Answer", "text": "Manduraa gibt es in zwei Größen: 250 g für 19,90 € und 500 g für 29,90 €." },
+              "inLanguage": "de"
+            },
+            {
+              "@type": "Question",
+              "name": "Wie bereite ich Manduraa zu?",
+              "acceptedAnswer": { "@type": "Answer", "text": "Ein Kupfer-Messlöffel (25 g) pro Tasse. Mit 45 ml heißem – nicht kochendem – Wasser glatt rühren, dann nach Geschmack mit heißem Wasser oder aufgeschäumter Milch aufgießen." },
+              "inLanguage": "de"
+            },
+            {
+              "@type": "Question",
+              "name": "Enthält Manduraa Koffein oder Zucker?",
+              "acceptedAnswer": { "@type": "Answer", "text": "Nein. Manduraa ist entkoffeiniert und enthält keinen raffinierten Zucker – die Süße kommt allein aus Datteln. Es ist außerdem vegan und glutenfrei." },
+              "inLanguage": "de"
+            }
+          ]
+        }
+      ]
+    }
+    </script>
   </head>
   <body>
     <div id="root"></div>
+
+    <!-- Crawler fallback: real content for bots that do not execute JavaScript -->
+    <noscript>
+      <main>
+        <h1>Esmee Manduraa – mit Datteln gesüßt, entkoffeiniert</h1>
+        <p>
+          Manduraa von Esmee ist ein traditionsinspiriertes Heißgetränk aus acht Zutaten:
+          Mandeln, Datteln, Pistazien, Kakao, entkoffeinierter Kaffee, Haselnüsse, grüner
+          Kardamom und Kokosmilch. Mit Datteln gesüßt statt mit Zucker, entkoffeiniert,
+          vegan und glutenfrei.
+        </p>
+        <h2>Größen &amp; Preise</h2>
+        <ul>
+          <li>250-g-Beutel – 19,90 € (ca. 10 Tassen)</li>
+          <li>500-g-Beutel – 29,90 € (ca. 20 Tassen)</li>
+        </ul>
+        <h2>Zutaten</h2>
+        <p>Datteln, Mandeln, Kokosmilchpulver, Haselnüsse, Kakao, entkoffeinierter Kaffee, Pistazien, grüner Kardamom.</p>
+        <p>Esmee Mocca · Zeynep İnanlı · Königsallee 63–65, 40215 Düsseldorf · esmee@esmeezeyn.com</p>
+        <p>Aktiviere JavaScript, um den vollständigen Shop zu sehen.</p>
+      </main>
+    </noscript>
+
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
