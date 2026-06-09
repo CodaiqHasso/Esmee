@@ -228,10 +228,10 @@ function getTaste() {
 function getFaqs() {
   return [
   { q: tr("Was steckt eigentlich in Manduraa?","What's actually in Manduraa?","Manduraa'da aslında ne var?"), a: tr("Acht Zutaten, mehr nicht: Datteln, Mandeln, Haselnüsse, Pistazien, Kakao, entkoffeinierter Kaffee, Kokosmilchpulver und grüner Kardamom. Kein raffinierter Zucker, keine Sirupe, keine Aromen, keine Konservierungsstoffe. Vegan und glutenfrei.","Eight ingredients, nothing else: dates, almonds, hazelnuts, pistachios, cocoa, decaffeinated coffee, coconut milk powder and green cardamom. No refined sugar, no syrups, no flavourings, no preservatives. Vegan and gluten-free.","Sekiz malzeme, başka hiçbir şey: hurma, badem, fındık, fıstık, kakao, kafeinsiz kahve, Hindistan cevizi sütü tozu ve yeşil kakule. Rafine şeker yok, şurup yok, aroma yok, koruyucu yok. Vegan ve glutensiz.") },
-  { q: tr("Wie bereite ich es zu?","How do I prepare it?","Nasıl hazırlanır?"), a: tr("Ein gehäufter Löffel (7 g) pro kleine Tasse. 150 ml heißes — nicht kochendes — Wasser oder aufgeschäumte Milch dazugeben und zehn Sekunden rühren. Vor dem Trinken dreißig Sekunden ruhen lassen. Das ist das ganze Ritual.","One heaped spoon (7 g) per small cup. Add 150 ml of hot — not boiling — water or steamed milk and stir for ten seconds. Let it rest for thirty seconds before drinking. That's the entire ritual.","Her küçük fincan için bir tepeleme kaşık (7 g). 150 ml sıcak — kaynar değil — su ya da köpürtülmüş süt ekleyip on saniye karıştır. İçmeden önce otuz saniye dinlendir. Tüm ritüel bu kadar.") },
+  { q: tr("Wie bereite ich es zu?","How do I prepare it?","Nasıl hazırlanır?"), a: tr("Ein Kupfer-Messlöffel (25 g) pro Tasse. Mit 45 ml heißem — nicht kochendem — Wasser glatt rühren, dann nach Geschmack mit heißem Wasser oder aufgeschäumter Milch aufgießen. Vor dem Trinken dreißig Sekunden ruhen lassen. Das ist das ganze Ritual.","One copper measuring spoon (25 g) per cup. Stir smooth with 45 ml of hot — not boiling — water, then top up with hot water or steamed milk to taste. Let it rest for thirty seconds before drinking. That's the entire ritual.","Her fincan için bir bakır ölçü kaşığı (25 g). 45 ml sıcak — kaynar değil — suyla pürüzsüz karıştır, ardından damak zevkine göre sıcak su ya da köpürtülmüş sütle tamamla. İçmeden önce otuz saniye dinlendir. Tüm ritüel bu kadar.") },
   { q: tr("Enthält es Koffein?","Does it contain caffeine?","Kafein içeriyor mu?"), a: tr("Kaum. Manduraa wird mit entkoffeiniertem Kaffee gemacht — über 97 % des Koffeins sind entfernt. Du bekommst das Kaffee-Aroma und die Antioxidantien, aber kein Herzrasen und keinen gestörten Schlaf. Auch abends und für koffeinempfindliche Menschen geeignet.","Barely. Manduraa is made with decaffeinated coffee — over 97% of the caffeine is removed. You get the coffee aroma and antioxidants, but no racing heart and no disturbed sleep. Suitable in the evening and for caffeine-sensitive people too.","Neredeyse hiç. Manduraa kafeinsiz kahveyle yapılır — kafeinin %97'sinden fazlası alınmıştır. Kahve aromasını ve antioksidanları alırsın ama çarpıntı ya da uyku bozukluğu olmaz. Akşam ve kafeine duyarlılar için de uygun.") },
   { q: tr("Welche Größen gibt es?","What sizes are available?","Hangi boyutlar var?"), a: tr("Manduraa gibt es in zwei Größen: 250 g für 19,90 € und 500 g für 29,90 €. Die Größe wählst du oben im Shop.","Manduraa comes in two sizes: 250 g for €19.90 and 500 g for €29.90. Pick the size in the shop above.","Manduraa iki boyutta gelir: 19,90 € için 250 g ve 29,90 € için 500 g. Boyutu yukarıdaki mağazadan seçersin.") },
-  { q: tr("Wie lange reicht ein Beutel?","How long does a pouch last?","Bir paket ne kadar yeter?"), a: tr("Ein 250-g-Beutel ergibt etwa 10 Tassen, ein 500-g-Beutel etwa 20. Versiegelt an einem kühlen, dunklen Ort gelagert, bleibt er ab dem auf der Rückseite aufgedruckten Datum sechs Monate auf dem Höhepunkt.","A 250 g pouch makes roughly 12 cups. Stored sealed in a cool, dark place, it stays at peak for six months from the date stamped on the back.","250 g'lık bir paket yaklaşık 12 fincan yapar. Serin, karanlık bir yerde kapalı saklandığında, arkasında yazan tarihten itibaren altı ay boyunca en iyi durumda kalır.") },
+  { q: tr("Wie lange reicht ein Beutel?","How long does a pouch last?","Bir paket ne kadar yeter?"), a: tr("Ein 250-g-Beutel ergibt etwa 10 Tassen, ein 500-g-Beutel etwa 20 — bei einem Kupfer-Messlöffel (25 g) pro Tasse. Versiegelt an einem kühlen, dunklen Ort gelagert, bleibt er ab dem auf der Rückseite aufgedruckten Datum sechs Monate auf dem Höhepunkt.","A 250 g pouch makes about 10 cups, a 500 g pouch about 20 — at one copper spoon (25 g) per cup. Stored sealed in a cool, dark place, it stays at peak for six months from the date stamped on the back.","250 g'lık bir paket yaklaşık 10 fincan, 500 g'lık paket ise yaklaşık 20 fincan yapar — fincan başına bir bakır ölçü kaşığı (25 g). Serin, karanlık bir yerde kapalı saklandığında, arkasında yazan tarihten itibaren altı ay boyunca en iyi durumda kalır.") },
   { q: tr("Wohin liefert ihr?","Where do you ship?","Nereye gönderiyorsunuz?"), a: tr("In die EU und das Vereinigte Königreich. Kostenlose Lieferung ab €60. Bestellungen werden innerhalb von 48 Stunden aus unserer Manufaktur versandt.","Across the EU and the UK. Complimentary delivery on orders over €60. Orders ship within 48 hours from our workshop.","AB'ye ve Birleşik Krallık'a. €60 üzeri siparişlerde ücretsiz teslimat. Siparişler mutfağımızdan 48 saat içinde gönderilir.") },
   { q: tr("Kann ich es zurückgeben?","Can I return it?","İade edebilir miyim?"), a: tr("Ja. Wenn dir deine erste Tasse nicht gefällt, schick den Beutel innerhalb von 30 Tagen zurück und wir erstatten dir den vollen Betrag. Keine Fragen, keine Hürden.","Yes. If you don't love your first cup, send the pouch back within 30 days and we'll refund you in full. No questions, no friction.","Evet. İlk fincanını sevmezsen, paketi 30 gün içinde geri gönder, tutarın tamamını iade edelim. Soru yok, zorluk yok.") },
   ];
@@ -1523,6 +1523,11 @@ function Shop({ onAdd, onMagnetMove, onTap, liveVariants, sellingPlans }) {
   const activePlan = subActive ? planFor(plan === "60" ? 60 : 30) : null;
   const subPct = (activePlan && activePlan.percentage) ? activePlan.percentage / 100 : SUB_DISCOUNT;
   const sellingPlanId = activePlan ? activePlan.id : null;
+  // Cups scale with the selected pouch size: one 25 g copper spoon per cup,
+  // so 250 g ≈ 10 cups, 500 g ≈ 20 cups. The pack tiers multiply by the count.
+  const pouchG = parseInt(String(variant.name || "").replace(/[^\d]/g, ""), 10) || 250;
+  const cupsPerPouch = Math.max(1, Math.round(pouchG / 25));
+  const cupsLabel = (n) => tr(`≈ ${n} Tassen`, `≈ ${n} cups`, `≈ ${n} fincan`);
   const packUnit = (p) => liveBase != null ? r2(liveBase * (1 - p.save / 100)) : p.unit;
   const subUnit = liveBase != null ? r2(liveBase * (1 - subPct)) : Math.round(PACKS[0].unit * (1 - subPct));
   const baseUnit = packUnit(pack);
@@ -1740,7 +1745,7 @@ function Shop({ onAdd, onMagnetMove, onTap, liveVariants, sellingPlans }) {
                   <span className="radio"></span>
                   <div>
                     <div className="pack-name">{p.label}</div>
-                    <div className="pack-sub">{p.sub}</div>
+                    <div className="pack-sub">{cupsLabel(p.count * cupsPerPouch)}</div>
                   </div>
                   <div>
                     <div className="pack-price">€{m(packUnit(p) * p.count)}</div>
@@ -2205,12 +2210,12 @@ function GuaranteeStrip() {
         <div className="g-body">
           <span className="eyebrow">{tr("— Das Erste-Tasse-Versprechen","— The first-cup promise","— İlk fincan sözü")}</span>
           <h3 key={tr("de","en","tr")}>
-            {tr(<>Wenn dich der erste Schluck nicht <em className="italic">überrascht</em>,<br/>antworte mir auf diese Mail.</>,
-                <>If the first sip doesn't <em className="italic">surprise</em> you,<br/>just reply to this email.</>,
-                <>İlk yudum seni <em className="italic">şaşırtmazsa</em>,<br/>bu e-postaya yanıt ver.</>)}
+            {tr(<>Überzeugt dich der erste Schluck nicht,<br/>bekommst du dein Geld <em className="italic">zurück</em>.</>,
+                <>If the first sip doesn't win you over,<br/>you get your money <em className="italic">back</em>.</>,
+                <>İlk yudum seni ikna etmezse,<br/>paranı <em className="italic">geri</em> alırsın.</>)}
           </h3>
           <p>
-            {tr("30 Tage. Kein Fragebogen, kein Versandlabel-Theater. Ich erstatte dir persönlich den vollen Betrag — auch für den Beutel, den du schon halb geleert hast. Wer Tradition verkauft, darf bei der Rückgabe nicht kleinlich sein.","30 days. No questionnaire, no shipping-label theatre. I'll refund you personally — even the pouch you've already half-emptied. Anyone who sells tradition shouldn't be stingy about returns.","30 gün. Anket yok, kargo etiketi tiyatrosu yok. Tutarı sana bizzat iade ederim — yarısını bitirdiğin paket için bile. Gelenek satan, iadede cimri olmamalı.")}
+            {tr("30 Tage Zeit, ganz ohne Risiko. Schreib mir einfach eine kurze Nachricht — kein Formular, kein Rücksende-Theater. Du bekommst den vollen Betrag zurück, auch wenn der Beutel schon halb leer ist. Für jede Tasse Manduraa stehe ich persönlich ein.","30 days, no risk at all. Just send me a short message — no form, no return hassle. You get the full amount back, even if the pouch is already half empty. I stand behind every cup of Manduraa, personally.","30 gün, hiçbir risk yok. Bana kısa bir mesaj göndermen yeter — form yok, iade derdi yok. Paket yarı boş olsa bile tutarın tamamını geri alırsın. Her bir fincan Manduraa'nın arkasında bizzat duruyorum.")}
           </p>
           <div className="g-meta">
             <div className="g-sig">
@@ -2820,7 +2825,7 @@ function ReviewsV2() {
 
         <div className="hero-review reveal delay-1">
           <span className="open-q">"</span>
-          <blockquote>{tr("Mit Datteln gesüßt, nicht mit Zucker. Acht Zutaten, von Hand gemischt in unserer Manufaktur. Du gehörst zu den Ersten, die sie probieren.","Sweetened with dates, not sugar. Eight ingredients, hand-blended in our workshop. You're among the first to taste it.","Şekerle değil, hurmayla tatlandırılmış. Sekiz malzeme, mutfağımızda elle harmanlanmış. Onu tadan ilk kişilerdensin.")}</blockquote>
+          <blockquote>{tr("Mit Datteln gesüßt, nicht mit Zucker. Acht Zutaten, von Hand gemischt — entkoffeiniert, vegan, ohne raffinierten Zucker. Manduraa erscheint gerade erst. Du gehörst zu den Ersten, die sie probieren.","Sweetened with dates, not sugar. Eight ingredients, blended by hand — decaffeinated, vegan, no refined sugar. Manduraa is only just launching. You're among the first to taste it.","Şekerle değil, hurmayla tatlandırılmış. Sekiz malzeme, elle harmanlanmış — kafeinsiz, vegan, rafine şeker yok. Manduraa daha yeni çıkıyor. Onu tadan ilk kişilerdensin.")}</blockquote>
           <div className="author-row">
             <div className="author-text">
               <strong>— Esmee</strong>
