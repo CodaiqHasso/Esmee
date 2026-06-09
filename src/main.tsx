@@ -23,7 +23,7 @@ if (isLegal) {
   document.documentElement.setAttribute('data-legal', slug)
   document.title = LEGAL_TITLE[slug] || 'Esmee Manduraa'
   const canonical = document.querySelector('link[rel="canonical"]')
-  if (canonical) canonical.setAttribute('href', `https://esmee-drinks.de/${slug}`)
+  if (canonical) canonical.setAttribute('href', `https://www.esmee-drinks.de/${slug}`)
 }
 
 // NOTE: StrictMode is intentionally omitted. This landing page is a faithful port

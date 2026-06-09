@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://esmee-drinks.de/sitemap.xml
+Sitemap: https://www.esmee-drinks.de/sitemap.xml
