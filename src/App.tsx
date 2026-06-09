@@ -2980,7 +2980,6 @@ function SpecSheet() {
               </div>
               <div className="footer-row">
                 <span><strong>{tr("Allergene:","Allergens:","Alerjenler:")}</strong> {tr("Mandeln, Haselnüsse, Pistazien.","almonds, hazelnuts, pistachios.","badem, fındık, fıstık.")}</span>
-                <span><strong>{tr("Mindestens haltbar bis:","Best by:","Son kullanma:")}</strong> 06 / 2026</span>
               </div>
             </div>
           </div>
