@@ -2894,14 +2894,14 @@ function RecoveryToast({ count, items, onOpen, onDismiss }) {
 /* ---------- Spec sheet — As composed ---------- */
 function getSpec() {
   return [
-  { name: tr("Datteln","Dates","Hurma"),                       color: "#7A4A2B", pct: 29, gram: "72 g" },
-  { name: tr("Mandeln","Almonds","Badem"),                     color: "#D9B988", pct: 18, gram: "45 g" },
-  { name: tr("Kokosmilchpulver","Coconut Milk Powder","Hindistan Cevizi Sütü Tozu"), color: "#E6D6BE", pct: 14, gram: "35 g" },
-  { name: tr("Haselnüsse","Hazelnuts","Fındık"),               color: "#9C6B3F", pct: 11, gram: "28 g" },
-  { name: tr("Kakao","Cocoa","Kakao"),                         color: "#4E3322", pct: 10, gram: "25 g" },
-  { name: tr("Entkoffeinierter Kaffee","Decaf Coffee","Kafeinsiz Kahve"), color: "#3E2719", pct:  9, gram: "22 g" },
-  { name: tr("Pistazien","Pistachios","Antep Fıstığı"),        color: "#7A8C4F", pct:  7, gram: "18 g" },
-  { name: tr("Grüner Kardamom","Green Cardamom","Yeşil Kakule"), color: "#8A9A5B", pct:  2, gram: "5 g"  },
+  { name: tr("Datteln","Dates","Hurma"),                       color: "#7A4A2B", pct: 29, gram: "145 g" },
+  { name: tr("Mandeln","Almonds","Badem"),                     color: "#D9B988", pct: 18, gram: "90 g" },
+  { name: tr("Kokosmilchpulver","Coconut Milk Powder","Hindistan Cevizi Sütü Tozu"), color: "#E6D6BE", pct: 14, gram: "70 g" },
+  { name: tr("Haselnüsse","Hazelnuts","Fındık"),               color: "#9C6B3F", pct: 11, gram: "55 g" },
+  { name: tr("Kakao","Cocoa","Kakao"),                         color: "#4E3322", pct: 10, gram: "50 g" },
+  { name: tr("Entkoffeinierter Kaffee","Decaf Coffee","Kafeinsiz Kahve"), color: "#3E2719", pct:  9, gram: "45 g" },
+  { name: tr("Pistazien","Pistachios","Antep Fıstığı"),        color: "#7A8C4F", pct:  7, gram: "35 g" },
+  { name: tr("Grüner Kardamom","Green Cardamom","Yeşil Kakule"), color: "#8A9A5B", pct:  2, gram: "10 g" },
   ];
 }
 function SpecSheet() {
@@ -2931,7 +2931,7 @@ function SpecSheet() {
             <SplitText text={tr("Das ganze Rezept,","The full recipe,","Tüm tarif,")} /> <em className="italic"><SplitText text={tr("aufgeschrieben.","written down.","yazıya dökülmüş.")} delay={0.3} /></em>
           </h2>
           <p className="reveal delay-2" style={{ margin: "22px auto 0", maxWidth: "52ch", fontSize: 15, lineHeight: 1.75, color: "var(--grain)" }}>
-            {tr("Wir zeigen, was die meisten verschweigen: die volle Rezeptur pro Gramm, jede Zahl pro Tasse. Edition № 01 · Manduraa · 250-g-Beutel.","We show what most hide: the full recipe by gram, every number per cup. Edition № 01 · Manduraa · 250 g pouch.","Çoğunun gizlediğini gösteriyoruz: gram gram tüm tarif, fincan başına her sayı. Edition № 01 · Manduraa · 250 g paket.")}
+            {tr("Wir zeigen, was die meisten verschweigen: die volle Rezeptur pro Gramm, jede Zahl pro Tasse. Edition № 01 · Manduraa · 500-g-Beutel.","We show what most hide: the full recipe by gram, every number per cup. Edition № 01 · Manduraa · 500 g pouch.","Çoğunun gizlediğini gösteriyoruz: gram gram tüm tarif, fincan başına her sayı. Edition № 01 · Manduraa · 500 g paket.")}
           </p>
         </div>
 
@@ -2939,7 +2939,7 @@ function SpecSheet() {
           <div className="pouch-card reveal">
             <div className="top">
               <BlurImg src="/assets/scene-6.jpg" alt={tr("Der Manduraa-Beutel, von Hand gebunden.","The Manduraa pouch, hand-tied.","Manduraa paketi, elle bağlanmış.")} />
-              <span className="lock-tag">№ 01 · 250 g</span>
+              <span className="lock-tag">№ 01 · 500 g</span>
             </div>
             <div className="body">
               <h3>Manduraa <em className="italic">Original</em></h3>
@@ -2954,7 +2954,7 @@ function SpecSheet() {
             </div>
           </div>
           <div className="table-wrap reveal delay-1" ref={ref}>
-            <h3>{tr("Zutaten · 250-g-Beutel","Ingredients · 250 g pouch","İçindekiler · 250 g paket")}</h3>
+            <h3>{tr("Zutaten · 500-g-Beutel","Ingredients · 500 g pouch","İçindekiler · 500 g paket")}</h3>
             <span className="sub">{tr("— Edition N° 01 · Charge 124","— Edition N° 01 · Batch 124","— Edition N° 01 · Parti 124")}</span>
             <div className="ing-table">
               {SPEC.map((s, i) => (
