@@ -1843,16 +1843,16 @@ function Shop({ onAdd, onMagnetMove, onTap, liveVariants, sellingPlans }) {
           </div>
 
           {/* CRO T-05: Express-Pay row right below the ATC */}
-          <div className="express-pay" aria-label={tr("Schnellzahlung","Express checkout","Hızlı ödeme")}>
+          <div className="express-pay" hidden={ALL_PRODUCTS_SOLD_OUT} aria-label={tr("Schnellzahlung","Express checkout","Hızlı ödeme")}>
             <span className="ex-label">{tr("— oder direkt zahlen mit","— or pay directly with","— ya da doğrudan öde")}</span>
             <div className="ex-buttons">
-              <button type="button" className="ex-btn ex-apple" onClick={add} aria-label="Apple Pay">
+              <button type="button" className="ex-btn ex-apple" disabled={ALL_PRODUCTS_SOLD_OUT} onClick={add} aria-label="Apple Pay">
                 <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="currentColor">
                   <path d="M17.05 12.94c-.03-2.66 2.18-3.94 2.27-4-1.24-1.81-3.17-2.06-3.85-2.09-1.64-.17-3.2.97-4.03.97-.85 0-2.12-.95-3.49-.92-1.79.03-3.44 1.04-4.36 2.65-1.86 3.23-.48 8.01 1.34 10.63.89 1.28 1.95 2.72 3.34 2.67 1.34-.06 1.84-.87 3.46-.87 1.6 0 2.07.87 3.49.84 1.44-.03 2.36-1.31 3.24-2.6 1.02-1.49 1.44-2.94 1.47-3.01-.03-.02-2.82-1.08-2.88-4.27zM14.5 5.27c.73-.88 1.22-2.11 1.08-3.33-1.05.04-2.32.7-3.07 1.58-.68.78-1.27 2.03-1.11 3.23 1.17.09 2.37-.59 3.1-1.48z"/>
                 </svg>
                 <span>Pay</span>
               </button>
-              <button type="button" className="ex-btn ex-google" onClick={add} aria-label="Google Pay">
+              <button type="button" className="ex-btn ex-google" disabled={ALL_PRODUCTS_SOLD_OUT} onClick={add} aria-label="Google Pay">
                 <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
                   <path fill="#4285F4" d="M12 12v3.6h5.04c-.21 1.14-.84 2.1-1.8 2.76v2.28h2.91c1.71-1.58 2.7-3.9 2.7-6.66 0-.63-.06-1.23-.16-1.81L12 12z"/>
                   <path fill="#34A853" d="M12 22c2.43 0 4.47-.81 5.96-2.18l-2.91-2.28c-.81.55-1.84.87-3.05.87-2.34 0-4.32-1.58-5.03-3.71H3.97v2.34C5.45 19.91 8.5 22 12 22z"/>
@@ -1861,7 +1861,7 @@ function Shop({ onAdd, onMagnetMove, onTap, liveVariants, sellingPlans }) {
                 </svg>
                 <span>Pay</span>
               </button>
-              <button type="button" className="ex-btn ex-paypal" onClick={add} aria-label="PayPal">
+              <button type="button" className="ex-btn ex-paypal" disabled={ALL_PRODUCTS_SOLD_OUT} onClick={add} aria-label="PayPal">
                 <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
                   <path fill="#003087" d="M7.2 21l.5-3.4h3.1c3.8 0 6.7-1.8 7.4-5.9.3-1.6.1-2.9-.7-3.8-.9-.9-2.5-1.4-4.6-1.4H6.9c-.4 0-.7.3-.8.6L3.6 21h3.6z"/>
                   <path fill="#009CDE" d="M19.4 9.4c-.2 1.2-.6 2.3-1.3 3.1-1.2 1.6-3.3 2.4-6 2.4H9.7l-.7 4.5-.2 1.1c0 .2.1.4.3.4h3l.1-.5.5-3.2.1-.2c0-.2.2-.4.4-.4H14c2.4 0 4.3-1 4.8-3.8.2-1.1.1-2.1-.4-2.8-.2-.3-.6-.5-1-.6z"/>
@@ -1869,7 +1869,7 @@ function Shop({ onAdd, onMagnetMove, onTap, liveVariants, sellingPlans }) {
                 </svg>
                 <span>PayPal</span>
               </button>
-              <button type="button" className="ex-btn ex-klarna" onClick={add} aria-label="Klarna">
+              <button type="button" className="ex-btn ex-klarna" disabled={ALL_PRODUCTS_SOLD_OUT} onClick={add} aria-label="Klarna">
                 <svg viewBox="0 0 80 24" width="56" height="18" aria-hidden="true" fill="#0B051D">
                   <text x="0" y="18" fontFamily="system-ui, sans-serif" fontSize="20" fontWeight="700">Klarna.</text>
                 </svg>
@@ -2254,7 +2254,7 @@ function FinalCta({ onShop, onMagnetMove, price }) {
           {tr("Eine Mischung, acht Zutaten, null raffinierter Zucker. Von Hand gemischt und zu dir nach Hause geliefert.","One blend, eight ingredients, zero refined sugar. Hand-blended and delivered to your door.","Tek harman, sekiz malzeme, sıfır rafine şeker. Elde harmanlanır ve kapına teslim edilir.")}
         </p>
         <div className="cta-row reveal delay-3">
-          <button className="btn btn-primary" data-cur="btn" data-cur-label="Shop" onMouseMove={onMagnetMove} onClick={onShop}>{tr("Manduraa kaufen","Shop Manduraa","Manduraa al")} · €{price || 28}</button>
+          <button className="btn btn-primary" data-cur="btn" data-cur-label="Shop" onMouseMove={onMagnetMove} onClick={onShop}>{tr("Ausverkauft · Zum Shop","Sold out · View shop","Tükendi · Mağazayı gör")} · €{price || 28}</button>
           <a href="#story-intro" className="btn btn-ghost" data-cur="btn" data-cur-label={tr("Lesen","Read","Oku")}>{tr("Die Story lesen","Read the story","Hikâyeyi oku")}</a>
         </div>
         <div className="final-subline reveal delay-3" aria-label={tr("Risiko-Umkehr","Risk reversal","Risk tersine")}>
@@ -3566,8 +3566,8 @@ function App() {
       <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} items={cart} onQty={setQty} onRemove={remove} onAddOne={nudgeAdd} onAddAddon={addAddon} onCheckout={handleCheckout} liveAddons={liveAddons} />
       <MiniBar visible={miniVisible && !cartOpen} variant={miniVariant} total={miniTotal} fromPrice={miniFrom} onShop={scrollToShop} onMagnetMove={onMagnetMove} />
       <RecoveryToast count={recovery} items={cart} onOpen={() => setCartOpen(true)} onDismiss={() => setRecovery(0)} />
-      <CouponGate onShop={scrollToShop} />
-      <ExitIntent onShop={scrollToShop} />
+      {!ALL_PRODUCTS_SOLD_OUT && <CouponGate onShop={scrollToShop} />}
+      {!ALL_PRODUCTS_SOLD_OUT && <ExitIntent onShop={scrollToShop} />}
       <WhatsAppWidget />
     </div>
   );
