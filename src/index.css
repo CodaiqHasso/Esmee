@@ -7301,3 +7301,6 @@ section.universe, section.story-intro, section.unbox, section.ritual {
   }
   .hero-pur { bottom: clamp(48px, 8vh, 96px); }
 }
+
+/* Sold-out controls remain readable and cannot suggest an active purchase. */
+.btn-add:disabled, .af-add:disabled, .addon-card:disabled, .mini-cta:disabled, .nudge-cta:disabled { cursor: not-allowed; opacity: .65; transform: none; }

@@ -8,6 +8,7 @@ import { createPortal } from "react-dom";
 import { isShopifyConfigured, createCheckout, fetchVariants, fetchAddons, fetchSellingPlans } from "./lib/shopify";
 import { tr, useLang, LANGS, LANG_LABEL } from "./i18n";
 import { PaymentIcons } from "./PaymentIcons";
+import { ALL_PRODUCTS_SOLD_OUT } from "./lib/availability";
 
 /* Language switcher — compact button + dropdown. DE / EN / TR (German default).
    The menu is portaled to <body> so the nav's overflow:hidden / backdrop-filter
@@ -948,7 +949,7 @@ function ScrollStory({ onSteamIntensity, heroFrom }) {
           <h1 className="hp-title">{tr("Acht Zutaten.\nEine Tasse.","Eight ingredients.\nOne cup.","Sekiz malzeme.\nBir fincan.")}</h1>
           <p className="hp-sub">{tr("Mit Datteln gesüßt · entkoffeiniert · 0 g raffinierter Zucker","Sweetened with dates · decaf · 0 g refined sugar","Hurmayla tatlandırıldı · kafeinsiz · 0 g rafine şeker")}</p>
           <div className="hp-cta">
-            <button className="hp-buy" data-cur="btn" data-cur-label="Shop" onClick={scrollToShop}>{tr("In den Warenkorb","Add to cart","Sepete ekle")} <span aria-hidden="true">→</span></button>
+            <button className="hp-buy" data-cur="btn" data-cur-label="Shop" onClick={scrollToShop}>{tr("Ausverkauft · Zum Shop","Sold out · View shop","Tükendi · Mağazayı gör")} <span aria-hidden="true">→</span></button>
             <button className="hp-ghost" onClick={() => { const el = document.getElementById("story-intro"); if (el) window.scrollTo({ top: el.offsetTop - 80, behavior: "smooth" }); }}>{tr("Story ansehen","Watch the story","Hikâyeyi izle")}</button>
           </div>
           <span className="hp-price">Manduraa · {tr("ab","from","")} €{heroFrom || 19} / {tr("Beutel","pouch","paket")}</span>
@@ -1653,7 +1654,7 @@ function Shop({ onAdd, onMagnetMove, onTap, liveVariants, sellingPlans }) {
             ))}
           </div>
           {burst}
-          <span className="floating-tag"><span className="pulse"></span>{tr("Auf Lager · Versand in 48 h","In stock · Ships in 48 h","Stokta · 48 saatte kargo")}</span>
+          <span className="floating-tag"><span className="pulse"></span>{tr("Alle Produkte ausverkauft","All products sold out","Tüm ürünler tükendi")}</span>
           <div className="gallery-thumbs">
             {PRODUCT_GALLERY.map((src, i) => (
               <button
@@ -1830,12 +1831,13 @@ function Shop({ onAdd, onMagnetMove, onTap, liveVariants, sellingPlans }) {
             </div>
             <button
               className="btn-add"
+              disabled={ALL_PRODUCTS_SOLD_OUT}
               data-cur="btn"
               data-cur-label={tr("Hinzufügen","Add","Ekle")}
               onMouseMove={onMagnetMove}
               onClick={add}
             >
-              <span>{subActive ? tr("Abo starten","Start subscription","Aboneliği başlat") : tr("In den Warenkorb","Add to cart","Sepete ekle")}</span>
+              <span>{ALL_PRODUCTS_SOLD_OUT ? tr("Ausverkauft","Sold out","Tükendi") : subActive ? tr("Abo starten","Start subscription","Aboneliği başlat") : tr("In den Warenkorb","Add to cart","Sepete ekle")}</span>
               <span className="price-tag"><Counter to={total} duration={500} key={total} prefix="€" decimals={dec} /></span>
             </button>
           </div>
@@ -2383,12 +2385,13 @@ function AddonFeature({ addon, inCart, onAdd, onTap }) {
             <span className="af-price">€{m(addon.price)}</span>
             <button
               type="button"
+              disabled={ALL_PRODUCTS_SOLD_OUT}
               className={"af-add " + (inCart ? "in" : "")}
               data-cur="btn"
               data-cur-label={tr("Hinzufügen","Add","Ekle")}
               onClick={() => { onAdd && onAdd(); onTap && onTap(); }}
             >
-              {inCart
+              {ALL_PRODUCTS_SOLD_OUT ? tr("Ausverkauft","Sold out","Tükendi") : inCart
                 ? tr("Im Warenkorb ✓","In your bag ✓","Sepette ✓")
                 : tr("Set hinzufügen","Add the set","Seti ekle")}
             </button>
@@ -2488,6 +2491,7 @@ function CartDrawer({ open, onClose, items, onQty, onRemove, onAddOne, onAddAddo
                     <button
                       key={a.id}
                       type="button"
+                      disabled={ALL_PRODUCTS_SOLD_OUT}
                       className={"addon-card " + (added ? "added" : "")}
                       onClick={() => onAddAddon && onAddAddon(a)}
                     >
@@ -2497,7 +2501,7 @@ function CartDrawer({ open, onClose, items, onQty, onRemove, onAddOne, onAddAddo
                         <span className="addon-sub">{a.sub}</span>
                       </span>
                       <span className="addon-cta">
-                        {added
+                        {ALL_PRODUCTS_SOLD_OUT ? <span>{tr("Ausverkauft","Sold out","Tükendi")}</span> : added
                           ? <span className="check">{tr("✓ Hinzugefügt","✓ Added","✓ Eklendi")}</span>
                           : <span className="plus">+ €{money(a.price)}</span>}
                       </span>
@@ -2516,7 +2520,7 @@ function CartDrawer({ open, onClose, items, onQty, onRemove, onAddOne, onAddAddo
                 <div className="head">{tr("Füge 1 Beutel hinzu","Add 1 more pouch","1 paket daha ekle")} &mdash; {tr("sichere dir kostenlosen Versand.","unlock free shipping.","ücretsiz kargonun kilidini aç.")}</div>
                 <div className="sub">{tr("Nur noch €","Just €","Ücretsiz kargoya yalnızca €")}{Math.round(remaining)}{tr(" bis zum kostenlosen Versand."," more for free shipping."," kaldı.")}</div>
               </div>
-              <button className="nudge-cta" data-cur="btn" data-cur-label={tr("Hinzufügen","Add","Ekle")} onClick={onAddOne}>+ {tr("Hinzufügen","Add","Ekle")}</button>
+              <button className="nudge-cta" data-cur="btn" data-cur-label={tr("Hinzufügen","Add","Ekle")} disabled={ALL_PRODUCTS_SOLD_OUT} onClick={onAddOne}>+ {tr("Hinzufügen","Add","Ekle")}</button>
             </div>
           )}
           {items.length > 0 && (
@@ -2556,7 +2560,7 @@ function CartDrawer({ open, onClose, items, onQty, onRemove, onAddOne, onAddAddo
             <span className="r">€<Counter to={subtotal} duration={400} key={subtotal} decimals={moneyDec} /></span>
           </div>
           <div className="ship-note">{tr("Versand & Steuern werden im Checkout berechnet","Shipping & taxes calculated at checkout","Kargo & vergiler ödemede hesaplanır")}</div>
-          <button className="checkout" data-cur="btn" data-cur-label={tr("Bezahlen","Pay","Öde")} disabled={items.length === 0} onClick={onCheckout}>{tr("Zum Checkout","Checkout","Ödemeye geç")} →</button>
+          <button className="checkout" data-cur="btn" data-cur-label={tr("Bezahlen","Pay","Öde")} disabled={ALL_PRODUCTS_SOLD_OUT || items.length === 0} onClick={onCheckout}>{ALL_PRODUCTS_SOLD_OUT ? tr("Ausverkauft","Sold out","Tükendi") : tr("Zum Checkout","Checkout","Ödemeye geç")}</button>
         </div>
       </aside>
     </>
@@ -2575,8 +2579,8 @@ function MiniBar({ visible, variant, total, fromPrice, onShop, onMagnetMove }) {
         <div className="mini-name">Manduraa · {variant.name}</div>
         <div className="mini-sub">Edition № 01 · {tr("ab","from","şu fiyattan")} €{fromPrice} / {tr("Packung","pack","paket")}</div>
       </div>
-      <button className="mini-cta" data-cur="btn" data-cur-label={tr("Hinzufügen","Add","Ekle")} onMouseMove={onMagnetMove} onClick={onShop}>
-        {tr("Jetzt kaufen","Buy now","Şimdi al")}
+      <button className="mini-cta" disabled={ALL_PRODUCTS_SOLD_OUT} data-cur="btn" data-cur-label={tr("Hinzufügen","Add","Ekle")} onMouseMove={onMagnetMove} onClick={onShop}>
+        {tr("Ausverkauft","Sold out","Tükendi")}
         <span className="p">€{total}</span>
       </button>
     </div>
@@ -3326,6 +3330,7 @@ function FooterV2() {
 }
 function App() {
   const [cart, setCart] = useState(() => {
+    if (ALL_PRODUCTS_SOLD_OUT) return [];
     try {
       const raw = localStorage.getItem("esmee.cart");
       if (raw) return JSON.parse(raw);
@@ -3423,6 +3428,7 @@ function App() {
   }, []);
 
   const addToCart = useCallback((item) => {
+    if (ALL_PRODUCTS_SOLD_OUT) return;
     setCart(prev => {
       const i = prev.findIndex(p => p.variant === item.variant && p.packId === item.packId && p.plan === item.plan);
       if (i !== -1) {
@@ -3438,6 +3444,7 @@ function App() {
   const setQty = (idx, q) => setCart(prev => prev.map((it, i) => i === idx ? { ...it, qty: q } : it));
   const remove = (idx) => setCart(prev => prev.filter((_, i) => i !== idx));
   const addAddon = useCallback((a) => {
+    if (ALL_PRODUCTS_SOLD_OUT) return;
     setCart(prev => {
       const i = prev.findIndex(p => p.addonId === a.id);
       if (i !== -1) return prev.filter((_, j) => j !== i); // toggle off
@@ -3469,6 +3476,7 @@ function App() {
 
   // Smart nudge: bump qty of first cart item by 1
   const nudgeAdd = useCallback(() => {
+    if (ALL_PRODUCTS_SOLD_OUT) return;
     setCart(prev => {
       if (prev.length === 0) return prev;
       const next = [...prev];
@@ -3494,6 +3502,7 @@ function App() {
   // is connected and the bag carries live variant ids; otherwise explains demo
   // mode. Keeps the bundled demo fully functional with no store configured.
   const handleCheckout = useCallback(async () => {
+    if (ALL_PRODUCTS_SOLD_OUT) return;
     try {
       if (!isShopifyConfigured()) {
         window.alert(

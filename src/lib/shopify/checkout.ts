@@ -3,6 +3,7 @@
    connected and the bag carries live `merchandiseId`s (variant GIDs). */
 
 import { isShopifyConfigured, storefront } from './client'
+import { ALL_PRODUCTS_SOLD_OUT } from '../availability'
 import { CART_CREATE } from './queries'
 import type { CartLineInput, StorefrontUserError } from './types'
 
@@ -23,6 +24,7 @@ export async function createCheckout(
   lines: CartLineInput[],
   discountCodes: string[] = DISCOUNT_CODE ? [DISCOUNT_CODE] : [],
 ): Promise<string> {
+  if (ALL_PRODUCTS_SOLD_OUT) throw new Error('All products are sold out')
   if (lines.length === 0) throw new Error('Cannot start checkout with an empty bag')
   const data = await storefront<CartCreateResult>(CART_CREATE, { lines, discountCodes })
   const { cart, userErrors } = data.cartCreate
