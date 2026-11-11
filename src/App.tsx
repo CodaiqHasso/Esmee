@@ -1,23 +1,34 @@
-// @ts-nocheck
 /* Esmee — Manduraa luxury storefront landing page.
    Faithfully ported from the Claude Design HTML/JS prototype to React + TS + Vite.
-   Type-checking is disabled on this file because it is a 1:1 port of an
-   imperative, DOM-driven prototype; runtime behaviour is the source of truth. */
+   Browser interactions and catalog data are type-checked. */
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { isShopifyConfigured, createCheckout, fetchVariants, fetchAddons, fetchSellingPlans } from "./lib/shopify";
 import { tr, useLang, LANGS, LANG_LABEL } from "./i18n";
 import { PaymentIcons } from "./PaymentIcons";
+import type { CatalogVariant, CatalogAddon, SellingPlan, CartLineInput } from "./lib/shopify/types";
+
+type Addon = Omit<CatalogAddon, "merchandiseId" | "name" | "sub"> & { name: string | null; sub?: string | null; merchandiseId?: string; icon?: React.ReactNode };
+type CartItem = {
+  variant: string; variantName: string; packId: string; packLabel: string;
+  packCount: number; qty: number; unitPrice: number; image: string; total?: number;
+  kind?: "addon"; addonId?: string; name?: string | null; sub?: string | null; icon?: React.ReactNode;
+  merchandiseId?: string; sellingPlanId?: string | null; plan?: string; subActive?: boolean;
+  gift?: boolean; giftMsg?: string | null; giftTo?: string | null; giftFee?: number;
+};
+type MagnetHandler = React.MouseEventHandler<HTMLElement>;
+type Ingredient = ReturnType<typeof getIngredients>[number];
+type Pack = ReturnType<typeof getPacks>[number];
 import { ALL_PRODUCTS_SOLD_OUT } from "./lib/availability";
 
 /* Language switcher — compact button + dropdown. DE / EN / TR (German default).
    The menu is portaled to <body> so the nav's overflow:hidden / backdrop-filter
    can never clip or cover it. */
-function LangToggle({ compact }) {
+function LangToggle() {
   const { lang, setLang } = useLang();
   const [open, setOpen] = useState(false);
-  const btnRef = useRef(null);
-  const menuRef = useRef(null);
+  const btnRef = useRef<HTMLButtonElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
   const [pos, setPos] = useState({ top: 0, right: 0 });
   const place = () => {
     const b = btnRef.current; if (!b) return;
@@ -27,12 +38,12 @@ function LangToggle({ compact }) {
   useEffect(() => {
     if (!open) return;
     place();
-    const onDoc = (e) => {
-      if (menuRef.current && menuRef.current.contains(e.target)) return;
-      if (btnRef.current && btnRef.current.contains(e.target)) return;
+    const onDoc = (e: PointerEvent) => {
+      if (menuRef.current && menuRef.current.contains(e.target as Node)) return;
+      if (btnRef.current && btnRef.current.contains(e.target as Node)) return;
       setOpen(false);
     };
-    const onKey = (e) => { if (e.key === "Escape") setOpen(false); };
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
     const onScroll = () => setOpen(false);
     document.addEventListener("pointerdown", onDoc);
     document.addEventListener("keydown", onKey);
@@ -92,7 +103,7 @@ function LangToggle({ compact }) {
 // Map the cart's chosen pack tier (+ subscription) to its Shopify discount code.
 // Codes (ESMEE-3/5/10 one-time, ESMEE-1/3/5/10-ABO subscription) are created by
 // scripts/setup-shopify-discounts.mjs. Unknown codes are safely ignored by Shopify.
-function discountCodesForCart(cart) {
+function discountCodesForCart(cart: CartItem[]) {
   // Subscriptions get their discount from the Shopify selling plan, not a code.
   const main = (cart || [])
     .filter(it => it.merchandiseId && it.kind !== "addon" && !it.subActive)
@@ -215,17 +226,6 @@ function getRitual() {
   ];
 }
 
-function getTaste() {
-  return [
-  { name: tr("Süße","Sweetness","Tatlılık"), val: 7 },
-  { name: tr("Körper","Body","Gövde"),      val: 8 },
-  { name: tr("Röstung","Roast","Kavurma"),     val: 5 },
-  { name: tr("Säure","Acidity","Asit"),   val: 2 },
-  { name: tr("Aromatik","Aromatic","Aromatik"),  val: 6 },
-  { name: tr("Koffein","Caffeine","Kafein"),  val: 1 },
-  ];
-}
-
 function getFaqs() {
   return [
   { q: tr("Was steckt eigentlich in Manduraa?","What's actually in Manduraa?","Manduraa'da aslında ne var?"), a: tr("Acht Zutaten, mehr nicht: Datteln, Mandeln, Haselnüsse, Pistazien, Kakao, entkoffeinierter Kaffee, Kokosmilchpulver und grüner Kardamom. Kein raffinierter Zucker, keine Sirupe, keine Aromen, keine Konservierungsstoffe. Vegan und glutenfrei.","Eight ingredients, nothing else: dates, almonds, hazelnuts, pistachios, cocoa, decaffeinated coffee, coconut milk powder and green cardamom. No refined sugar, no syrups, no flavourings, no preservatives. Vegan and gluten-free.","Sekiz malzeme, başka hiçbir şey: hurma, badem, fındık, fıstık, kakao, kafeinsiz kahve, Hindistan cevizi sütü tozu ve yeşil kakule. Rafine şeker yok, şurup yok, aroma yok, koruyucu yok. Vegan ve glutensiz.") },
@@ -239,20 +239,7 @@ function getFaqs() {
 }
 
 /* ---------- HOOKS ---------- */
-function useScrollY() {
-  const [y, setY] = useState(0);
-  useEffect(() => {
-    let raf = 0;
-    const onScroll = () => {
-      if (raf) return;
-      raf = requestAnimationFrame(() => { setY(window.scrollY); raf = 0; });
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-    return () => { window.removeEventListener("scroll", onScroll); cancelAnimationFrame(raf); };
-  }, []);
-  return y;
-}
+
 
 function useReveal() {
   useEffect(() => {
@@ -296,15 +283,15 @@ function useParallax() {
   }, []);
 }
 
-const clamp01 = (n) => Math.max(0, Math.min(1, n));
+const clamp01 = (n: number) => Math.max(0, Math.min(1, n));
 
 /* ============================================================
    PHASE A — wow helpers
    ============================================================ */
 
 /* SplitText — wraps text into words for stagger reveal */
-function SplitText({ text, className = "", as: Tag = "span", trigger = "in-view", delay = 0 }) {
-  const ref = useRef(null);
+function SplitText({ text, className = "", trigger = "in-view", delay = 0 }: { text: string; className?: string; trigger?: string; delay?: number }) {
+  const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const el = ref.current; if (!el) return;
     if (trigger === "always") {
@@ -322,24 +309,24 @@ function SplitText({ text, className = "", as: Tag = "span", trigger = "in-view"
   }, [trigger, delay]);
   const words = String(text).split(" ");
   return (
-    <Tag ref={ref} className={"split " + className}>
+    <span ref={ref} className={"split " + className}>
       {words.map((w, i) => (
         <span className="word" key={i}>
           <span className="inner">{w}{i < words.length - 1 ? "\u00A0" : ""}</span>
         </span>
       ))}
-    </Tag>
+    </span>
   );
 }
 
 /* useCounter — animate number from 0 to target when in view */
-function Counter({ to, duration = 1400, prefix = "", suffix = "", decimals = 0, className = "" }) {
-  const ref = useRef(null);
+function Counter({ to, duration = 1400, prefix = "", suffix = "", decimals = 0, className = "" }: { to: number; duration?: number; prefix?: string; suffix?: string; decimals?: number; className?: string }) {
+  const ref = useRef<HTMLDivElement>(null);
   const [v, setV] = useState(0);
   useEffect(() => {
     const el = ref.current; if (!el) return;
     let raf = 0, start = 0;
-    const step = (ts) => {
+    const step = (ts: number) => {
       if (!start) start = ts;
       const t = Math.min(1, (ts - start) / duration);
       const eased = 1 - Math.pow(1 - t, 3);
@@ -372,15 +359,15 @@ function useSmoothScroll() {
     let current = target;
     let raf = 0;
     const ease = 0.12;
-    const onWheel = (e) => {
+    const onWheel = (e: WheelEvent) => {
       // Allow trackpad pinch / horizontal — only intercept vertical wheel
       if (e.ctrlKey) return;
       if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
       // Modal/drawer scrolls (cart) — let native handle
-      let n = e.target;
+      let n = e.target instanceof Element ? e.target : null;
       while (n && n !== document.body) {
         if (n.classList && (n.classList.contains("items") || n.classList.contains("cart-drawer"))) return;
-        n = n.parentNode;
+        n = n.parentElement;
       }
       e.preventDefault();
       target = Math.max(0, Math.min(document.documentElement.scrollHeight - window.innerHeight, target + e.deltaY));
@@ -407,7 +394,7 @@ function useSmoothScroll() {
 }
 
 /* Blur-load <img> wrapper */
-function BlurImg({ src, alt = "", className = "", ...rest }) {
+function BlurImg({ src, alt = "", className = "", ...rest }: React.ImgHTMLAttributes<HTMLImageElement>) {
   const [loaded, setLoaded] = useState(false);
   return (
     <img
@@ -421,7 +408,7 @@ function BlurImg({ src, alt = "", className = "", ...rest }) {
 }
 
 /* HoverWord — inline word with rich tooltip */
-function HoverWord({ word, label, text, img }) {
+function HoverWord({ word, label, text, img }: { word: string; label: string; text: string; img?: string }) {
   return (
     <span className="hw">
       {word}
@@ -435,7 +422,7 @@ function HoverWord({ word, label, text, img }) {
 }
 
 /* Confetti burst (vanilla) */
-function burstConfetti(x, y, opts = {}) {
+function burstConfetti(x: number, y: number, opts: { colors?: string[]; count?: number } = {}) {
   const colors = opts.colors || ["#B07A52", "#C99577", "#E2CFB5", "#2B1F17", "#F1DDD5"];
   const count = opts.count || 36;
   for (let i = 0; i < count; i++) {
@@ -468,7 +455,7 @@ function burstConfetti(x, y, opts = {}) {
    ============================================================ */
 
 /* Preloader — shows scene-counter while preloading hero images */
-function Preloader({ onDone }) {
+function Preloader({ onDone }: { onDone: () => void }) {
   const SCENES = getScenes();
   const [step, setStep] = useState(1);
   const total = SCENES.length;
@@ -480,7 +467,7 @@ function Preloader({ onDone }) {
     // - First visit: MIN_MS 800, MAX_MS 2200 (hard cap, image preload no longer blocks).
     // - Returning visit: skip preloader almost entirely.
     let returning = false;
-    try { returning = !!window.localStorage.getItem("esmee_visited"); } catch (e) {}
+    try { returning = !!window.localStorage.getItem("esmee_visited"); } catch { /* Optional browser capability is unavailable. */ }
     document.body.classList.add("pre-locked");
     let cancelled = false;
     let loaded = 0;
@@ -496,17 +483,18 @@ function Preloader({ onDone }) {
       if (cancelled) return;
       setStep(total);
       await new Promise(r => setTimeout(r, 120));
+      if (cancelled) return;
       setDone(true);
       document.body.classList.remove("pre-locked");
-      try { window.localStorage.setItem("esmee_visited", "1"); } catch (e) {}
-      setTimeout(() => { setGone(true); onDone && onDone(); }, returning ? 350 : 900);
+      try { window.localStorage.setItem("esmee_visited", "1"); } catch { /* Optional browser capability is unavailable. */ }
+      setTimeout(() => { if (cancelled) return; setGone(true); onDone(); }, returning ? 350 : 900);
     };
     // Hard cap — never let the preloader stall the page beyond MAX_MS.
     const hardCap = setTimeout(finish, MAX_MS);
     Promise.all(
-      SCENES.map((s) => new Promise(res => {
+      getScenes().map((s) => new Promise<void>(res => {
         const img = new Image();
-        const inc = () => { loaded++; setStep(Math.min(total, loaded + 1)); res(); };
+        const inc = () => { loaded++; if (!cancelled) setStep(Math.min(total, loaded + 1)); res(); };
         img.onload = inc;
         img.onerror = inc;
         const u = (typeof window !== 'undefined' && window.__withToken) ? window.__withToken(s.src) : s.src;
@@ -526,6 +514,7 @@ function Preloader({ onDone }) {
     };
   }, [onDone, total]);
 
+  if (gone) return null;
   const pct = ((step - 1) / Math.max(1, total - 1)) * 100;
 
   return (
@@ -551,14 +540,15 @@ function Preloader({ onDone }) {
 }
 
 /* Canvas steam particles */
-function SteamCanvas({ getIntensity }) {
-  const ref = useRef(null);
+function SteamCanvas({ getIntensity }: { getIntensity: () => number }) {
+  const ref = useRef<HTMLCanvasElement>(null);
   useEffect(() => {
     const canvas = ref.current; if (!canvas) return;
     // Skip the steam particle loop on phones — drawing dozens of radial-gradient
     // particles per frame is the main source of hero scroll jank on mobile.
     if (window.matchMedia("(max-width: 720px)").matches) return;
     const ctx = canvas.getContext("2d");
+    if (!ctx) return;
     let w = 0, h = 0;
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     const resize = () => {
@@ -574,7 +564,7 @@ function SteamCanvas({ getIntensity }) {
     });
     ro.observe(canvas);
     const MAX = 80;
-    const particles = [];
+    const particles: { x: number; y: number; vx: number; vy: number; life: number; max: number; r: number; drift: number }[] = [];
     let raf = 0, last = performance.now();
     const spawn = () => {
       if (particles.length >= MAX) return;
@@ -589,7 +579,7 @@ function SteamCanvas({ getIntensity }) {
         drift: (Math.random() - 0.5) * 0.6,
       });
     };
-    const step = (now) => {
+    const step = (now: number) => {
       const dt = Math.min(0.05, (now - last) / 1000);
       last = now;
       const intensity = (getIntensity && getIntensity()) || 0;
@@ -634,8 +624,8 @@ function useAudio() {
   return { enabled: false, toggle: noop, playTap: noop, playBell: noop };
 }
 
-function flyToCart(imageUrl) {
-  const cart = document.querySelector(".cart-btn");
+function flyToCart(imageUrl: string) {
+  const cart = document.querySelector<HTMLElement>(".cart-btn");
   const stage = document.querySelector(".shop .product-stage");
   if (!cart || !stage) return;
   const s = stage.getBoundingClientRect();
@@ -656,8 +646,7 @@ function flyToCart(imageUrl) {
   clone.style.transition = "transform 1s cubic-bezier(.5,0,.1,1), opacity .9s ease-out, width .9s ease-out, height .9s ease-out";
   document.body.appendChild(clone);
   // Force reflow
-  // eslint-disable-next-line no-unused-expressions
-  clone.offsetHeight;
+  void clone.offsetHeight;
   requestAnimationFrame(() => {
     clone.style.width = "28px";
     clone.style.height = "28px";
@@ -667,19 +656,19 @@ function flyToCart(imageUrl) {
   setTimeout(() => clone.remove(), 1050);
   // Bump the cart icon
   cart.classList.remove("bump");
-  cart.offsetHeight;
+  void cart.offsetHeight;
   cart.classList.add("bump");
   setTimeout(() => cart.classList.remove("bump"), 600);
-  const cnt = cart.querySelector(".cart-count");
+  const cnt = cart.querySelector<HTMLElement>(".cart-count");
   if (cnt) {
     cnt.classList.remove("flash");
-    cnt.offsetHeight;
+    void cnt.offsetHeight;
     cnt.classList.add("flash");
     setTimeout(() => cnt.classList.remove("flash"), 700);
   }
 }
 
-function Nav({ onCart, cartCount, scrolled }) {
+function Nav({ onCart, cartCount, scrolled }: { onCart: () => void; cartCount: number; scrolled: boolean }) {
   useLang();
   const [menu, setMenu] = useState(false);
   // Lock body scroll while the mobile menu is open
@@ -695,7 +684,7 @@ function Nav({ onCart, cartCount, scrolled }) {
     { id: "#shop", label: tr("Shop","Shop","Mağaza") },
     { id: "#faq", label: tr("FAQ","FAQ","SSS") },
   ];
-  const go = (id) => (e) => {
+  const go = (id: string) => (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     setMenu(false);
     const el = document.querySelector(id);
@@ -809,15 +798,15 @@ function getScenes() {
   ];
 }
 
-function ScrollStory({ onSteamIntensity, heroFrom }) {
+function ScrollStory({ onSteamIntensity, heroFrom }: { onSteamIntensity?: (intensity: number) => void; heroFrom: string | number }) {
   useLang();
   const SCENES = getScenes();
-  const stageRef = useRef(null);
-  const sceneRefs = useRef([]);
+  const stageRef = useRef<HTMLDivElement>(null);
+  const sceneRefs = useRef<(HTMLDivElement | null)[]>([]);
   const intensityRef = useRef(0);
-  const [cue, setCue] = useState(0);
+  const [, setCue] = useState(0);
   const lastCue = useRef(-1);
-  const videoRef = useRef(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   // iOS needs the `muted` attribute really present (React doesn't reflect it
   // reliably) plus an explicit play() to autoplay inline without a play button.
@@ -835,7 +824,7 @@ function ScrollStory({ onSteamIntensity, heroFrom }) {
     // (iOS often pauses bg video on scroll) — resume it.
     const onPause = () => tryPlay();
     const onStall = () => tryPlay();
-    const onEnded = () => { try { v.currentTime = 0; } catch (e) {} tryPlay(); };
+    const onEnded = () => { try { v.currentTime = 0; } catch { /* Optional browser capability is unavailable. */ } tryPlay(); };
     v.addEventListener("pause", onPause);
     v.addEventListener("stalled", onStall);
     v.addEventListener("waiting", onStall);
@@ -856,14 +845,14 @@ function ScrollStory({ onSteamIntensity, heroFrom }) {
   useEffect(() => {
     let raf = 0;
     let inView = true;
-    const smooth = (t) => { t = Math.max(0, Math.min(1, t)); return t * t * (3 - 2 * t); };
+    const smooth = (t: number) => { t = Math.max(0, Math.min(1, t)); return t * t * (3 - 2 * t); };
     const update = () => {
       raf = 0;
       const el = stageRef.current; if (!el) return;
       const rect = el.getBoundingClientRect();
       const top = rect.top + window.scrollY;
       const h = el.offsetHeight - window.innerHeight;
-      if (h <= 0) { onSteamIntensity && onSteamIntensity(0.6); return; }   // pure single-screen hero: no scrub
+      if (h <= 0) { if (onSteamIntensity) { onSteamIntensity(0.6); } return; }   // pure single-screen hero: no scrub
       const p = Math.max(0, Math.min(1, (window.scrollY - top) / h));
       const N = SCENES.length;
       const playhead = p * (N - 1);
@@ -893,13 +882,13 @@ function ScrollStory({ onSteamIntensity, heroFrom }) {
       });
       const hint = 1 - clamp01(p / 0.05);
       const counter = clamp01((p - 0.02) / 0.05);
-      el.style.setProperty('--hint-opacity', hint);
-      el.style.setProperty('--counter-opacity', counter);
+      el.style.setProperty('--hint-opacity', String(hint));
+      el.style.setProperty('--counter-opacity', String(counter));
       // steam intensity peaks during phases 2-4 (cup + composition)
-      const peak = (i) => Math.max(0, 1 - Math.abs(playhead - i));
+      const peak = (i: number) => Math.max(0, 1 - Math.abs(playhead - i));
       const intensity = Math.min(1, 0.15 * peak(0) + 0.55 * peak(1) + 0.85 * peak(2) + 0.95 * peak(3) + 0.55 * peak(4) + 0.2 * peak(5));
       intensityRef.current = intensity;
-      onSteamIntensity && onSteamIntensity(intensity);
+      if (onSteamIntensity) { onSteamIntensity(intensity); }
       const c = Math.min(N - 1, Math.max(0, Math.round(playhead)));
       if (c !== lastCue.current) { lastCue.current = c; setCue(c); }
     };
@@ -915,7 +904,7 @@ function ScrollStory({ onSteamIntensity, heroFrom }) {
     window.addEventListener('scroll', onScroll, { passive: true });
     update();
     return () => { window.removeEventListener('scroll', onScroll); io.disconnect(); cancelAnimationFrame(raf); };
-  }, [onSteamIntensity]);
+  }, [onSteamIntensity, SCENES.length]);
 
   const scrollToShop = () => {
     const el = document.getElementById('shop');
@@ -1043,18 +1032,17 @@ function StoryIntro() {
    INGREDIENT UNIVERSE — draggable orbit + click modal
    ============================================================ */
 function IngredientUniverse() {
-  const innerRef = useRef(null);
-  const wrapRef = useRef(null);
+  const innerRef = useRef<HTMLDivElement>(null);
+  const wrapRef = useRef<HTMLDivElement>(null);
   const [rot, setRot] = useState(0);              // current rotation (deg)
   const rotRef = useRef(0);
   const dragging = useRef(false);
   const lastAngle = useRef(0);
   const lastDelta = useRef(0);
   const inertia = useRef(0);
-  const auto = useRef(0);
   useLang();
   const INGREDIENTS = getIngredients();
-  const [selected, setSelected] = useState(null); // selected ingredient INDEX or null
+  const [selected, setSelected] = useState<number | null>(null); // selected ingredient INDEX or null
   // On phones the orbit is smaller, so pull the chips onto a tighter ring.
   const [narrow, setNarrow] = useState(() => typeof window !== "undefined" && window.matchMedia("(max-width: 900px)").matches);
   useEffect(() => {
@@ -1090,7 +1078,7 @@ function IngredientUniverse() {
     };
     const start = () => { if (!raf && visible && mq.matches) raf = requestAnimationFrame(tick); };
     const stop = () => { if (raf) { cancelAnimationFrame(raf); raf = 0; } };
-    const sync = () => { (visible && mq.matches) ? start() : stop(); };
+    const sync = () => { if ((visible && mq.matches)) { start(); } else { stop(); } };
     const io = new IntersectionObserver(([e]) => { visible = e.isIntersecting; sync(); }, { threshold: 0.02 });
     if (wrap) io.observe(wrap);
     if (mq.addEventListener) mq.addEventListener("change", sync);
@@ -1104,11 +1092,11 @@ function IngredientUniverse() {
       const r = wrap.getBoundingClientRect();
       return { cx: r.left + r.width / 2, cy: r.top + r.height / 2 };
     };
-    const angleAt = (e) => {
+    const angleAt = (e: MouseEvent | Touch) => {
       const { cx, cy } = center();
       return Math.atan2(e.clientY - cy, e.clientX - cx) * 180 / Math.PI;
     };
-    const down = (e) => {
+    const down = (e: MouseEvent | Touch) => {
       // On phones the orbit auto-spins via CSS and isn't drag-rotated (keeps
       // page scrolling smooth); only tap-to-open is active there.
       if (window.matchMedia("(max-width: 900px)").matches) return;
@@ -1117,7 +1105,7 @@ function IngredientUniverse() {
       lastAngle.current = angleAt(e);
       lastDelta.current = 0;
     };
-    const move = (e) => {
+    const move = (e: MouseEvent | Touch) => {
       if (!dragging.current) return;
       const a = angleAt(e);
       let d = a - lastAngle.current;
@@ -1138,8 +1126,8 @@ function IngredientUniverse() {
     window.addEventListener("mousemove", move);
     window.addEventListener("mouseup", up);
     // touch
-    const tdown = (e) => { const t = e.touches[0]; if (t) down(t); };
-    const tmove = (e) => { const t = e.touches[0]; if (t) move(t); };
+    const tdown = (e: TouchEvent) => { const t = e.touches[0]; if (t) down(t); };
+    const tmove = (e: TouchEvent) => { const t = e.touches[0]; if (t) move(t); };
     wrap.addEventListener("touchstart", tdown, { passive: true });
     window.addEventListener("touchmove", tmove, { passive: true });
     window.addEventListener("touchend", up);
@@ -1153,7 +1141,7 @@ function IngredientUniverse() {
     };
   }, []);
 
-  const placeChip = (ing, idx) => {
+  const placeChip = (ing: Ingredient, idx: number) => {
     // Spread the chips evenly around the ring by index (auto-adapts to any
     // ingredient count). The chip itself stays upright (no transform rotation)
     // so labels never tilt or flip.
@@ -1253,12 +1241,12 @@ function IngredientUniverse() {
   );
 }
 
-function IngredientModal({ ingredient, index, onClose }) {
+function IngredientModal({ ingredient, index, onClose }: { ingredient: Ingredient | null; index: number | null; onClose: () => void }) {
   useLang();
   const open = !!ingredient;
   useEffect(() => {
     if (!open) return;
-    const onKey = (e) => { if (e.key === "Escape") onClose(); };
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [open, onClose]);
@@ -1298,7 +1286,7 @@ function IngredientModal({ ingredient, index, onClose }) {
    ============================================================ */
 function FounderStory() {
   useLang();
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const el = ref.current; if (!el) return;
     const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { el.classList.add("in"); io.disconnect(); } }, { threshold: 0.15 });
@@ -1329,7 +1317,7 @@ function FounderStory() {
    VS COMPARISON
    ============================================================ */
 function Vs() {
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const el = ref.current; if (!el) return;
     const io = new IntersectionObserver(([e]) => {
@@ -1410,7 +1398,7 @@ function Vs() {
 /* ============================================================
    BENEFITS
    ============================================================ */
-function BenefitGlyph({ kind }) {
+function BenefitGlyph({ kind }: { kind: string }) {
   const c = "var(--copper)";
   if (kind === "leaf") return (<svg viewBox="0 0 32 32" width="28" height="28" fill="none" stroke={c} strokeWidth="1.4"><path d="M8 24 C 8 14, 18 6, 26 6 C 26 18, 18 26, 8 24 Z"/><path d="M10 22 L 22 10"/></svg>);
   if (kind === "spark") return (<svg viewBox="0 0 32 32" width="28" height="28" fill="none" stroke={c} strokeWidth="1.4"><path d="M16 4 L 18 14 L 28 16 L 18 18 L 16 28 L 14 18 L 4 16 L 14 14 Z"/></svg>);
@@ -1467,7 +1455,7 @@ function Benefits() {
 /* ============================================================
    SHOP — sticky split, bulk packs, magnetic ATC
    ============================================================ */
-function Shop({ onAdd, onMagnetMove, onTap, liveVariants, sellingPlans }) {
+function Shop({ onAdd, onMagnetMove, onTap, liveVariants, sellingPlans }: { onAdd: (item: CartItem) => void; onMagnetMove: MagnetHandler; onTap: () => void; liveVariants: CatalogVariant[] | null; sellingPlans: SellingPlan[] | null }) {
   useLang();
   // Always show the two pouch sizes. If the live Shopify product already has
   // ≥2 variants, use those directly. Otherwise present the two sizes and borrow
@@ -1475,15 +1463,15 @@ function Shop({ onAdd, onMagnetMove, onTap, liveVariants, sellingPlans }) {
   // variant) so checkout still works until the size variants exist in Shopify.
   const live = (liveVariants && liveVariants.length) ? liveVariants : null;
   const variants = (live && live.length >= 2) ? live : VARIANTS.map(v => {
-    const match = live && live.find(l => String(l.name || l.title || "").replace(/\s+/g, "").includes(v.id));
+    const match = live && live.find(l => String(l.name || "").replace(/\s+/g, "").includes(v.id));
     const fb = live && live[0];
-    return { ...v, merchandiseId: (match || fb || {}).merchandiseId,
+    return { ...v, merchandiseId: (match || fb)?.merchandiseId,
              price: (match && typeof match.price === "number") ? match.price : v.price };
   });
   const singleVariant = variants.length === 1;
-  const [variant, setVariant] = useState(variants[0]);
+  const [variantId, setVariantId] = useState(variants[0].id);
+  const variant = variants.find(v => v.id === variantId) || variants[0];
   const [activeImg, setActiveImg] = useState(0); // product gallery index
-  useEffect(() => { setVariant(variants[0]); }, [liveVariants]);
   const PACKS = getPacks();
   const [packId, setPackId] = useState("1");
   const pack = PACKS.find(p => p.id === packId) || PACKS[1];
@@ -1496,8 +1484,8 @@ function Shop({ onAdd, onMagnetMove, onTap, liveVariants, sellingPlans }) {
   const [giftMsg, setGiftMsg] = useState("");
   const [giftTo, setGiftTo] = useState("");
   const GIFT_FEE = 6;
-  const stageRef = useRef(null);
-  const tiltRef = useRef(null);
+  const stageRef = useRef<HTMLDivElement>(null);
+  const tiltRef = useRef<HTMLDivElement>(null);
   const [burstKey, setBurstKey] = useState(0);
 
   const SUB_DISCOUNT = 0.15; // fallback display discount when no live selling plan
@@ -1506,15 +1494,15 @@ function Shop({ onAdd, onMagnetMove, onTap, liveVariants, sellingPlans }) {
   //  · one-time   → per-pack tier discount (honoured by the ESMEE-* codes)
   //  · subscription → flat discount from the real Shopify selling plan
   const liveBase = typeof variant.price === "number" ? variant.price : null;
-  const r2 = (n) => Math.round(n * 100) / 100;
+  const r2 = (n: number) => Math.round(n * 100) / 100;
   const dec = liveBase != null ? 2 : 0;
-  const m = (n) => n.toFixed(dec);
+  const m = (n: number) => n.toFixed(dec);
   // Match the chosen cadence (30 / 60 days) to a real Shopify selling plan.
-  const planFor = (days) => {
+  const planFor = (days: number) => {
     if (!sellingPlans || !sellingPlans.length) return null;
     const exact = sellingPlans.find(sp => sp.intervalDays === days);
     if (exact) return exact;
-    const withInterval = sellingPlans.filter(sp => sp.intervalDays != null);
+    const withInterval = sellingPlans.filter((sp): sp is SellingPlan & { intervalDays: number } => sp.intervalDays != null);
     if (withInterval.length) {
       return withInterval.reduce((best, sp) =>
         Math.abs(sp.intervalDays - days) < Math.abs(best.intervalDays - days) ? sp : best);
@@ -1528,8 +1516,8 @@ function Shop({ onAdd, onMagnetMove, onTap, liveVariants, sellingPlans }) {
   // so 250 g ≈ 10 cups, 500 g ≈ 20 cups. The pack tiers multiply by the count.
   const pouchG = parseInt(String(variant.name || "").replace(/[^\d]/g, ""), 10) || 250;
   const cupsPerPouch = Math.max(1, Math.round(pouchG / 25));
-  const cupsLabel = (n) => tr(`≈ ${n} Tassen`, `≈ ${n} cups`, `≈ ${n} fincan`);
-  const packUnit = (p) => liveBase != null ? r2(liveBase * (1 - p.save / 100)) : p.unit;
+  const cupsLabel = (n: number) => tr(`≈ ${n} Tassen`, `≈ ${n} cups`, `≈ ${n} fincan`);
+  const packUnit = (p: Pack) => liveBase != null ? r2(liveBase * (1 - p.save / 100)) : p.unit;
   const subUnit = liveBase != null ? r2(liveBase * (1 - subPct)) : Math.round(PACKS[0].unit * (1 - subPct));
   const baseUnit = packUnit(pack);
   const unitPrice = subActive ? subUnit : baseUnit;
@@ -1537,19 +1525,18 @@ function Shop({ onAdd, onMagnetMove, onTap, liveVariants, sellingPlans }) {
   const lineCount = pack.count * qty;
   const total = r2(unitPrice * lineCount);
   // Per-cadence display values for the plan cards (fall back to 15 % with no live plan).
-  const plan30 = planFor(30), plan60 = planFor(60);
+  const plan30 = planFor(30);
   const pct30 = (plan30 && plan30.percentage) ? plan30.percentage / 100 : SUB_DISCOUNT;
-  const pct60 = (plan60 && plan60.percentage) ? plan60.percentage / 100 : SUB_DISCOUNT;
   const unit30 = liveBase != null ? r2(liveBase * (1 - pct30)) : Math.round(PACKS[0].unit * (1 - pct30));
-  const unit60 = liveBase != null ? r2(liveBase * (1 - pct60)) : Math.round(PACKS[0].unit * (1 - pct60));
 
-  const setQtyBump = (n) => { setQty(n); setBump(true); setTimeout(() => setBump(false), 350); onTap && onTap(); };
+
+  const setQtyBump = (n: number) => { setQty(n); setBump(true); setTimeout(() => setBump(false), 350); if (onTap) { onTap(); } };
 
   // mouse tilt on pouch theater
   useEffect(() => {
     const stage = stageRef.current, tilt = tiltRef.current;
     if (!stage || !tilt) return;
-    const onMove = (e) => {
+    const onMove = (e: MouseEvent) => {
       const r = stage.getBoundingClientRect();
       const px = (e.clientX - r.left) / r.width - 0.5;   // -0.5..0.5
       const py = (e.clientY - r.top)  / r.height - 0.5;
@@ -1568,12 +1555,7 @@ function Shop({ onAdd, onMagnetMove, onTap, liveVariants, sellingPlans }) {
   const burst = (
     <div className="burst" key={burstKey} aria-hidden="true">
       {Array.from({ length: 14 }).map((_, i) => {
-        const angle = (i / 14) * Math.PI * 2 + Math.random() * 0.4;
-        const dist = 110 + Math.random() * 90;
-        const dx = Math.cos(angle) * dist;
-        const dy = Math.sin(angle) * dist * 0.9 - 30;
-        const rot = (Math.random() - 0.5) * 540;
-        const size = 10 + Math.random() * 14;
+        const size = 10 + (i * 7 % 14);
         const color = burstColors[i % burstColors.length];
         return (
           <span
@@ -1604,10 +1586,10 @@ function Shop({ onAdd, onMagnetMove, onTap, liveVariants, sellingPlans }) {
     </div>
   );
 
-  const chooseVariant = (v) => { setVariant(v); setBurstKey(k => k + 1); onTap && onTap(); };
-  const choosePack = (p, e) => {
+  const chooseVariant = (v: CatalogVariant) => { setVariantId(v.id); setBurstKey(k => k + 1); if (onTap) { onTap(); } };
+  const choosePack = (p: Pack, e: React.MouseEvent<HTMLButtonElement>) => {
     setPackId(p.id);
-    onTap && onTap();
+    if (onTap) { onTap(); }
     if (p.id === "10" && pack.id !== "10") {
       const r = e.currentTarget.getBoundingClientRect();
       burstConfetti(r.left + r.width / 2, r.top + 8, { count: 44 });
@@ -1662,7 +1644,7 @@ function Shop({ onAdd, onMagnetMove, onTap, liveVariants, sellingPlans }) {
                 type="button"
                 className={"gthumb " + (i === activeImg ? "active" : "")}
                 style={{ backgroundImage: `url(${src})` }}
-                onClick={() => { setActiveImg(i); onTap && onTap(); }}
+                onClick={() => { setActiveImg(i); if (onTap) { onTap(); } }}
                 aria-label={tr("Bild","Image","Görsel") + " " + (i + 1)}
                 aria-current={i === activeImg}
               />
@@ -1695,7 +1677,7 @@ function Shop({ onAdd, onMagnetMove, onTap, liveVariants, sellingPlans }) {
               <button
                 type="button"
                 className={"seg " + (plan === "once" ? "active" : "")}
-                onClick={() => { setPlan("once"); onTap && onTap(); }}
+                onClick={() => { setPlan("once"); if (onTap) { onTap(); } }}
                 data-cur="btn" data-cur-label="Pick"
               >
                 <span className="seg-name">{tr("Einmalkauf","One-time","Tek seferlik")}</span>
@@ -1704,7 +1686,7 @@ function Shop({ onAdd, onMagnetMove, onTap, liveVariants, sellingPlans }) {
               <button
                 type="button"
                 className={"seg " + (subActive ? "active" : "")}
-                onClick={() => { if (!subActive) setPlan("30"); onTap && onTap(); }}
+                onClick={() => { if (!subActive) setPlan("30"); if (onTap) { onTap(); } }}
                 data-cur="btn" data-cur-label={tr("Wählen","Pick","Seç")}
               >
                 <span className="seg-badge">−{Math.round(pct30 * 100)} %</span>
@@ -1715,8 +1697,8 @@ function Shop({ onAdd, onMagnetMove, onTap, liveVariants, sellingPlans }) {
             {subActive && (
               <div className="deliv-extra">
                 <div className="cadence-row">
-                  <button type="button" className={"cad " + (plan === "30" ? "active" : "")} onClick={() => { setPlan("30"); onTap && onTap(); }}>{tr("Alle 30 Tage","Every 30 days","Her 30 günde")}</button>
-                  <button type="button" className={"cad " + (plan === "60" ? "active" : "")} onClick={() => { setPlan("60"); onTap && onTap(); }}>{tr("Alle 60 Tage","Every 60 days","Her 60 günde")}</button>
+                  <button type="button" className={"cad " + (plan === "30" ? "active" : "")} onClick={() => { setPlan("30"); if (onTap) { onTap(); } }}>{tr("Alle 30 Tage","Every 30 days","Her 30 günde")}</button>
+                  <button type="button" className={"cad " + (plan === "60" ? "active" : "")} onClick={() => { setPlan("60"); if (onTap) { onTap(); } }}>{tr("Alle 60 Tage","Every 60 days","Her 60 günde")}</button>
                 </div>
                 <div className="plan-perks">
                   <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12l5 5L20 7"/></svg>{tr("15 % Rabatt auf jede Lieferung","15% off every delivery","Her teslimatta %15 indirim")}</span>
@@ -1762,7 +1744,7 @@ function Shop({ onAdd, onMagnetMove, onTap, liveVariants, sellingPlans }) {
             <button
               type="button"
               className={"gift-toggle " + (gift ? "on" : "")}
-              onClick={() => { setGift(g => !g); onTap && onTap(); }}
+              onClick={() => { setGift(g => !g); if (onTap) { onTap(); } }}
               aria-pressed={gift}
             >
               <span className="gift-icon" aria-hidden="true">
@@ -1892,7 +1874,7 @@ function Shop({ onAdd, onMagnetMove, onTap, liveVariants, sellingPlans }) {
    RITUAL
    ============================================================ */
 /* Ritual illustration SVGs */
-function RitualIll({ step }) {
+function RitualIll({ step }: { step: number }) {
   if (step === 0) {
     // Dosieren — a pouch and a measuring spoon with a mound of blend
     return (
@@ -1958,8 +1940,8 @@ function RitualIll({ step }) {
 function Ritual() {
   useLang();
   const RITUAL = getRitual();
-  const wrapRef = useRef(null);
-  const trackRef = useRef(null);
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
   // Compute pinned horizontal progress
   useEffect(() => {
@@ -1989,7 +1971,7 @@ function Ritual() {
     window.addEventListener('scroll', onScroll, { passive: true });
     update();
     return () => { window.removeEventListener('scroll', onScroll); io.disconnect(); cancelAnimationFrame(raf); };
-  }, []);
+  }, [RITUAL.length]);
 
   const meta = [
     { left: tr("Menge","Pour","Miktar"), leftV: "7 g", right: tr("Volumen","Volume","Hacim"), rightV: "150 ml" },
@@ -2025,7 +2007,7 @@ function Ritual() {
                 <span className={"tick " + (active === i ? "active" : "")}></span>
                 <span className="step-name">{r.n} · {r.t}</span>
               </React.Fragment>
-            )).reduce((acc, el, i) => i === 0 ? [el] : [...acc, el], [])}
+            ))}
           </div>
         </div>
       </div>
@@ -2036,91 +2018,7 @@ function Ritual() {
 /* ============================================================
    TASTE PROFILE
    ============================================================ */
-function TasteProfile() {
-  const ref = useRef(null);
-  useEffect(() => {
-    const el = ref.current; if (!el) return;
-    const io = new IntersectionObserver(([e]) => {
-      if (e.isIntersecting) { el.classList.add("in"); io.disconnect(); }
-    }, { threshold: 0.3 });
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
-  useLang();
-  const TASTE = getTaste();
-  // SVG radar geometry
-  const cx = 200, cy = 200, R = 140;
-  const N = TASTE.length;
-  const angleFor = (i) => -Math.PI / 2 + (i * 2 * Math.PI) / N;
-  const ptAt = (i, frac) => {
-    const a = angleFor(i);
-    return [cx + Math.cos(a) * R * frac, cy + Math.sin(a) * R * frac];
-  };
-  const dataPts = TASTE.map((t, i) => ptAt(i, t.val / 10));
-  const dataPath = dataPts.map(p => p.join(",")).join(" ");
-  // grid rings (4 levels)
-  const rings = [0.25, 0.5, 0.75, 1.0].map(frac => {
-    const pts = TASTE.map((_, i) => ptAt(i, frac).join(","));
-    return pts.join(" ");
-  });
-  return (
-    <section className="block taste">
-      <div className="container">
-        <div className="section-head">
-          <span className="eyebrow reveal">{tr("— Geschmacksprofil","— Taste profile","— Tat profili")}</span>
-          <h2 className="reveal delay-1" key={tr("de","en","tr")}>
-            <SplitText text={tr("So schmeckt","This is how","İşte")} /> <em className="italic"><SplitText text={tr("Manduraa.","Manduraa tastes.","Manduraa'nın tadı.")} delay={0.3} /></em>
-          </h2>
-          <p className="reveal delay-2">{tr("Sechs Eigenschaften, ehrlich bewertet — damit du genau weißt, was dich erwartet.","Six characteristics, honestly rated — so you know exactly what to expect.","Altı özellik, dürüstçe değerlendirildi — seni neyin beklediğini tam olarak bil.")}</p>
-        </div>
-        <div className="taste-grid">
-          <div className="reveal">
-            <div className="frame aspect-1x1 parallax" data-cur="img" data-cur-label={tr("Ansehen","View","Gör")}>
-              <BlurImg src="/assets/scene-2.jpg" alt={tr("Ein Löffel Manduraa mit den gemischten Zutaten.","A spoon of Manduraa with the blended ingredients.","Harmanlanmış malzemelerle bir kaşık Manduraa.")} />
-            </div>
-          </div>
-          <div className="radar-wrap reveal delay-1" ref={ref}>
-            <svg viewBox="-48 0 496 400" role="img" aria-label="Taste profile radar chart">
-              {/* grid */}
-              {rings.map((r, i) => (
-                <polygon key={i} className="grid-poly" points={r} />
-              ))}
-              {/* axes */}
-              {TASTE.map((_, i) => {
-                const [x, y] = ptAt(i, 1.0);
-                return <line key={i} className="axis-line" x1={cx} y1={cy} x2={x} y2={y} />;
-              })}
-              {/* data polygon */}
-              <polygon className="data-poly" points={dataPath} />
-              {/* dots */}
-              {dataPts.map(([x, y], i) => (
-                <circle key={i} className="data-dot" cx={x} cy={y} />
-              ))}
-              {/* labels */}
-              {TASTE.map((t, i) => {
-                const [lx, ly] = ptAt(i, 1.18);
-                const align = lx < cx - 5 ? "end" : lx > cx + 5 ? "start" : "middle";
-                return (
-                  <g key={t.name} className="axis-group">
-                    <text className="axis-label" x={lx} y={ly} textAnchor={align} dominantBaseline="middle">
-                      {t.name.toUpperCase()}
-                    </text>
-                    <text className="axis-val" x={lx} y={ly + 14} textAnchor={align} dominantBaseline="middle">
-                      {t.val} / 10
-                    </text>
-                  </g>
-                );
-              })}
-            </svg>
-            <div className="radar-legend">
-              <span><span className="swatch us" />Manduraa · Edition 01</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
+
 
 /* ============================================================
    TRUST BAND
@@ -2239,7 +2137,7 @@ function GuaranteeStrip() {
 /* ============================================================
    FINAL CTA
    ============================================================ */
-function FinalCta({ onShop, onMagnetMove, price }) {
+function FinalCta({ onShop, onMagnetMove, price }: { onShop: () => void; onMagnetMove: MagnetHandler; price: string | number }) {
   useLang();
   return (
     <section className="final">
@@ -2315,7 +2213,7 @@ function getAddons() {
   ];
 }
 // Icon for a live Shopify add-on, chosen by its product handle.
-function addonIcon(id) {
+function addonIcon(id: string) {
   const h = String(id || "").toLowerCase();
   if (h.includes("kupfer") || h.includes("loffel") || h.includes("löffel") || h.includes("spoon")) {
     return (
@@ -2344,10 +2242,10 @@ function addonIcon(id) {
   );
 }
 /* Featured accessory — Copper set (measuring spoon & water gauge) */
-function AddonFeature({ addon, inCart, onAdd, onTap }) {
+function AddonFeature({ addon, inCart, onAdd, onTap }: { addon: Addon; inCart: boolean; onAdd: () => void; onTap: () => void }) {
   useLang();
   if (!addon) return null;
-  const m = (n) => Number.isInteger(n) ? String(n) : (Math.round(n * 100) / 100).toFixed(2);
+  const m = (n: number) => Number.isInteger(n) ? String(n) : (Math.round(n * 100) / 100).toFixed(2);
   return (
     <section id="zubehoer" className="addon-feature-section">
       <div className="container">
@@ -2389,7 +2287,7 @@ function AddonFeature({ addon, inCart, onAdd, onTap }) {
               className={"af-add " + (inCart ? "in" : "")}
               data-cur="btn"
               data-cur-label={tr("Hinzufügen","Add","Ekle")}
-              onClick={() => { onAdd && onAdd(); onTap && onTap(); }}
+              onClick={() => { if (onAdd) { onAdd(); } if (onTap) { onTap(); } }}
             >
               {ALL_PRODUCTS_SOLD_OUT ? tr("Ausverkauft","Sold out","Tükendi") : inCart
                 ? tr("Im Warenkorb ✓","In your bag ✓","Sepette ✓")
@@ -2402,7 +2300,7 @@ function AddonFeature({ addon, inCart, onAdd, onTap }) {
   );
 }
 
-function CartDrawer({ open, onClose, items, onQty, onRemove, onAddOne, onAddAddon, onCheckout, liveAddons }) {
+function CartDrawer({ open, onClose, items, onQty, onRemove, onAddOne, onAddAddon, onCheckout, liveAddons }: { open: boolean; onClose: () => void; items: CartItem[]; onQty: (index: number, quantity: number) => void; onRemove: (index: number) => void; onAddOne: () => void; onAddAddon: (addon: Addon) => void; onCheckout: () => void; liveAddons: CatalogAddon[] | null }) {
   useLang();
   const ADDONS = getAddons();
   // Live Shopify add-ons (copper set, bundle) when connected; demo add-ons otherwise.
@@ -2410,7 +2308,7 @@ function CartDrawer({ open, onClose, items, onQty, onRemove, onAddOne, onAddAddo
     ? liveAddons.map(a => ({ ...a, icon: addonIcon(a.id) }))
     : ADDONS;
   // Show 2 decimals once any line has a non-integer (live Shopify) price.
-  const money = (n) => Number.isInteger(n) ? String(n) : (Math.round(n * 100) / 100).toFixed(2);
+  const money = (n: number) => Number.isInteger(n) ? String(n) : (Math.round(n * 100) / 100).toFixed(2);
   const moneyDec = items.some(it => !Number.isInteger(it.unitPrice)) ? 2 : 0;
   const itemsSubtotal = items.reduce((s, it) => s + it.unitPrice * it.qty * it.packCount, 0);
   const giftFees = items.reduce((s, it) => s + (it.gift ? (it.giftFee || 0) : 0), 0);
@@ -2424,7 +2322,7 @@ function CartDrawer({ open, onClose, items, onQty, onRemove, onAddOne, onAddAddo
   const spoonFree = subtotal >= SPOON_AT;
   const showNudge = items.length > 0 && !free && remaining <= 35 && remaining > 0;
   const hasItems = items.length > 0;
-  const inCart = (id) => items.some(it => it.addonId === id);
+  const inCart = (id: string) => items.some(it => it.addonId === id);
   return (
     <>
       <div className={"cart-overlay " + (open ? "open" : "")} onClick={onClose} />
@@ -2570,7 +2468,7 @@ function CartDrawer({ open, onClose, items, onQty, onRemove, onAddOne, onAddAddo
 /* ============================================================
    STICKY MINI BUY-BAR
    ============================================================ */
-function MiniBar({ visible, variant, total, fromPrice, onShop, onMagnetMove }) {
+function MiniBar({ visible, variant, total, fromPrice, onShop, onMagnetMove }: { visible: boolean; variant: CatalogVariant; total: string | number; fromPrice: string | number; onShop: () => void; onMagnetMove: MagnetHandler }) {
   useLang();
   return (
     <div className={"mini-bar " + (visible ? "in" : "")}>
@@ -2588,6 +2486,12 @@ function MiniBar({ visible, variant, total, fromPrice, onShop, onMagnetMove }) {
 }
 
 /* ---------- Floating WhatsApp widget — online concierge ---------- */
+const WaGlyph = ({ s = 30 }) => (
+    <svg width={s} height={s} viewBox="0 0 32 32" fill="currentColor" aria-hidden="true">
+      <path d="M16.02 3.2c-7.06 0-12.8 5.73-12.8 12.79 0 2.26.59 4.46 1.72 6.41L3.2 28.8l6.57-1.72a12.74 12.74 0 0 0 6.24 1.6h.01c7.05 0 12.79-5.74 12.79-12.8 0-3.42-1.33-6.63-3.75-9.05a12.7 12.7 0 0 0-9.04-3.63Zm0 23.32h-.01a10.6 10.6 0 0 1-5.4-1.48l-.39-.23-4.03 1.06 1.07-3.93-.25-.4a10.56 10.56 0 0 1-1.62-5.64c0-5.86 4.77-10.63 10.64-10.63 2.84 0 5.51 1.11 7.52 3.12a10.56 10.56 0 0 1 3.11 7.52c0 5.87-4.77 10.64-10.63 10.64Zm5.83-7.96c-.32-.16-1.89-.93-2.18-1.04-.29-.11-.5-.16-.71.16-.21.32-.82 1.04-1 1.25-.18.21-.37.24-.69.08-.32-.16-1.35-.5-2.57-1.59-.95-.85-1.59-1.9-1.78-2.22-.18-.32-.02-.49.14-.65.14-.14.32-.37.48-.56.16-.18.21-.32.32-.53.11-.21.05-.4-.03-.56-.08-.16-.71-1.72-.98-2.35-.26-.62-.52-.53-.71-.54l-.61-.01c-.21 0-.56.08-.85.4-.29.32-1.11 1.09-1.11 2.66s1.14 3.08 1.3 3.29c.16.21 2.25 3.43 5.45 4.81.76.33 1.36.52 1.82.67.77.24 1.46.21 2.01.13.61-.09 1.89-.77 2.16-1.52.27-.74.27-1.38.19-1.51-.08-.13-.29-.21-.61-.37Z"/>
+    </svg>
+  );
+
 function WhatsAppWidget() {
   useLang();
   const [open, setOpen] = useState(false);
@@ -2604,18 +2508,12 @@ function WhatsAppWidget() {
   // Gentle one-time teaser bubble after a few seconds (only if not opened).
   useEffect(() => {
     let shown = false;
-    try { shown = sessionStorage.getItem("esmee.wa_teaser") === "1"; } catch (e) {}
+    try { shown = sessionStorage.getItem("esmee.wa_teaser") === "1"; } catch { /* Optional browser capability is unavailable. */ }
     if (shown) return;
-    const t = setTimeout(() => { setTeaser(true); try { sessionStorage.setItem("esmee.wa_teaser", "1"); } catch (e) {} }, 6000);
+    const t = setTimeout(() => { setTeaser(true); try { sessionStorage.setItem("esmee.wa_teaser", "1"); } catch { /* Optional browser capability is unavailable. */ } }, 6000);
     const h = setTimeout(() => setTeaser(false), 14000);
     return () => { clearTimeout(t); clearTimeout(h); };
   }, []);
-
-  const WaGlyph = ({ s = 30 }) => (
-    <svg width={s} height={s} viewBox="0 0 32 32" fill="currentColor" aria-hidden="true">
-      <path d="M16.02 3.2c-7.06 0-12.8 5.73-12.8 12.79 0 2.26.59 4.46 1.72 6.41L3.2 28.8l6.57-1.72a12.74 12.74 0 0 0 6.24 1.6h.01c7.05 0 12.79-5.74 12.79-12.8 0-3.42-1.33-6.63-3.75-9.05a12.7 12.7 0 0 0-9.04-3.63Zm0 23.32h-.01a10.6 10.6 0 0 1-5.4-1.48l-.39-.23-4.03 1.06 1.07-3.93-.25-.4a10.56 10.56 0 0 1-1.62-5.64c0-5.86 4.77-10.63 10.64-10.63 2.84 0 5.51 1.11 7.52 3.12a10.56 10.56 0 0 1 3.11 7.52c0 5.87-4.77 10.64-10.63 10.64Zm5.83-7.96c-.32-.16-1.89-.93-2.18-1.04-.29-.11-.5-.16-.71.16-.21.32-.82 1.04-1 1.25-.18.21-.37.24-.69.08-.32-.16-1.35-.5-2.57-1.59-.95-.85-1.59-1.9-1.78-2.22-.18-.32-.02-.49.14-.65.14-.14.32-.37.48-.56.16-.18.21-.32.32-.53.11-.21.05-.4-.03-.56-.08-.16-.71-1.72-.98-2.35-.26-.62-.52-.53-.71-.54l-.61-.01c-.21 0-.56.08-.85.4-.29.32-1.11 1.09-1.11 2.66s1.14 3.08 1.3 3.29c.16.21 2.25 3.43 5.45 4.81.76.33 1.36.52 1.82.67.77.24 1.46.21 2.01.13.61-.09 1.89-.77 2.16-1.52.27-.74.27-1.38.19-1.51-.08-.13-.29-.21-.61-.37Z"/>
-    </svg>
-  );
 
   return (
     <div className={"wa-widget " + (open ? "open" : "")}>
@@ -2670,133 +2568,14 @@ function WhatsAppWidget() {
    ============================================================ */
 
 /* ---------- Unboxing — pinned 5-step ---------- */
-function getUnboxSteps() {
-  return [
-  {
-    kicker: tr("Schritt 01 — Die Ankunft","Step 01 — The arrival","Adım 01 — Varış"),
-    title: tr("Eine schwere Schachtel,\nmit Bedacht verschlossen.","A weighted box,\nclosed with intent.","Ağırlıklı bir kutu,\nözenle kapatılmış."),
-    body: tr("Recycelter Kraftzellstoff, mit Kupferfolie geprägt. Schwerer, als du erwartest. Das erste Signal, dass dies keine Lieferung ist — es ist ein Brief.","Recycled kraft pulp, debossed in copper foil. Heavier than you expect. The first signal that this is not a delivery — it is a letter.","Geri dönüştürülmüş kraft hamuru, bakır folyo ile kabartmalı. Beklediğinden ağır. Bunun bir teslimat değil — bir mektup olduğunun ilk işareti."),
-    meta: [[tr("Material","Material","Malzeme"), tr("Recycelter Kraft 350 g","Recycled kraft 350g","Geri dönüşüm kraft 350 g")], [tr("Verschluss","Closure","Kapanış"), tr("Kupferfolien-Prägung","Copper foil emboss","Bakır folyo kabartma")], [tr("CO₂","Carbon","Karbon"), tr("Ausgeglichen · DHL GoGreen","Offset · DHL GoGreen","Dengelenmiş · DHL GoGreen")]],
-  },
-  {
-    kicker: tr("Schritt 02 — Das erste Öffnen","Step 02 — The first opening","Adım 02 — İlk açılış"),
-    title: tr("Der Deckel hebt sich —\nlangsam.","The lid lifts —\nslowly.","Kapak kalkar —\nyavaşça."),
-    body: tr("Ein Doppelfalz-Deckel mit einem einzigen Magnetverschluss. Er öffnet sich wie ein Buch, und wie ein Buch kannst du ihn behalten, wenn die Tasse längst leer ist.","A double-fold lid with a single magnetic clasp. It opens like a book, and like a book, you can keep it after the cup is gone.","Tek mıknatıslı kapaklı çift katlı bir kapak. Bir kitap gibi açılır ve bir kitap gibi, fincan bittikten sonra da saklayabilirsin."),
-    meta: [[tr("Verschluss","Closure","Kapanış"), tr("Magnetverschluss","Magnetic clasp","Mıknatıslı kapak")], [tr("Wiederverwendung","Reuse","Tekrar kullanım"), tr("Eine Erinnerungsbox","A keepsake box","Hatıra kutusu")], [tr("Klang","Sound","Ses"), tr("Sanft · Papierrascheln","Soft · paper-rustle","Yumuşak · kâğıt hışırtısı")]],
-  },
-  {
-    kicker: tr("Schritt 03 — Der innere Brief","Step 03 — The inner letter","Adım 03 — İçteki mektup"),
-    title: tr("Cremefarbenes Seidenpapier,\nvon Hand gefaltet.","Cream tissue,\nfolded by hand.","Krem ipek kâğıt,\nelle katlanmış."),
-    body: tr("Ein einzelnes Blatt säurefreies cremefarbenes Papier, gefaltet und in Kupfer mit dem Esmee-Zeichen gestempelt. Darunter eine handgeschriebene Karte von Esmee.","A single sheet of acid-free cream paper, folded and stamped in copper with the Esmee mark. Underneath, a handwritten card from Esmee.","Tek bir asitsiz krem kâğıt yaprağı, katlanmış ve Esmee mührüyle bakır damgalı. Altında, Esmee'den el yazısı bir kart."),
-    meta: [[tr("Papier","Paper","Kâğıt"), tr("Baumwolllumpen, säurefrei","Cotton-rag, acid-free","Pamuk lifli, asitsiz")], [tr("Stempel","Stamp","Damga"), tr("Kupferfolie · handgepresst","Copper foil · hand-pressed","Bakır folyo · elle baskı")], [tr("Gefertigt von","Made by","Yapan"), tr("Ein Paar Hände","One pair of hands","Bir çift el")]],
-  },
-  {
-    kicker: tr("Schritt 04 — Die Enthüllung","Step 04 — The reveal","Adım 04 — Açığa çıkış"),
-    title: tr("Der Beutel,\nin seinem Bett.","The pouch,\nin its bed.","Paket,\nyatağında."),
-    body: tr("Gebettet in weiche, rosa getönte Wolle. Von Hand mit einem einzigen cremefarbenen Leinenband gebunden. Der Beutel ist schwerer, als die Schachtel vermuten ließ.","Laid in soft rose-tone wool. Hand-tied with a single cream linen ribbon. The pouch is heavier than the box suggested.","Yumuşak, pembe tonlu yüne yatırılmış. Tek bir krem keten kurdeleyle elle bağlanmış. Paket, kutunun ima ettiğinden daha ağır."),
-    meta: [[tr("Beutel","Pouch","Paket"), tr("250 g · wiederverschließbar","250 g · resealable","250 g · yeniden kapanabilir")], [tr("Bett","Bed","Yatak"), tr("Recycelte Wolle, Rosé","Recycled wool, rose","Geri dönüşüm yün, pembe")], [tr("Gebunden von","Tied by","Bağlayan"), tr("Esmee · immer","Esmee · always","Esmee · her zaman")]],
-  },
-  {
-    kicker: tr("Schritt 05 — Die Karte","Step 05 — The card","Adım 05 — Kart"),
-    title: tr("Und eine Notiz,\nfür dich.","And a note,\nfor you.","Ve bir not,\nsenin için."),
-    body: tr("Von Hand auf eine kleine cremefarbene Karte geschrieben. Immer signiert, immer anders. Fünf Sekunden, in denen jemand, den du nie getroffen hast, an dich denkt.","Handwritten on a small cream card. Always signed, always different. Five seconds of someone you've never met thinking of you.","Küçük bir krem karta el yazısıyla yazılmış. Her zaman imzalı, her zaman farklı. Hiç tanımadığın birinin seni düşündüğü beş saniye."),
-    meta: [[tr("Karte","Card","Kart"), tr("Handgeschrieben","Hand-written","El yazısı")], [tr("Signiert","Signed","İmza"), "— E"], [tr("Ton","Tone","Ton"), tr("Warm","Warm","Sıcak")]],
-  },
-  ];
-}
-
-function Unboxing() {
-  useLang();
-  const UNBOX_STEPS = getUnboxSteps();
-  const wrapRef = useRef(null);
-  const [step, setStep] = useState(0);
-  useEffect(() => {
-    const wrap = wrapRef.current; if (!wrap) return;
-    let raf = 0;
-    const update = () => {
-      raf = 0;
-      const r = wrap.getBoundingClientRect();
-      const top = r.top + window.scrollY;
-      const total = wrap.offsetHeight - window.innerHeight;
-      const p = Math.max(0, Math.min(1, (window.scrollY - top) / total));
-      const N = UNBOX_STEPS.length;
-      const idx = Math.min(N - 1, Math.floor(p * N - 0.001));
-      setStep(Math.max(0, idx));
-    };
-    const onScroll = () => { if (raf) return; raf = requestAnimationFrame(update); };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    update();
-    return () => { window.removeEventListener("scroll", onScroll); cancelAnimationFrame(raf); };
-  }, []);
-
-  const s = UNBOX_STEPS[step];
-  // box rotation breathes slightly with step
-  const rot = -18 + step * 4;
-
-  return (
-    <section className="unbox" data-step={step}>
-      <div className="u-wrap" ref={wrapRef}>
-        <div className="u-stage">
-          <div className="u-text" key={step}>
-            <span className="u-kicker">{s.kicker}</span>
-            <h3 style={{ whiteSpace: "pre-line" }}><SplitText text={s.title} trigger="always" /></h3>
-            <p>{s.body}</p>
-            <div className="u-meta">
-              {s.meta.map(([k, v], i) => (
-                <div className="row" key={i}><span>{k}</span><em>{v}</em></div>
-              ))}
-            </div>
-          </div>
-          <div className="u-scene">
-            <div className="box" style={{ "--box-rot": rot + "deg" }}>
-              <div className="face body" />
-              <div className="face lid"><span className="emboss">Esmee</span></div>
-              <div className="paper">
-                <span className="foil">Edition N° 01<small>— Esmee · Manduraa</small></span>
-              </div>
-              <div className="pouch" style={{ backgroundImage: "url(/assets/scene-6.jpg)" }} />
-              <div className="card">
-                {tr("Willkommen bei Esmee.","Welcome to Esmee.","Esmee'ye hoş geldin.")}<br/>
-                {tr("Genieße deine erste Tasse.","Enjoy your first cup.","İlk fincanının tadını çıkar.")}
-                <small>— E</small>
-              </div>
-            </div>
-          </div>
-          <div className="u-progress">
-            <span className="num">{String(step + 1).padStart(2, "0")}</span>
-            {UNBOX_STEPS.map((_, i) => (
-              <span key={i} className={"tick " + (i === step ? "active" : "")} />
-            ))}
-            <span className="num">{String(UNBOX_STEPS.length).padStart(2, "0")}</span>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
 
 /* ---------- Reviews v2 ---------- */
-const REVIEWS_V2 = [
-  { tag: "Most loved", q: "I've replaced my afternoon oat-milk latte completely. No crash, no sugar guilt, and the dates make it feel like dessert.", a: "Layla H.", c: "Curator · Berlin", s: 5, av: "/assets/scene-2.jpg" },
-  { tag: "First-cup",  q: "The packaging alone is worth it — feels like opening a perfume. But the taste is what made me reorder. Quietly addictive.", a: "Maya R.", c: "Architect · London", s: 5, av: "/assets/scene-3.jpg" },
-  { tag: "Long-term",  q: "Bought the 5-pack to share. Three of my friends signed up the same week. It's become our 4pm ritual.", a: "Sophie K.", c: "Writer · Paris", s: 5, av: "/assets/scene-4.jpg" },
-  { tag: "Critical",   q: "Smaller than I expected for the price. But the cup itself — yes, three weeks in, I'm a believer.", a: "Ines D.", c: "Buyer · Madrid", s: 4, av: "/assets/scene-5.jpg" },
-  { tag: "Most loved", q: "Subtle, elegant, never too sweet. The first hot drink that feels like a perfume.", a: "Yara N.", c: "Editor · Beirut", s: 5, av: "/assets/scene-6.jpg" },
-];
-function getMosaic() {
-  return [
-  { img: "/assets/scene-2.jpg", badge: tr("08:00 — langsamer Morgen","08:00 — slow morning","08:00 — yavaş sabah"), cls: "big" },
-  { img: "/assets/scene-3.jpg", badge: "14:00", cls: "tall" },
-  { img: "/assets/scene-4.jpg", badge: tr("Wochenende","weekend","hafta sonu"), cls: "" },
-  { img: "/assets/scene-5.jpg", badge: tr("20:00 Absacker","20:00 nightcap","20:00 gece içkisi"), cls: "wide" },
-  { img: "/assets/scene-6.jpg", badge: tr("erste Tasse","first cup","ilk fincan"), cls: "" },
-  { img: "/assets/scene-1.jpg", badge: tr("Manufaktur","workshop","mutfak"), cls: "tall" },
-  ];
-}
+
+
 function ReviewsV2() {
   useLang();
-  const MOSAIC = getMosaic();
-  const ringRef = useRef(null);
+
+  const ringRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const el = ringRef.current; if (!el) return;
     const io = new IntersectionObserver(([e]) => {
@@ -2804,10 +2583,10 @@ function ReviewsV2() {
         const circ = el.querySelector("circle.pos");
         if (circ) {
           const C = 2 * Math.PI * 70;
-          circ.setAttribute("stroke-dasharray", C);
-          circ.setAttribute("stroke-dashoffset", C * (1 - 0.98));
+          circ.setAttribute("stroke-dasharray", String(C));
+          circ.setAttribute("stroke-dashoffset", String(C * (1 - 0.98)));
         }
-        el.querySelectorAll(".bar .fill").forEach((b) => {
+        el.querySelectorAll<HTMLElement>(".bar .fill").forEach((b) => {
           b.style.width = b.dataset.w + "%";
         });
         io.disconnect();
@@ -2843,17 +2622,15 @@ function ReviewsV2() {
 }
 
 /* ---------- Recovery toast — abandoned cart with concrete recall (T-22) ---------- */
-function RecoveryToast({ count, items, onOpen, onDismiss }) {
+function RecoveryToast({ count, items, onOpen, onDismiss }: { count: number; items: CartItem[]; onOpen: () => void; onDismiss: () => void }) {
   useLang();
   const [show, setShow] = useState(false);
-  const [abandonedMs, setAbandonedMs] = useState(0);
+  const [abandonedMs] = useState(() => {
+    try { const ts = Number(localStorage.getItem("esmee.cart_ts")); return ts > 0 ? Math.max(0, Date.now() - ts) : 0; }
+    catch { return 0; }
+  });
   useEffect(() => {
     if (count > 0) {
-      // How long since they last touched the cart? (set by App on cart mutation)
-      try {
-        const ts = parseInt(localStorage.getItem("esmee.cart_ts") || "0", 10);
-        if (ts) setAbandonedMs(Date.now() - ts);
-      } catch (e) {}
       const t = setTimeout(() => setShow(true), 1200);
       return () => clearTimeout(t);
     }
@@ -2911,13 +2688,13 @@ function getSpec() {
 function SpecSheet() {
   useLang();
   const SPEC = getSpec();
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const el = ref.current; if (!el) return;
     const io = new IntersectionObserver(([e]) => {
       if (e.isIntersecting) {
         el.classList.add("in");
-        el.querySelectorAll(".pct .fill").forEach((f) => {
+        el.querySelectorAll<HTMLElement>(".pct .fill").forEach((f) => {
           f.style.width = f.dataset.w + "%";
         });
         io.disconnect();
@@ -3001,7 +2778,7 @@ function SpecSheet() {
    ============================================================ */
 const FIRSTCUP_CODE = import.meta.env.VITE_SHOPIFY_DISCOUNT_CODE || "FIRSTCUP10";
 
-function CouponGate({ onShop }) {
+function CouponGate({ onShop }: { onShop: () => void }) {
   useLang();
   const [show, setShow] = useState(false);
   const [hidden, setHidden] = useState(false);
@@ -3009,7 +2786,7 @@ function CouponGate({ onShop }) {
 
   useEffect(() => {
     // Show once per browser; shared flag so the exit-intent popup never doubles up.
-    try { if (localStorage.getItem("esmee.coupon_seen")) return; } catch (e) {}
+    try { if (localStorage.getItem("esmee.coupon_seen")) return; } catch { /* Optional browser capability is unavailable. */ }
     let armed = false;
     let pauseTimer = 0;
     const idleMs = 4500;     // user has paused this long
@@ -3017,7 +2794,7 @@ function CouponGate({ onShop }) {
     const arm = () => {
       armed = true;
       setShow(true);
-      try { localStorage.setItem("esmee.coupon_seen", "1"); } catch (e) {}
+      try { localStorage.setItem("esmee.coupon_seen", "1"); } catch { /* Optional browser capability is unavailable. */ }
       window.removeEventListener("scroll", onScroll);
     };
     const onScroll = () => {
@@ -3037,11 +2814,11 @@ function CouponGate({ onShop }) {
 
   const dismiss = () => { setShow(false); setTimeout(() => setHidden(true), 400); };
   const copy = () => {
-    try { navigator.clipboard?.writeText(FIRSTCUP_CODE); } catch (e) {}
+    try { navigator.clipboard?.writeText(FIRSTCUP_CODE); } catch { /* Optional browser capability is unavailable. */ }
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
-  const goShop = () => { dismiss(); onShop && onShop(); };
+  const goShop = () => { dismiss(); if (onShop) { onShop(); } };
 
   if (hidden) return null;
   return (
@@ -3060,22 +2837,23 @@ function CouponGate({ onShop }) {
   );
 }
 
-function ExitIntent({ onShop }) {
+function ExitIntent({ onShop }: { onShop: () => void }) {
   useLang();
   const [open, setOpen] = useState(false);
-  const [done, setDone] = useState(false);
+  const [done, setDone] = useState(() => {
+    try { return !!sessionStorage.getItem("esmee.exit") || !!localStorage.getItem("esmee.coupon_seen"); }
+    catch { return false; }
+  });
   const [copied, setCopied] = useState(false);
   useEffect(() => {
-    let seen = false;
-    try { seen = !!localStorage.getItem("esmee.coupon_seen"); } catch (e) {}
-    if (sessionStorage.getItem("esmee.exit") || seen) { setDone(true); return; }
-    const onMove = (e) => {
+    if (done) return;
+    const onMove = (e: MouseEvent) => {
       // Cursor leaves toward top of window
       if (e.clientY <= 4 && !done) {
         setOpen(true);
         setDone(true);
-        sessionStorage.setItem("esmee.exit", "1");
-        try { localStorage.setItem("esmee.coupon_seen", "1"); } catch (err) {}
+        try { sessionStorage.setItem("esmee.exit", "1"); } catch { /* Storage is optional. */ }
+        try { localStorage.setItem("esmee.coupon_seen", "1"); } catch { /* Optional browser capability is unavailable. */ }
       }
     };
     document.addEventListener("mouseout", onMove);
@@ -3083,9 +2861,9 @@ function ExitIntent({ onShop }) {
   }, [done]);
   if (done && !open) return null;
   const close = () => setOpen(false);
-  const goShop = () => { setOpen(false); onShop && onShop(); };
+  const goShop = () => { setOpen(false); if (onShop) { onShop(); } };
   const copy = () => {
-    try { navigator.clipboard?.writeText(FIRSTCUP_CODE); } catch (e) {}
+    try { navigator.clipboard?.writeText(FIRSTCUP_CODE); } catch { /* Optional browser capability is unavailable. */ }
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -3108,107 +2886,41 @@ function ExitIntent({ onShop }) {
 /* ---------- Tab title attention pulse ---------- */
 function useTabAttention() {
   useEffect(() => {
-    const original = document.title;
-    const tease = tr("↩ Manduraa wartet noch · Esmee", "↩ Manduraa is still waiting · Esmee", "↩ Manduraa hâlâ bekliyor · Esmee");
+    let original = document.title;
     let int = 0;
     const onVis = () => {
       if (document.hidden) {
+        if (int) return;
+        original = document.title;
+        const tease = tr("↩ Manduraa wartet noch · Esmee", "↩ Manduraa is still waiting · Esmee", "↩ Manduraa hâlâ bekliyor · Esmee");
         let flip = false;
         int = setInterval(() => {
-          document.title = (flip = !flip) ? tease : original;
+          flip = !flip;
+          document.title = flip ? tease : original;
         }, 1800);
-      } else {
-        if (int) clearInterval(int);
+      } else if (int) {
+        clearInterval(int);
         int = 0;
         document.title = original;
       }
     };
     document.addEventListener("visibilitychange", onVis);
-    return () => { document.removeEventListener("visibilitychange", onVis); if (int) clearInterval(int); document.title = original; };
+    return () => {
+      document.removeEventListener("visibilitychange", onVis);
+      if (int) { clearInterval(int); document.title = original; }
+    };
   }, []);
 }
 
 /* ---------- Sugar Tracker ---------- */
-function SugarTracker() {
-  useLang();
-  const [drinks, setDrinks] = useState(8);   // drinks per week
-  const sugarPerDrink = 11;                  // grams
-  const pricePerDrink = 4.2;                  // €
-  const weeks = 52;
-  const yearlyG = drinks * sugarPerDrink * weeks;
-  const yearlyKg = (yearlyG / 1000).toFixed(1);
-  const yearlyEur = Math.round(drinks * pricePerDrink * weeks);
-  const manduraaCost = Math.round(drinks * 1.2 * weeks); // ~€1.20 per Manduraa cup
-  const saving = yearlyEur - manduraaCost;
-  const themHeight = Math.max(3, Math.round(yearlyKg * 2));        // visual stack units
-  const usHeight = 0;
-  return (
-    <section className="block tracker">
-      <div className="container">
-        <div className="section-head">
-          <span className="eyebrow reveal">{tr("— Vergleiche dich","— Compare yourself","— Kendini kıyasla")}</span>
-          <h2 className="reveal delay-1" key={tr("de","en","tr")}>
-            <SplitText text={tr("Wie viel","How much","Yılın ne")} /> <em className="italic"><SplitText text={tr("Zucker steckt","sugar does","kadar şeker")} delay={0.3} /></em> <SplitText text={tr("in deinem Jahr?","your year hold?","tutuyor?")} delay={0.55} />
-          </h2>
-          <p className="reveal delay-2">
-            {tr("Bewege den Regler. Wir zeigen dir, wie viel raffinierten Zucker du im Jahr trinkst — und wie viel du dir mit Manduraa sparst.","Move the slider. We'll show you how much refined sugar you drink in a year — and how much Manduraa saves you.","Kaydırıcıyı hareket ettir. Bir yılda ne kadar rafine şeker içtiğini — ve Manduraa ile ne kadarını azalttığını gösterelim.")}
-          </p>
-        </div>
-        <div className="grid">
-          <div className="panel reveal">
-            <h3>{tr("Deine Woche, ehrlich","Your week, honestly","Haftanı dürüstçe")}</h3>
-            <div className="label">
-              <span>{tr("Kaffee · Latte · Energydrinks pro Woche","Coffee · latte · energy drinks per week","Haftada kahve · latte · enerji içeceği")}</span>
-              <em>{drinks}</em>
-            </div>
-            <div className="slider-row">
-              <input
-                type="range" min="0" max="25" step="1" value={drinks}
-                onChange={(e) => setDrinks(+e.target.value)}
-              />
-              <div className="scale">
-                <span>0</span><span>5</span><span>10</span><span>15</span><span>20</span><span>25+</span>
-              </div>
-            </div>
-            <div className="results">
-              <div className="res-card them">
-                <span className="tag">{tr("— Dein Jahr jetzt","— Your year now","— Şimdiki yılın")}</span>
-                <span className="val"><Counter to={yearlyKg} duration={500} decimals={1} key={drinks} /><small>{tr("kg Zucker","kg sugar","kg şeker")}</small></span>
-                <span className="sub">{tr("Über ","Across ","")}{drinks * 52}{tr(" Getränke · ≈ €"," drinks · ≈ €"," içecek · ≈ €")}<Counter to={yearlyEur} duration={500} key={"eur" + drinks} />{tr(" ausgegeben"," spent"," harcandı")}</span>
-              </div>
-              <div className="res-card us">
-                <span className="tag">{tr("— Dein Jahr mit Manduraa","— Your year with Manduraa","— Manduraa ile yılın")}</span>
-                <span className="val"><Counter to={0} duration={500} /><small>{tr("g Zucker","g sugar","g şeker")}</small></span>
-                <span className="sub">{tr("Du würdest €","You'd save €","Yılda €")}<Counter to={saving > 0 ? saving : 0} duration={500} key={"save" + drinks} />{tr(" im Jahr sparen"," a year"," tasarruf edersin")}</span>
-              </div>
-            </div>
-          </div>
-          <div className="stack reveal delay-1">
-            <div className="col them">
-              <div className="label-top">{tr("Dein Jahr jetzt","Your year now","Şimdiki yılın")}<em>{yearlyKg} kg</em></div>
-              {Array.from({ length: themHeight }).map((_, i) => (
-                <span key={i} className="unit" style={{ animationDelay: (i * 0.02) + "s" }} />
-              ))}
-            </div>
-            <div className="col us">
-              <div className="label-top">{tr("Mit Manduraa","With Manduraa","Manduraa ile")}<em>0 g</em></div>
-              {Array.from({ length: usHeight }).map((_, i) => (
-                <span key={i} className="unit" />
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
+
 
 /* ---------- Footer v2 ---------- */
 function FooterV2() {
   useLang();
   const [email, setEmail] = useState("");
   const [sent, setSent] = useState(false);
-  const wrapRef = useRef(null);
+  const wrapRef = useRef<HTMLDivElement>(null);
   // Outline-fill on scroll — only while the footer is on-screen
   useEffect(() => {
     const el = wrapRef.current; if (!el) return;
@@ -3217,7 +2929,7 @@ function FooterV2() {
     const run = () => {
       raf = 0;
       const sigWrap = el.querySelector(".signature-wrap");
-      const outline = el.querySelector(".outline");
+      const outline = el.querySelector<HTMLElement>(".outline");
       if (!sigWrap || !outline) return;
       const r = sigWrap.getBoundingClientRect();
       const vh = window.innerHeight;
@@ -3233,7 +2945,7 @@ function FooterV2() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => { window.removeEventListener("scroll", onScroll); io.disconnect(); cancelAnimationFrame(raf); };
   }, []);
-  const submit = (e) => {
+  const submit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!email.includes("@")) return;
     setSent(true);
@@ -3329,24 +3041,28 @@ function FooterV2() {
   );
 }
 function App() {
-  const [cart, setCart] = useState(() => {
+  const [cart, setCart] = useState<CartItem[]>(() => {
     if (ALL_PRODUCTS_SOLD_OUT) return [];
     try {
       const raw = localStorage.getItem("esmee.cart");
       if (raw) return JSON.parse(raw);
-    } catch (e) {}
+    } catch { /* Optional browser capability is unavailable. */ }
     return [];
   });
   const [cartOpen, setCartOpen] = useState(false);
   const [variant] = useState(VARIANTS[0]);
   const [showApp, setShowApp] = useState(false);
-  const [recovery, setRecovery] = useState(0);
+  const finishPreloader = useCallback(() => setShowApp(true), []);
+  const [recovery, setRecovery] = useState(() => {
+    try { return sessionStorage.getItem("esmee.recovery") ? 0 : cart.reduce((sum, item) => sum + item.qty * item.packCount, 0); }
+    catch { return 0; }
+  });
 
   // Live Shopify catalog drives the storefront (real product, price, add-ons).
   // Falls back to the bundled demo data only if the store is unreachable.
-  const [liveVariants, setLiveVariants] = useState(null);
-  const [liveAddons, setLiveAddons] = useState(null);
-  const [sellingPlans, setSellingPlans] = useState(null);
+  const [liveVariants, setLiveVariants] = useState<CatalogVariant[] | null>(null);
+  const [liveAddons, setLiveAddons] = useState<CatalogAddon[] | null>(null);
+  const [sellingPlans, setSellingPlans] = useState<SellingPlan[] | null>(null);
   useEffect(() => {
     let alive = true;
     fetchVariants().then(v => { if (alive && v && v.length) setLiveVariants(v); }).catch(() => {});
@@ -3374,19 +3090,14 @@ function App() {
         }
       }
       cartTouched.current = true;
-    } catch (e) {}
+    } catch { /* Optional browser capability is unavailable. */ }
   }, [cart]);
 
-  // Recovery toast — show once per session if cart was already populated on mount
   useEffect(() => {
-    const seen = sessionStorage.getItem("esmee.recovery");
-    if (!seen && cart.length > 0) {
-      const total = cart.reduce((s, it) => s + (it.qty || 1) * (it.packCount || 1), 0);
-      setRecovery(total);
-      sessionStorage.setItem("esmee.recovery", "1");
+    if (recovery > 0) {
+      try { sessionStorage.setItem("esmee.recovery", "1"); } catch { /* Storage is optional. */ }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [recovery]);
 
   useReveal();
   useParallax();
@@ -3427,7 +3138,7 @@ function App() {
     return () => { window.removeEventListener("scroll", onScroll); window.removeEventListener("resize", onScroll); cancelAnimationFrame(raf); };
   }, []);
 
-  const addToCart = useCallback((item) => {
+  const addToCart = useCallback((item: CartItem) => {
     if (ALL_PRODUCTS_SOLD_OUT) return;
     setCart(prev => {
       const i = prev.findIndex(p => p.variant === item.variant && p.packId === item.packId && p.plan === item.plan);
@@ -3441,9 +3152,9 @@ function App() {
     setCartOpen(true);
     audio.playBell();
   }, [audio]);
-  const setQty = (idx, q) => setCart(prev => prev.map((it, i) => i === idx ? { ...it, qty: q } : it));
-  const remove = (idx) => setCart(prev => prev.filter((_, i) => i !== idx));
-  const addAddon = useCallback((a) => {
+  const setQty = (idx: number, q: number) => setCart(prev => prev.map((it, i) => i === idx ? { ...it, qty: q } : it));
+  const remove = (idx: number) => setCart(prev => prev.filter((_, i) => i !== idx));
+  const addAddon = useCallback((a: Addon) => {
     if (ALL_PRODUCTS_SOLD_OUT) return;
     setCart(prev => {
       const i = prev.findIndex(p => p.addonId === a.id);
@@ -3458,9 +3169,9 @@ function App() {
         merchandiseId: a.merchandiseId,
         qty: 1,
         packCount: 1,
-        packLabel: a.name,
+        packLabel: a.name || a.id,
         variant: "addon-" + a.id,
-        variantName: a.name,
+        variantName: a.name || a.id,
         packId: "addon-" + a.id,
         image: "",
       }];
@@ -3486,7 +3197,7 @@ function App() {
     audio.playTap();
   }, [audio]);
 
-  const onMagnetMove = (e) => {
+  const onMagnetMove: MagnetHandler = (e) => {
     const el = e.currentTarget;
     const r = el.getBoundingClientRect();
     el.style.setProperty("--mx", (((e.clientX - r.left) / r.width) * 100) + "%");
@@ -3515,7 +3226,7 @@ function App() {
       const lines = cart
         .filter(it => it.merchandiseId)
         .map(it => {
-          const line = { merchandiseId: it.merchandiseId, quantity: it.qty * (it.packCount || 1) };
+          const line: CartLineInput = { merchandiseId: it.merchandiseId!, quantity: it.qty * (it.packCount || 1) };
           if (it.sellingPlanId) line.sellingPlanId = it.sellingPlanId;
           return line;
         });
@@ -3530,13 +3241,13 @@ function App() {
       const url = await createCheckout(lines, codes);
       window.location.href = url;
     } catch (e) {
-      window.alert(tr("Checkout fehlgeschlagen: ","Checkout failed: ","Ödeme başarısız: ") + ((e && e.message) || e));
+      window.alert(tr("Checkout fehlgeschlagen: ","Checkout failed: ","Ödeme başarısız: ") + (e instanceof Error ? e.message : String(e)));
     }
   }, [cart]);
 
   return (
     <div id="top">
-      <Preloader onDone={() => setShowApp(true)} />
+      <Preloader onDone={finishPreloader} />
       <div className="grain" aria-hidden="true" />
       <Nav cartCount={cartCount} onCart={() => { setCartOpen(true); audio.playTap(); }} scrolled={scrolled} />
       <div className={"app-fade " + (showApp ? "in" : "")}>

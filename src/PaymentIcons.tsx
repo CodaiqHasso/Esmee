@@ -1,6 +1,4 @@
-// @ts-nocheck
 /* Payment-method badges — compact 38×24 rounded-card SVGs (Shopify-style). */
-import React from "react";
 
 const A = { viewBox: "0 0 38 24", className: "pay-ico" };
 const W = "Arial, Helvetica, sans-serif";

@@ -137,3 +137,15 @@ app-defined (your store has one variant, no quantity breaks) — model them as
 Shopify variants, a bundle app, or quantity breaks during a full Hydrogen
 migration. Sections use stable ids (`#shop`, `#universe`, `#reviews`, `#faq`, …)
 suitable for route anchors.
+
+### Local verification
+
+Run `npm ci`, `npm run build`, `npm run lint`, and `npm audit` before publishing.
+The storefront is type-checked, including its catalog, cart and language state.
+No GitHub Actions workflow is needed for these local checks. The sales pause in
+`src/lib/availability.ts` remains authoritative for all checkout entry points.
+
+The narrowly scoped `minimatch@10` override uses 11.0.1 to resolve
+GHSA-g3hv-75wg-m249 in the lint toolchain. ESLint and TypeScript-ESLint use its
+retained matching APIs; lint discovery and a failing unused-variable canary were
+verified. Remove the override when those tools adopt a patched version upstream.

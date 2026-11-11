@@ -18,3 +18,5 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv
 }
+
+interface Window { __withToken?: (url: string) => string }

@@ -1,8 +1,7 @@
-// @ts-nocheck
 /* Legal pages — Impressum, Datenschutz, AGB, Widerruf, Versand.
    German content (legally required for a German shop). Routed by pathname
    in main.tsx. Content lives in ./legalContent. */
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { PAGES } from "./legalContent";
 
 const COMPANY = {
@@ -26,12 +25,12 @@ const NAV = [
   ["/versand", "Versand & Zahlung"],
 ];
 
-export function LegalPage({ slug }) {
-  const page = PAGES[slug];
+export function LegalPage({ slug }: { slug: string }) {
+  const page = Object.hasOwn(PAGES, slug) ? PAGES[slug as keyof typeof PAGES] : undefined;
   useEffect(() => {
     window.scrollTo(0, 0);
     if (page) document.title = `${page.title} — Esmee`;
-  }, [slug]);
+  }, [page]);
   if (!page) return null;
   return (
     <div className="legal">

@@ -1,16 +1,16 @@
-// @ts-nocheck
 /* Legal page content (German). Each entry: { title, render(company) }.
    Company data (Esmee Mocca, Einzelunternehmen) lives in Legal.tsx COMPANY.
    NOTE: have the texts reviewed by a lawyer before launch; confirm whether the
    BZSt number should be public and whether a USt-IdNr applies. */
-import React from "react";
 
 const STAND = "Stand: Juni 2026";
+
+type Company = { name: string; form: string; owner: string; street: string; city: string; country: string; phone: string; email: string; ceo: string; ustId: string };
 
 export const PAGES = {
   impressum: {
     title: "Impressum",
-    render: (c) => (
+    render: (c: Company) => (
       <>
         <h2>Angaben gemäß § 5 DDG</h2>
         <p>
@@ -85,7 +85,7 @@ export const PAGES = {
 
   versand: {
     title: "Versand & Zahlung",
-    render: (c) => (
+    render: (c: Company) => (
       <>
         <h2>Liefergebiete</h2>
         <p>Wir liefern innerhalb der Europäischen Union sowie in das Vereinigte Königreich.</p>
@@ -127,7 +127,7 @@ export const PAGES = {
 
   widerruf: {
     title: "Widerrufsbelehrung",
-    render: (c) => (
+    render: (c: Company) => (
       <>
         <h2>Widerrufsrecht</h2>
         <p>
@@ -212,7 +212,7 @@ export const PAGES = {
 
   agb: {
     title: "Allgemeine Geschäftsbedingungen",
-    render: (c) => (
+    render: (c: Company) => (
       <>
         <h2>§ 1 Geltungsbereich, Anbieter</h2>
         <p>
@@ -290,7 +290,7 @@ export const PAGES = {
 
   datenschutz: {
     title: "Datenschutzerklärung",
-    render: (c) => (
+    render: (c: Company) => (
       <>
         <h2>1. Verantwortlicher</h2>
         <p>
